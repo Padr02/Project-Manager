@@ -1,0 +1,9 @@
+#login-view{
+    display: grid;
+    padding: 30%;
+}
+
+:host{
+    display: block;
+    padding: 1.5rem 1rem;
+}
