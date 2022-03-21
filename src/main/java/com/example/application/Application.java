@@ -1,9 +1,8 @@
 package com.example.application;
 
-import com.example.application.model.RoleEntity;
-import com.example.application.model.UserEntity;
-import com.example.application.repository.RoleRepository;
-import com.example.application.service.PcsService;
+import com.example.application.data.entity.RoleEnum;
+import com.example.application.data.entity.UserEntity;
+import com.example.application.data.service.PcsService;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.server.PWA;
@@ -33,10 +32,12 @@ public class Application extends SpringBootServletInitializer implements AppShel
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(PcsService pcsService){
+    public CommandLineRunner run(PcsService pcsService){
         return args -> {
-            pcsService
-        }
+            pcsService.saveUser(new UserEntity("connie","password", RoleEnum.ADMIN));
+            pcsService.saveUser(new UserEntity("sebbe","password",RoleEnum.USER));
+            pcsService.saveUser(new UserEntity("pavel","password", RoleEnum.USER));
+        };
     }
 
 }

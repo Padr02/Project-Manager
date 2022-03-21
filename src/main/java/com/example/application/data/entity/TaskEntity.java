@@ -1,6 +1,5 @@
-package com.example.application.model;
+package com.example.application.data.entity;
 
-import com.example.application.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
