@@ -1,5 +1,6 @@
 package com.example.application.data.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity extends AbstractEntity {
     //private String firstName;
     //private String lastName;

@@ -2,9 +2,10 @@ package com.example.application.controller;
 
 import com.example.application.data.entity.RoleEnum;
 import com.example.application.data.entity.UserEntity;
-import com.example.application.data.service.PcsService;
+import com.example.application.data.service.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +16,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final PcsService userService;
-    // CRUD methods
+    @Autowired
+    UserService userService;
+
     @GetMapping
     public List<UserEntity> getTasks() {
         return userService.getUsers();
