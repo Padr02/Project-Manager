@@ -1,6 +1,6 @@
 header vaadin-context-menu {
   align-items: center;
-  display: flex;
+ display: flex;
 }
 
 header nav a:hover {

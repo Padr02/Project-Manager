@@ -1,4 +1,17 @@
-.task-grid {
-    color: white;
-    border-color: white;
+#grid-layout {
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    background-color: #f15c80;
+    height: 500px;
 }
+
+#element.style {
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    background-color: #5e2532;
+    height: 1000px;
+    width: 500px;
+}
+

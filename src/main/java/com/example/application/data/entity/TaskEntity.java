@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Data
@@ -12,11 +14,13 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class TaskEntity extends AbstractEntity {
     @Column()
+    private boolean completed;
+    @Column()
     private String title;
     @Column
     private String owner;
     @Column()
-    private String startDate;
+    private LocalDate startDate;
     @Column()
-    private String completed;
+    private LocalDate deadline;
 }
