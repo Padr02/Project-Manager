@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Route {
-   private String route;
-    private String pageTitle;
+   protected String route;
+    protected String pageTitle;
     Class<? extends Component> view;
 }

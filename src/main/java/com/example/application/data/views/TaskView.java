@@ -2,18 +2,16 @@ package com.example.application.data.views;
 
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.service.TaskService;
-import com.example.application.data.views.layout.TaskLayout;
 import com.example.application.data.views.validation.ValidationMessage;
+import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.editor.Editor;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -24,9 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 @Route("/tasks")
-@PageTitle("Tasks")
-
-public class TaskView extends VerticalLayout {
+@PageTitle( "Tasks")
+public class TaskView extends Composite<VerticalLayout> {
 
     @Autowired
     TaskService taskService;
@@ -130,9 +127,10 @@ public class TaskView extends VerticalLayout {
         List<TaskEntity> tasks = taskService.getTasks();
         grid.setItems(tasks);
 
-      getThemeList().clear();
-      getThemeList().add("spacing-s");
-      add(grid,nameValidationmessage,ownerValidationmessage);
+      //getThemeList().clear();
+      //getThemeList().add("spacing-s");
+        getContent().setAlignItems(FlexComponent.Alignment.CENTER);
+      getContent().add(grid,nameValidationmessage,ownerValidationmessage);
 
     }
 }

@@ -9,16 +9,22 @@ import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-@Component
+@Service
 public class Authenticate {
 
     @Autowired
     UserRepository userRepository;
+    List<Route> route = new ArrayList<>();
 
-    public void authenticate (String username,String password ){
+    public Authenticate(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public void authenticate (String username, String password ){
 
         UserEntity user = userRepository.getByUsername(username);
         if (user != null && user.checkPassword(password)){
@@ -30,16 +36,16 @@ public class Authenticate {
     public void createRoute (RoleEnum role){
         getAuthorizedRoutes(role)
                 .forEach(x-> RouteConfiguration.forSessionScope()
-                        .setRoute(x.getRoute(),x.getView()));
+                        .setRoute(x.route,x.view));
     }
 
     public List<Route> getAuthorizedRoutes(RoleEnum role){
-        var route = new ArrayList<Route>();
+
         if (role.equals(RoleEnum.USER)){
-            route.add(new Route("tasks","Tasks",TaskView.class));
+            route.add(new Route("/tasks","Tasks",TaskView.class));
         }
         if (role.equals(RoleEnum.ADMIN)){
-            route.add(new Route("tasks","Tasks", TaskView.class));
+            route.add(new Route("/tasks","Tasks", TaskView.class));
         }
         return route;
     }

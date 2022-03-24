@@ -21,6 +21,7 @@ public class UserEntity extends AbstractEntity {
     private String passwordSalt;
     private String passwordHash;
     private RoleEnum role;
+    // private boolean isLoggedIn;
     //@ManyToOne(fetch = FetchType.EAGER)
     //private TaskEntity tasks;
 

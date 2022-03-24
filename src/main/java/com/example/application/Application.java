@@ -3,6 +3,7 @@ package com.example.application;
 import com.example.application.data.entity.RoleEnum;
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
+import com.example.application.data.repository.UserRepository;
 import com.example.application.data.service.TaskService;
 import com.example.application.data.service.UserService;
 import com.vaadin.flow.component.dependency.NpmPackage;
@@ -36,8 +37,9 @@ public class Application extends SpringBootServletInitializer implements AppShel
     }
 
     @Bean
-    public CommandLineRunner run(TaskService taskService){
+    public CommandLineRunner run(UserRepository userRepository){
         return args -> {
+
 
         };
     }
