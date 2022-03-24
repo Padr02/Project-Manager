@@ -1,11 +1,8 @@
 package com.example.application;
 
 import com.example.application.data.entity.RoleEnum;
-import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.repository.UserRepository;
-import com.example.application.data.service.TaskService;
-import com.example.application.data.service.UserService;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.server.PWA;
@@ -16,8 +13,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-
-import java.time.LocalDate;
 
 /**
  * The entry point of the Spring Boot application.
@@ -39,9 +34,7 @@ public class Application extends SpringBootServletInitializer implements AppShel
     @Bean
     public CommandLineRunner run(UserRepository userRepository){
         return args -> {
-
-
+        userRepository.save(new UserEntity("connie","hej", RoleEnum.ADMIN));
         };
     }
-
 }

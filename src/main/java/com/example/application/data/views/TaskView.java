@@ -3,7 +3,6 @@ package com.example.application.data.views;
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.service.TaskService;
 import com.example.application.data.views.validation.ValidationMessage;
-import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -11,7 +10,6 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.editor.Editor;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -22,8 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 @Route("/tasks")
-@PageTitle( "Tasks")
-public class TaskView extends Composite<VerticalLayout> {
+@PageTitle("Tasks")
+
+public class TaskView extends VerticalLayout {
 
     @Autowired
     TaskService taskService;
@@ -39,20 +38,20 @@ public class TaskView extends Composite<VerticalLayout> {
         Editor<TaskEntity> editor = grid.getEditor();
 
         Grid.Column<TaskEntity> checkColumn = grid
-                .addColumn(TaskEntity::isCompleted).setHeader("Completed")
-                .setWidth("120px").setFlexGrow(0);
+                .addColumn(TaskEntity::isCompleted).setHeader("Completed");
+
         Grid.Column<TaskEntity> titleColumn = grid
-                .addColumn(TaskEntity::getTitle).setHeader("Title")
-                .setWidth("120px").setFlexGrow(0);
+                .addColumn(TaskEntity::getTitle).setHeader("Title");
+
         Grid.Column<TaskEntity> ownerColumn = grid
-                .addColumn(TaskEntity::getOwner).setHeader("Owner")
-                .setWidth("120px").setFlexGrow(0);
+                .addColumn(TaskEntity::getOwner).setHeader("Owner");
+
         Grid.Column<TaskEntity> startDateColumn = grid
-                .addColumn(TaskEntity::getStartDate).setHeader("Start Date")
-                .setWidth("120px").setFlexGrow(0);
+                .addColumn(TaskEntity::getStartDate).setHeader("Start Date");
+
         Grid.Column<TaskEntity> deadlineColumn = grid
-                .addColumn(TaskEntity::getDeadline).setHeader("Deadline")
-                .setWidth("120px").setFlexGrow(0);
+                .addColumn(TaskEntity::getDeadline).setHeader("Deadline");
+
         Grid.Column<TaskEntity> editColumn = grid.addComponentColumn(task -> {
             Button editBtn = new Button("Edit");
             editBtn.addClickListener(e -> {
@@ -61,16 +60,16 @@ public class TaskView extends Composite<VerticalLayout> {
                 grid.getEditor().editItem(task);
             });
             return editBtn;
-        }).setWidth("150").setFlexGrow(0);
+        });
 
-        /*Grid.Column<TaskEntity> delColumn = grid.addComponentColumn(task -> {
+        Grid.Column<TaskEntity> delColumn = grid.addComponentColumn(task -> {
             Button delBtn = new Button("Delete");
             delBtn.addClickListener(e -> {
                 System.out.println("Clicked");
                // TODO: Hämta ut id på person och skicka med som parameter till deleteTask
             });
             return delBtn;
-        }).setWidth("150").setFlexGrow(0);*/
+        });
 
         Binder<TaskEntity> binder = new Binder<>(TaskEntity.class);
         editor.setBinder(binder);
@@ -89,7 +88,7 @@ public class TaskView extends Composite<VerticalLayout> {
                 .withStatusLabel(nameValidationmessage)
                 .bind(TaskEntity::getTitle, TaskEntity::setTitle);
         titleColumn.setEditorComponent(titleField);
-        
+
         TextField ownerField = new TextField();
         ownerField.setWidthFull();
         // TODO: Hämta ut förnamn och efternamn på användare som skapar task
@@ -127,14 +126,10 @@ public class TaskView extends Composite<VerticalLayout> {
         List<TaskEntity> tasks = taskService.getTasks();
         grid.setItems(tasks);
 
-      //getThemeList().clear();
-      //getThemeList().add("spacing-s");
-        getContent().setAlignItems(FlexComponent.Alignment.CENTER);
-      getContent().add(grid,nameValidationmessage,ownerValidationmessage);
-
+        getThemeList().clear();
+        getThemeList().add("spacing-s");
+        add(grid,nameValidationmessage,ownerValidationmessage);
     }
 }
-
-
 
 

@@ -3,16 +3,14 @@ package com.example.application.security;
 import com.example.application.data.entity.RoleEnum;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.repository.UserRepository;
-import com.example.application.data.views.LoginView;
 import com.example.application.data.views.TaskView;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class Authenticate {
 
@@ -20,27 +18,36 @@ public class Authenticate {
     UserRepository userRepository;
     List<Route> route = new ArrayList<>();
 
+    public class AuthException extends Exception {
+
+    }
+
     public Authenticate(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public void authenticate (String username, String password ){
+    public void authenticate (String username, String password) throws AuthException {
 
         UserEntity user = userRepository.getByUsername(username);
+        System.out.println("Användare " + username + " Lösenord " + password);
         if (user != null && user.checkPassword(password)){
+            System.out.println(user);
             VaadinSession.getCurrent().setAttribute(UserEntity.class,user);
             createRoute(user.getRole());
+        } else {
+            System.out.println("TEST");
+            //throw new AuthException();
         }
     }
 
-    public void createRoute (RoleEnum role){
+    public void createRoute (RoleEnum role) {
         getAuthorizedRoutes(role)
+                .stream()
                 .forEach(x-> RouteConfiguration.forSessionScope()
                         .setRoute(x.route,x.view));
     }
 
-    public List<Route> getAuthorizedRoutes(RoleEnum role){
-
+    public List<Route> getAuthorizedRoutes(RoleEnum role) {
         if (role.equals(RoleEnum.USER)){
             route.add(new Route("/tasks","Tasks",TaskView.class));
         }

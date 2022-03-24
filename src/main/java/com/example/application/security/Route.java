@@ -11,3 +11,4 @@ public class Route {
     protected String pageTitle;
     Class<? extends Component> view;
 }
+//BÖNJÄVEL

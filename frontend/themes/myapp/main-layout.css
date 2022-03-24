@@ -11,6 +11,14 @@ header nav a[highlight] {
   color: var(--lumo-primary-text-color);
 }
 
+.v-grid-scroller-horizontal {
+  display: none;
+}
+
+#shadow-root{
+  overflow: hidden;
+}
+
 header nav a::before,
 header nav a::after {
   background-color: var(--lumo-contrast-60pct);
