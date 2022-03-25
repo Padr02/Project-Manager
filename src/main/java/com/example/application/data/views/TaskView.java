@@ -16,10 +16,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
-import java.util.List;
+import com.vaadin.flow.router.Route;
 
 
 @PageTitle("Tasks")
+@Route("/tasks")
 public class TaskView extends VerticalLayout {
 
     TaskService taskService;
@@ -41,8 +42,8 @@ public class TaskView extends VerticalLayout {
         Grid.Column<TaskEntity> titleColumn = grid
                 .addColumn(TaskEntity::getTitle).setHeader("Title");
 
-        Grid.Column<TaskEntity> ownerColumn = grid
-                .addColumn(TaskEntity::getOwner).setHeader("Owner");
+       /* Grid.Column<TaskEntity> ownerColumn = grid
+                .addColumn(TaskEntity::getOwner).setHeader("Owner");*/
 
         Grid.Column<TaskEntity> startDateColumn = grid
                 .addColumn(TaskEntity::getStartDate).setHeader("Start Date");
@@ -94,7 +95,7 @@ public class TaskView extends VerticalLayout {
                 .asRequired("Owner must be provided")
                 .withStatusLabel(ownerValidationmessage);
                 //.bind(TaskEntity::getOwner, TaskEntity::setOwner);
-        ownerColumn.setEditorComponent(ownerField);
+      //  ownerColumn.setEditorComponent(ownerField);
 
         DatePicker StartDateField = new DatePicker();
         StartDateField.setWidthFull();
@@ -121,9 +122,9 @@ public class TaskView extends VerticalLayout {
             ownerValidationmessage.setText("");
         });
 
-        List<TaskEntity> tasks = taskService.getTasks();
+       /* List<TaskEntity> tasks = taskService.getTasks();
         grid.setItems(tasks);
-
+*/
         getThemeList().clear();
         getThemeList().add("spacing-s");
         add(grid,nameValidationmessage,ownerValidationmessage);

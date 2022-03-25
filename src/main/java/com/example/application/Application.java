@@ -1,7 +1,9 @@
 package com.example.application;
 
-import com.example.application.data.entity.RoleEnum;
+import com.example.application.data.RoleEnum;
+import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
+import com.example.application.data.repository.TaskRepository;
 import com.example.application.data.repository.UserRepository;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
@@ -13,6 +15,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+
+import java.time.LocalDate;
 
 /**
  * The entry point of the Spring Boot application.
@@ -32,10 +36,11 @@ public class Application extends SpringBootServletInitializer implements AppShel
     }
 
     @Bean
-    public CommandLineRunner run(UserRepository userRepository){
+    public CommandLineRunner run(UserRepository userRepository, TaskRepository taskRepository){
         return args -> {
-        userRepository.save(new UserEntity("pavel","hej", RoleEnum.ADMIN));
-          userRepository.save( new UserEntity("Sebbe", "test", RoleEnum.USER));
+
+   //  taskRepository.save(new TaskEntity(false,"Titel3", LocalDate.now(),LocalDate.now(),userRepository.save(new UserEntity("connie","hej", RoleEnum.ADMIN))));
+     //taskRepository.save(new TaskEntity(false, "Titel4", LocalDate.now(), LocalDate.now(), userRepository.save( new UserEntity("Pavel ","hejsan", RoleEnum.ADMIN))));
         };
     }
 }

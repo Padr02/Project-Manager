@@ -1,6 +1,6 @@
 package com.example.application.controller;
 
-import com.example.application.data.entity.RoleEnum;
+import com.example.application.data.RoleEnum;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.service.UserService;
 import lombok.Data;
@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
@@ -19,7 +21,7 @@ public class UserController {
     UserService userService;
 
     @GetMapping
-    public List<UserEntity> getTasks() {
+    public List<UserEntity> getUsers() {
         return userService.getUsers();
     }
     @GetMapping("/{username}")
@@ -33,8 +35,13 @@ public class UserController {
     @PostMapping
     public UserEntity addUser(@RequestBody UserForm userForm){
         //måste skapa kontroll, så samma user inte kan sparas flera gånger eller om den redan finns
-        UserEntity user1 =new UserEntity(userForm.username, userForm.password, RoleEnum.USER);
+        UserEntity user1 =new UserEntity(userForm.username, userForm.password,RoleEnum.USER);
        return userService.saveUser(user1);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable("id") UUID id){
+        userService.delete(id);
     }
 
     @Data

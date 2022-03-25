@@ -1,3 +1,4 @@
+/*
 package com.example.application.data.entity;
 
 import javax.persistence.Column;
@@ -28,3 +29,4 @@ public class PersonEntity {
 
 
 }
+*/

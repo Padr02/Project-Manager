@@ -1,7 +1,6 @@
 package com.example.application.security;
-import com.example.application.data.entity.RoleEnum;
+import com.example.application.data.RoleEnum;
 import com.example.application.data.entity.UserEntity;
-import com.example.application.data.repository.UserRepository;
 import com.example.application.data.service.UserService;
 import com.example.application.data.views.TaskView;
 import com.vaadin.flow.router.RouteConfiguration;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class Authenticate {

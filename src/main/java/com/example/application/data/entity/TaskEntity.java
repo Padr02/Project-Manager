@@ -1,18 +1,20 @@
 package com.example.application.data.entity;
 
+import com.example.application.data.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TaskEntity extends AbstractEntity {
 
     @Column(nullable = false)
@@ -28,19 +30,12 @@ public class TaskEntity extends AbstractEntity {
     private LocalDate deadline;
 
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "user_id")
     private UserEntity owner;
 
-    public TaskEntity() {
-    }
-
-    public TaskEntity(boolean completed, String title, LocalDate startDate, LocalDate deadline, UserEntity owner) {
+    /*public TaskEntity(boolean completed, String title, LocalDate startDate, LocalDate deadLine, UserEntity owner) {
         this.completed = completed;
-        this.title = title;
-        this.startDate = startDate;
-        this.deadline = deadline;
-        this.owner = owner;
-    }
+    }*/
 
 
 }
