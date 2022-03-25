@@ -1,8 +1,8 @@
 package com.example.application.security;
-
 import com.example.application.data.entity.RoleEnum;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.repository.UserRepository;
+import com.example.application.data.service.UserService;
 import com.example.application.data.views.TaskView;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.server.VaadinSession;
@@ -15,28 +15,28 @@ import java.util.List;
 public class Authenticate {
 
     @Autowired
-    UserRepository userRepository;
-    List<Route> route = new ArrayList<>();
+    UserService userService;
+
 
     public class AuthException extends Exception {
-
     }
 
-    public Authenticate(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public Authenticate(UserService userService) {
+        this.userService = userService;
     }
+
 
     public void authenticate (String username, String password) throws AuthException {
 
-        UserEntity user = userRepository.getByUsername(username);
+        UserEntity user = userService.getByUsername(username);
         System.out.println("Användare " + username + " Lösenord " + password);
-        if (user != null && user.checkPassword(password)){
+        if (user.getUsername() != null && user.checkPassword(password)){
             System.out.println(user);
             VaadinSession.getCurrent().setAttribute(UserEntity.class,user);
             createRoute(user.getRole());
         } else {
-            System.out.println("TEST");
-            //throw new AuthException();
+            System.out.println("Detta är else!");
+            throw new AuthException();
         }
     }
 
@@ -48,11 +48,12 @@ public class Authenticate {
     }
 
     public List<Route> getAuthorizedRoutes(RoleEnum role) {
+        var route = new ArrayList<Route>();
         if (role.equals(RoleEnum.USER)){
-            route.add(new Route("/tasks","Tasks",TaskView.class));
+            route.add(new Route("tasks","Tasks",TaskView.class));
         }
         if (role.equals(RoleEnum.ADMIN)){
-            route.add(new Route("/tasks","Tasks", TaskView.class));
+            route.add(new Route("tasks","Tasks", TaskView.class));
         }
         return route;
     }

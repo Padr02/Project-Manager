@@ -13,25 +13,25 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @PageTitle("Login")
-@Route("/")
+@Route(value = "login")
 public class LoginView extends Composite<VerticalLayout> {
 
+    Authenticate authenticate;
     public LoginView(Authenticate authenticate) {
+
+        this.authenticate=authenticate;
         VerticalLayout vertical = getContent();
         setId("login-view");
         vertical.add(new H1("Project Manager 1.0"));
         vertical.add(new Paragraph("PCS Portal"));
         LoginForm loginForm = new LoginForm();
-        loginForm.addLoginListener(event -> {
-            try {
-                authenticate.authenticate(event.getUsername(), event.getPassword());
-                System.out.println(event.getUsername());
-                System.out.println(event.getPassword());
-                UI.getCurrent().navigate("/tasks");
-            } catch (Exception e) {
-                UI.getCurrent().navigate("/");
-                Notification.show("You are not authorized access to the PCS Portal");
-            }
+        loginForm.addLoginListener(event -> { try {
+            authenticate.authenticate(event.getUsername(), event.getPassword());
+            UI.getCurrent().navigate("/tasks");
+        } catch (Exception e) {
+            UI.getCurrent().navigate("/");
+            Notification.show("You are not authorized access to the PCS Portal");
+        }
         });
         vertical.add(loginForm);
         vertical.setSizeFull();

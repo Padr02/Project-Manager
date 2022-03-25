@@ -5,22 +5,42 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class TaskEntity extends AbstractEntity {
-    @Column()
+
+    @Column(nullable = false)
     private boolean completed;
-    @Column()
+
+    @Column(nullable = false)
     private String title;
-    @Column
-    private String owner;
-    @Column()
+
+    @Column(nullable = false)
     private LocalDate startDate;
-    @Column()
+
+    @Column(nullable = false)
     private LocalDate deadline;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private UserEntity owner;
+
+    public TaskEntity() {
+    }
+
+    public TaskEntity(boolean completed, String title, LocalDate startDate, LocalDate deadline, UserEntity owner) {
+        this.completed = completed;
+        this.title = title;
+        this.startDate = startDate;
+        this.deadline = deadline;
+        this.owner = owner;
+    }
+
+
 }

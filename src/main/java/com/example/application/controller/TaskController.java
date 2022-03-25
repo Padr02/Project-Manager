@@ -8,18 +8,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
-
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("tasks")
+@RequestMapping("/tasks")
 public class TaskController {
 
     @Autowired
     TaskService taskService;
 
+
     @GetMapping
     public List<TaskEntity> getTasks() {
         return taskService.getTasks();
+    }
+
+
+    @GetMapping("{id}")
+    public TaskEntity getTaskById(@PathVariable("id") Integer id) {
+        return taskService.findTaskById(id);
     }
 
     @PostMapping
@@ -32,21 +38,13 @@ public class TaskController {
         taskService.deleteTask(id);
     }
 
-    @PutMapping(path = "{id}")
+ /*   @PutMapping(path = "{id}")
     public void updateTask(
             @PathVariable("id") Integer id,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String owner,
             @RequestParam(required = false) Date date,
-            @RequestParam(required = true) boolean completed) {
+            @RequestParam(required = true) boolean completed) {*/
         //taskService.updateTask(id, title, date, completed);
     }
 
-
-
-
-
-
-    
-
-}

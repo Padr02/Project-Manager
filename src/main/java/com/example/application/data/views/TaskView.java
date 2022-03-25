@@ -3,6 +3,7 @@ package com.example.application.data.views;
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.service.TaskService;
 import com.example.application.data.views.validation.ValidationMessage;
+import com.example.application.security.Authenticate;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -15,21 +16,18 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
-@Route("/tasks")
-@PageTitle("Tasks")
 
+@PageTitle("Tasks")
 public class TaskView extends VerticalLayout {
 
-    @Autowired
     TaskService taskService;
+    Authenticate authenticate;
 
-    public TaskView(TaskService taskService)  {
-
+    public TaskView(TaskService taskService, Authenticate authenticate)  {
         this.taskService = taskService;
+        this.authenticate=authenticate;
         ValidationMessage nameValidationmessage = new ValidationMessage();
         ValidationMessage ownerValidationmessage = new ValidationMessage();
 
@@ -94,8 +92,8 @@ public class TaskView extends VerticalLayout {
         // TODO: Hämta ut förnamn och efternamn på användare som skapar task
         binder.forField(ownerField)
                 .asRequired("Owner must be provided")
-                .withStatusLabel(ownerValidationmessage)
-                .bind(TaskEntity::getOwner, TaskEntity::setOwner);
+                .withStatusLabel(ownerValidationmessage);
+                //.bind(TaskEntity::getOwner, TaskEntity::setOwner);
         ownerColumn.setEditorComponent(ownerField);
 
         DatePicker StartDateField = new DatePicker();

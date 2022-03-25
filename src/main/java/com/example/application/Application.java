@@ -34,7 +34,8 @@ public class Application extends SpringBootServletInitializer implements AppShel
     @Bean
     public CommandLineRunner run(UserRepository userRepository){
         return args -> {
-        userRepository.save(new UserEntity("connie","hej", RoleEnum.ADMIN));
+        userRepository.save(new UserEntity("pavel","hej", RoleEnum.ADMIN));
+          userRepository.save( new UserEntity("Sebbe", "test", RoleEnum.USER));
         };
     }
 }

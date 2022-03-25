@@ -25,8 +25,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public UserEntity getByUsername(String username){
+      return userRepository.findAll().stream()
+              .filter(user -> user.getUsername().equals(username)).findFirst().get();
+    }
+    // TODO delete method
 
-
+    // TODO update method
 
 
 }
