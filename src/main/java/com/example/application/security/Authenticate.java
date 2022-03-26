@@ -28,7 +28,7 @@ public class Authenticate {
 
     public void authenticate (String username, String password) throws AuthException {
 
-        UserEntity user = userService.getByUsername(username);
+        UserEntity user = userService.getUsername(username);
         System.out.println("Användare " + username + " Lösenord " + password);
         if (user.getUsername() != null && user.checkPassword(password)){
             System.out.println(user);

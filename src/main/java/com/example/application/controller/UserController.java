@@ -2,7 +2,10 @@ package com.example.application.controller;
 
 import com.example.application.data.RoleEnum;
 import com.example.application.data.entity.UserEntity;
+import com.example.application.data.repository.UserRepository;
 import com.example.application.data.service.UserService;
+import com.example.application.dto.DtoConverter;
+import com.example.application.dto.UserResponseDTO;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +23,17 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    DtoConverter dtoConverter;
+
     @GetMapping
-    public List<UserEntity> getUsers() {
-        return userService.getUsers();
+    public List<UserResponseDTO> getUsers(@RequestParam(required = false)String username) {
+               return userService.findAll(username)
+                       .stream()
+                       .map(user -> dtoConverter.entityToResponseDTO(user))
+                       .toList();
     }
+
     @GetMapping("/{username}")
     public UserEntity getUserByUsername(@PathVariable("username") String userName){
         return userService.getUsers()
@@ -32,6 +42,7 @@ public class UserController {
                 .findFirst()
                 .orElseThrow();
     }
+
     @PostMapping
     public UserEntity addUser(@RequestBody UserForm userForm){
         //måste skapa kontroll, så samma user inte kan sparas flera gånger eller om den redan finns
@@ -49,5 +60,6 @@ public class UserController {
         String username;
         String password;
     }
+
 }
 
