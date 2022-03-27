@@ -30,30 +30,43 @@ public class DtoConverter {
                 userEntity);
     }*/
 
+
+
     @Autowired
     UserRepository userRepository;
     @Autowired
     UserService userService;
 
-    public UserEntity RequestDtoToEntity(UserRequestDTO userRequestDTO) {
+    public TaskEntity RequestDtoToEntity(TaskRequestDTO taskRequestDTO) {
 
-       /* UserEntity owner = userService;
+        /* UserEntity userEntity = userRepository
+                .findByUsername(taskRequestDTO
+                        .username()).orElseThrow();*/
+        UserEntity owner = userService.getUsername(taskRequestDTO.owner());
 
+        return new TaskEntity(taskRequestDTO.completed(),
+                taskRequestDTO.title(),
+                taskRequestDTO.startDate(),
+                taskRequestDTO.deadline(),
+                owner);
 
-        return new UserEntity(
-                userRequestDTO.username(),
-                owner.getRole(),
-                owner.getPasswordSalt(),
-                owner.getPasswordHash(),
-                owner.getTasks()
-        );*/
-        return  null;
+    }
+
+    public TaskResponseDTO entityToResponseDTO(TaskEntity taskEntity) {
+        return new TaskResponseDTO(
+                taskEntity.isCompleted(),
+                taskEntity.getTitle(),
+                taskEntity.getStartDate(),
+                taskEntity.getDeadline(),
+                taskEntity.getOwner().getUsername()
+
+        );
     }
 
     public UserResponseDTO entityToResponseDTO(UserEntity userEntity) {
         return new UserResponseDTO(
                 userEntity.getUsername(),
-                userEntity.getTasks()
+                userEntity.getRole()
         );
     }
 }

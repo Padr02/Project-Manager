@@ -30,6 +30,15 @@ public class TaskService {
     public List<TaskEntity> getTasks() {
     return taskRepository.findAll();
     }
+    public List<TaskEntity> getTasksByFilter(String filter) {
+        if (filter == null || filter.isEmpty()){
+            return taskRepository.findAll();
+        }else{
+            return taskRepository.search(filter);
+        }
+    }
+
+
 
     public TaskEntity saveTask(TaskEntity task){
         return taskRepository.save(task);

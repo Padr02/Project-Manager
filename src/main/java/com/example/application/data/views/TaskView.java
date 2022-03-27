@@ -1,134 +1,124 @@
 package com.example.application.data.views;
-
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.service.TaskService;
-import com.example.application.data.views.validation.ValidationMessage;
-import com.example.application.security.Authenticate;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.crud.Crud;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.editor.Editor;
-import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
+
+
+
+import javax.annotation.security.RolesAllowed;
+import java.awt.*;
+import java.util.Collections;
 
 
 @PageTitle("Tasks")
 @Route("/tasks")
-public class TaskView extends VerticalLayout {
+//@RolesAllowed("ADMIN")
 
+public class TaskView extends Div {
+
+    //Crud <TaskEntity> crud ;
+
+
+    @Autowired
     TaskService taskService;
-    Authenticate authenticate;
+    private Checkbox completed;
+    Grid<TaskEntity> grid = new Grid<>(TaskEntity.class);
+    TextField filter = new TextField();
+    TaskForm taskForm;
 
-    public TaskView(TaskService taskService, Authenticate authenticate)  {
-        this.taskService = taskService;
-        this.authenticate=authenticate;
-        ValidationMessage nameValidationmessage = new ValidationMessage();
-        ValidationMessage ownerValidationmessage = new ValidationMessage();
 
-        Grid<TaskEntity> grid = new Grid<>(TaskEntity.class, false);
 
-        Editor<TaskEntity> editor = grid.getEditor();
+    public TaskView(TaskService taskService)  {
+       /* this.taskService=taskService;
+        crud = new Crud<>(TaskEntity.class,
+                createGrid(),
+                createEditor());
+        add(crud);*/
+        this.taskService=taskService;
+        setSizeFull();
+        configureGrid();
+        configureForm();
+        add(getToolBar(),getContent());
+        uppdateFromFilter();
 
-        Grid.Column<TaskEntity> checkColumn = grid
-                .addColumn(TaskEntity::isCompleted).setHeader("Completed");
 
-        Grid.Column<TaskEntity> titleColumn = grid
-                .addColumn(TaskEntity::getTitle).setHeader("Title");
+    }
 
-       /* Grid.Column<TaskEntity> ownerColumn = grid
-                .addColumn(TaskEntity::getOwner).setHeader("Owner");*/
+   /* private CrudEditor<TaskEntity> createEditor() {
+        TextField title = new TextField("Title");
+        DatePicker startDate = new DatePicker("Start Date");
+        DatePicker deadline = new DatePicker("Deadline");
+         TextField completed = new TextField ("Completed");
+        TextField owner = new TextField("Owner");
+        FormLayout form = new FormLayout(title,startDate,deadline,completed,owner);
 
-        Grid.Column<TaskEntity> startDateColumn = grid
-                .addColumn(TaskEntity::getStartDate).setHeader("Start Date");
-
-        Grid.Column<TaskEntity> deadlineColumn = grid
-                .addColumn(TaskEntity::getDeadline).setHeader("Deadline");
-
-        Grid.Column<TaskEntity> editColumn = grid.addComponentColumn(task -> {
-            Button editBtn = new Button("Edit");
-            editBtn.addClickListener(e -> {
-                if (editor.isOpen())
-                    editor.cancel();
-                grid.getEditor().editItem(task);
-            });
-            return editBtn;
-        });
-
-        Grid.Column<TaskEntity> delColumn = grid.addComponentColumn(task -> {
-            Button delBtn = new Button("Delete");
-            delBtn.addClickListener(e -> {
-                System.out.println("Clicked");
-               // TODO: Hämta ut id på person och skicka med som parameter till deleteTask
-            });
-            return delBtn;
-        });
 
         Binder<TaskEntity> binder = new Binder<>(TaskEntity.class);
-        editor.setBinder(binder);
-        editor.setBuffered(true);
+        binder.forField(title).asRequired().bind(TaskEntity::getTitle, TaskEntity::setTitle);
+        binder.forField(startDate).asRequired().bind(TaskEntity::getStartDate,TaskEntity::setStartDate);
+        binder.forField(deadline).asRequired().bind(TaskEntity::getDeadline,TaskEntity::setDeadline);
+        binder.forField(completed).asRequired().bind(TaskEntity::getTitle, TaskEntity::setTitle);
+        binder.forField(completed).asRequired().bind(taskEntity -> taskEntity.getOwner().getUsername(), (taskEntity1) -> taskEntity1.setOwner());
 
-        Checkbox checkbox = new Checkbox(); //storlek??
-        binder.forField(checkbox)
-                .bind(TaskEntity::isCompleted, TaskEntity::setCompleted);
-        checkColumn.setEditorComponent(checkbox);
-        // TODO: if-sats: Om checkbox filled (event) - skicka true som parameter till isCompleted()
-
-        TextField titleField = new TextField();
-        titleField.setWidthFull();
-        binder.forField(titleField)
-                .asRequired("You have to provide a first name")
-                .withStatusLabel(nameValidationmessage)
-                .bind(TaskEntity::getTitle, TaskEntity::setTitle);
-        titleColumn.setEditorComponent(titleField);
-
-        TextField ownerField = new TextField();
-        ownerField.setWidthFull();
-        // TODO: Hämta ut förnamn och efternamn på användare som skapar task
-        binder.forField(ownerField)
-                .asRequired("Owner must be provided")
-                .withStatusLabel(ownerValidationmessage);
-                //.bind(TaskEntity::getOwner, TaskEntity::setOwner);
-      //  ownerColumn.setEditorComponent(ownerField);
-
-        DatePicker StartDateField = new DatePicker();
-        StartDateField.setWidthFull();
-        binder.forField(StartDateField)
-                .bind(TaskEntity::getStartDate, TaskEntity::setStartDate);
-        startDateColumn.setEditorComponent(StartDateField);
-
-        DatePicker Deadline = new DatePicker();
-        Deadline.setWidthFull();
-        binder.forField(Deadline)
-                .bind(TaskEntity::getDeadline, TaskEntity::setDeadline);
-        startDateColumn.setEditorComponent(deadlineColumn);
-
-        Button saveBtn = new Button("Save", e -> editor.save());
-        Button cancelBtn = new Button(VaadinIcon.CLOSE.create(),
-                e -> editor.cancel());
-        cancelBtn.addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_ERROR);
-        HorizontalLayout actions = new HorizontalLayout(saveBtn,cancelBtn);
-        actions.setPadding(false);
-        editColumn.setEditorComponent(actions);
-
-        editor.addCancelListener(e -> {
-            nameValidationmessage.setText("");
-            ownerValidationmessage.setText("");
-        });
-
-       /* List<TaskEntity> tasks = taskService.getTasks();
-        grid.setItems(tasks);
-*/
-        getThemeList().clear();
-        getThemeList().add("spacing-s");
-        add(grid,nameValidationmessage,ownerValidationmessage);
+    return null;
     }
+
+    private Object createGrid() {
+        Grid<TaskEntity> grid = new Grid<>();
+        Crud.addEditColumn(grid);
+        grid.addColumn(TaskEntity::getTitle).setHeader("Title");
+        grid.addColumn(TaskEntity::getStartDate,"Start Date");
+        grid.addColumn(TaskEntity::getDeadline,"Deadline");
+        grid.addColumn(TaskEntity::isCompleted,"Completed");
+        grid.addColumns("owner");
+        return grid;
+    }*/
+
+    private Component getContent() {
+       HorizontalLayout content = new HorizontalLayout(grid,taskForm);
+       content.setFlexGrow(2,grid);
+       content.setFlexGrow(1,taskForm);
+       content.setSizeFull();
+       return content;
+    }
+
+    private void configureForm() {
+        taskForm = new TaskForm(Collections.emptyList());
+        taskForm.setWidth("25em");
+    }
+
+    private void uppdateFromFilter() {
+        grid.setItems(taskService.getTasksByFilter(filter.getValue()));
+    }
+
+    private Component getToolBar() {
+        filter.setPlaceholder("Filter by title");
+        filter.setClearButtonVisible(true);
+        filter.setValueChangeMode(ValueChangeMode.LAZY);
+        filter.addValueChangeListener(e -> uppdateFromFilter());
+        Button addTaskBtn = new Button("Add task");
+        return new HorizontalLayout(filter,addTaskBtn);
+    }
+
+    private void configureGrid() {
+        grid.setSizeFull();
+        grid.setColumns("title","startDate","deadline","completed");
+        grid.addColumn(u->u.getOwner().getUsername()).setHeader("Owner");
+        grid.getColumns().forEach(col -> col.setAutoWidth(true));
+
+    }
+
+
 }
 
 

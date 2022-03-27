@@ -34,6 +34,7 @@ public class UserController {
                        .toList();
     }
 
+    /*
     @GetMapping("/{username}")
     public UserEntity getUserByUsername(@PathVariable("username") String userName){
         return userService.getUsers()
@@ -42,7 +43,7 @@ public class UserController {
                 .findFirst()
                 .orElseThrow();
     }
-
+    */
     @PostMapping
     public UserEntity addUser(@RequestBody UserForm userForm){
         //måste skapa kontroll, så samma user inte kan sparas flera gånger eller om den redan finns

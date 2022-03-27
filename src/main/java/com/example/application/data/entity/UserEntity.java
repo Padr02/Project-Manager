@@ -32,7 +32,7 @@ public class UserEntity extends AbstractEntity {
     @Column(nullable = false)
     private String passwordHash;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<TaskEntity> tasks;
 

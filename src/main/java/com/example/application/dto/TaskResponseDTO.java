@@ -4,5 +4,5 @@ import com.example.application.data.entity.UserEntity;
 
 import java.time.LocalDate;
 
-public record TaskResponseDTO(boolean completed, String title, LocalDate startDate, LocalDate deadline, UserEntity owner) {
+public record TaskResponseDTO(boolean completed, String title, LocalDate startDate, LocalDate deadline, String owner) {
 }
