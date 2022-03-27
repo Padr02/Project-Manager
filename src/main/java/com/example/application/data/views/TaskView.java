@@ -3,11 +3,15 @@ import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.service.TaskService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.crud.Crud;
+import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -18,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.security.RolesAllowed;
 import java.awt.*;
 import java.util.Collections;
+import java.util.Comparator;
 
 
 @PageTitle("Tasks")
@@ -31,7 +36,6 @@ public class TaskView extends Div {
 
     @Autowired
     TaskService taskService;
-    private Checkbox completed;
     Grid<TaskEntity> grid = new Grid<>(TaskEntity.class);
     TextField filter = new TextField();
     TaskForm taskForm;
@@ -112,7 +116,20 @@ public class TaskView extends Div {
 
     private void configureGrid() {
         grid.setSizeFull();
-        grid.setColumns("title","startDate","deadline","completed");
+        grid.setColumns("title","startDate","deadline");
+        grid.addComponentColumn((item)->{
+           Icon icon;
+           if (item.isCompleted()){
+               icon = VaadinIcon.CHECK.create();
+               icon.setColor("green");
+           }else {
+               icon=VaadinIcon.CLOSE.create();
+               icon.setColor("red");
+
+           }
+           return icon;
+        }).setKey("completed").setComparator(Comparator.comparing(TaskEntity::isCompleted)).setHeader("Completed");
+        grid.getColumns().forEach(col -> col.setTextAlign(ColumnTextAlign.CENTER));
         grid.addColumn(u->u.getOwner().getUsername()).setHeader("Owner");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
 
