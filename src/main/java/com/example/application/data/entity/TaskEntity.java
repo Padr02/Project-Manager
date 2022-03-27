@@ -37,14 +37,7 @@ public class TaskEntity extends AbstractEntity {
         this.completed = completed;
     }*/
 
-    public String getStringCompleted (){
-        if (this.completed){
-            return "true";
-        }
-        else{
-            return "false";
-        }
-    }
+
 
 
 }

@@ -1,1 +1,52 @@
 
+#login-view {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: 0 auto;
+    max-width: 1024px;
+    padding: 0 var(--lumo-space-l);
+    border: #14FFEC;
+}
+
+#login-header {
+    color: #14FFEC;
+    letter-spacing: .3rem;
+}
+
+#vaadin-text-field-0, #vaadin-password-field-1 {
+    color: #14FFEC;
+    box-shadow: inset 2px 2px 8px #2a2a2a,
+    inset -2px -2px 24px #3a3a3a;
+    font-family: 'Ubuntu', sans-serif;
+    letter-spacing: .15rem;
+}
+
+[part="vaadin-login-native-form-wrapper"] {
+    border-radius: 11px;
+    background: #323232;
+    box-shadow: inset 12px 12px 24px #2a2a2a,
+    inset -12px -12px 24px #3a3a3a;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+#vaadinLoginPassword, #vaadinLoginUsername {
+    color: #14FFEC;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+[part="vaadin-login-submit"] {
+    color: #323232;
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #14FFEC;
+    letter-spacing: .15rem;
+}
+
+[part="vaadin-login-submit"]:hover {
+    background-color: #ff7f00;
+}
+[part="input-field"] {
+    padding: 0;
+    box-shadow: inset 2px 2px 8px #2a2a2a,
+    inset -2px -2px 24px #3a3a3a;
+}

@@ -1,4 +1,5 @@
 package com.example.application.security;
+
 import com.example.application.data.RoleEnum;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.service.UserService;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class Authenticate {
@@ -17,14 +17,12 @@ public class Authenticate {
     @Autowired
     UserService userService;
 
-
     public class AuthException extends Exception {
     }
 
     public Authenticate(UserService userService) {
         this.userService = userService;
     }
-
 
     public void authenticate (String username, String password) throws AuthException {
 
@@ -49,10 +47,10 @@ public class Authenticate {
 
     public List<Route> getAuthorizedRoutes(RoleEnum role) {
         var route = new ArrayList<Route>();
-        if (role.equals(RoleEnum.USER)){
+        if (role.equals(RoleEnum.USER)) {
             route.add(new Route("tasks","Tasks",TaskView.class));
         }
-        if (role.equals(RoleEnum.ADMIN)){
+        if (role.equals(RoleEnum.ADMIN)) {
             route.add(new Route("tasks","Tasks", TaskView.class));
         }
         return route;

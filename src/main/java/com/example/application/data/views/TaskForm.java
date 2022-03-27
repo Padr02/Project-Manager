@@ -6,15 +6,16 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-
 import java.util.List;
+
 
 public class TaskForm extends FormLayout {
     TextField title = new TextField("Title");
-    TextField deadline = new TextField("Deadline");
+    DatePicker deadline = new DatePicker("Deadline");
     ComboBox<UserEntity> owner = new ComboBox<>("Owner");
 
     Button save = new Button("Save");
@@ -24,7 +25,6 @@ public class TaskForm extends FormLayout {
     public TaskForm(List<UserEntity> users) {
         owner.setItems(users);
         owner.setItemLabelGenerator(UserEntity::getUsername);
-
         add(title,deadline,owner, createBtnLayout());
     }
 

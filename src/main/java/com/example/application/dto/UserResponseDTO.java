@@ -5,5 +5,4 @@ import com.example.application.data.entity.TaskEntity;
 
 import java.util.Set;
 
-public record UserResponseDTO(String username, RoleEnum role) {
-}
+public record UserResponseDTO(String username, RoleEnum role) { }

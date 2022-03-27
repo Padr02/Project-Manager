@@ -1,14 +1,9 @@
 package com.example.application.data.service;
 
-import com.example.application.data.RoleEnum;
 import com.example.application.data.entity.TaskEntity;
-import com.example.application.data.entity.UserEntity;
 import com.example.application.data.repository.TaskRepository;
-import com.example.application.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,7 +11,6 @@ import java.util.UUID;
 public class TaskService {
 
     TaskRepository taskRepository;
-
 
     public TaskService(@Autowired TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
@@ -38,8 +32,6 @@ public class TaskService {
         }
     }
 
-
-
     public TaskEntity saveTask(TaskEntity task){
         return taskRepository.save(task);
     }
@@ -53,11 +45,7 @@ public class TaskService {
         return taskRepository.findById(id).orElseThrow();
     }
 
-
-
-
     // TODO: Update method
-
 
     public TaskEntity updateTaskById(int id, TaskEntity changedTaskEntity) {
 
