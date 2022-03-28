@@ -3,9 +3,7 @@ package com.example.application.controller;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.service.TaskService;
 import com.example.application.data.service.UserService;
-import com.example.application.dto.DtoConverter;
-import com.example.application.dto.UserRequestDTO;
-import com.example.application.dto.UserResponseDTO;
+import com.example.application.dto.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +45,14 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser( @PathVariable("id") UUID id) {
        userService.delete(id);
+    }
 
+    @PutMapping("/{id}")
+    public UserResponseDTO  updateOwnerById(@PathVariable("id") UUID id,@RequestBody UserRequestDTO changeUserDTO){
+        // TODO: Check if the user exists in the repository before allowing a change of password
+        UserEntity changedUserIn = dtoConverter.RequestDtoToEntity(changeUserDTO);
+        UserEntity changedUserOut = userService.updateOwner(id, changedUserIn);
+        return dtoConverter.entityToResponseDTO(changedUserOut);
     }
 
     @Data

@@ -5,6 +5,7 @@ import com.example.application.data.entity.UserEntity;
 import com.example.application.data.repository.TaskRepository;
 import com.example.application.data.repository.UserRepository;
 import org.apache.catalina.User;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -67,7 +68,13 @@ public class UserService {
 
     // TODO delete method
 
-    // TODO update method
+    public UserEntity updateOwner(UUID id, UserEntity updatedOwnerIn) {
+        UserEntity currOwner = userRepository.findById(id).orElseThrow(); // Retrieve the object
+
+        BeanUtils.copyProperties(updatedOwnerIn, currOwner,  "id"); // Update the old with the new
+        userRepository.save(currOwner); // Stores the new password
+        return currOwner;
+    }
 }
 
 

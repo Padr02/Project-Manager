@@ -39,16 +39,17 @@ public class DtoConverter {
     }
 
     public UserEntity RequestDtoToEntity(UserRequestDTO userRequestDTO){
+        System.out.println(userRequestDTO.password());
         return new UserEntity(userRequestDTO.username(),
-                                userRequestDTO.password(),
-                                RoleEnum.USER);
+                userRequestDTO.password(),
+                RoleEnum.USER);
     }
 
     public UserResponseDTO entityToResponseDTO(UserEntity userEntity) {
         return new UserResponseDTO(
                 userEntity.getUsername(),
-                userEntity.getRole(),
-                userEntity.getId()
+                userEntity.getId(),
+                userEntity.getRole()
         );
     }
 }

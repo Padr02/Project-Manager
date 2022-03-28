@@ -56,14 +56,21 @@ public class TaskController {
         taskService.deleteTask(id);
     }
 
+    @PutMapping("/{id}")
+    public TaskResponseDTO updateTaskById(@PathVariable("id") UUID id, @RequestBody TaskRequestDTO updatedTaskDTO) {
+        TaskEntity updatedTaskIn = dtoConverter.RequestDtoToEntity(updatedTaskDTO);
+        System.out.println(updatedTaskIn);
+        TaskEntity updatedTaskOut = taskService.updateTask(id, updatedTaskIn);
+        return dtoConverter.entityToResponseDTO(updatedTaskOut);
+    }
 
-            /*
-            .stream()
-            .map(task -> dtoConverter.entityToResponseDTO(task))
-            .toList();
-        */
+    /*
+    .stream()
+    .map(task -> dtoConverter.entityToResponseDTO(task))
+    .toList();
+    */
 
-/*
+    /*
     @GetMapping("{id}")
     public TaskResponseDTO getTaskById(@PathVariable("id") Integer id) {
         TaskEntity taskEntity = taskService.findTaskById(id);
@@ -82,5 +89,5 @@ public class TaskController {
         TaskEntity changedTask = dtoConverter.RequestDtoToEntity(changedTaskDTO);
         TaskEntity taskOut = taskService.updateTaskById(id, changedTask);
         return dtoConverter.entityToResponseDTO(taskOut);*/
-    }
+}
 

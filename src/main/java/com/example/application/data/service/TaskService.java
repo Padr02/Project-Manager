@@ -2,6 +2,7 @@ package com.example.application.data.service;
 
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.repository.TaskRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -16,10 +17,6 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    /*    public TaskEntity findByTitle(String title) {
-        TaskEntity task = taskRepository.findByTitle(title).orElseThrow();
-        return task;
-    }*/
 
     public List<TaskEntity> getTasks() {
         return taskRepository.findAll();
@@ -33,33 +30,34 @@ public class TaskService {
         }
     }
 
+
     public TaskEntity saveTask(TaskEntity task){
         return taskRepository.save(task);
     }
 
+    /**
+     * Method to delete a task stored in the database
+     *
+     * @param id
+     */
     public void deleteTask(UUID id) {
         taskRepository.deleteById(id);
     }
 
-/*
-    //findByOwner_username(username);
-    public TaskEntity findTaskById(int id) {
-        return taskRepository.findById(id).orElseThrow();
+
+    /**
+     * Update task by overwriting the current task (currTask)
+     *
+     * @param id
+     * @param updatedTaskIn
+     * @return currTask
+     */
+    public TaskEntity updateTask(UUID id, TaskEntity updatedTaskIn) {
+        TaskEntity currTask = taskRepository.findById(id).orElseThrow(); // Hämta ut objektet som ska ändras
+        BeanUtils.copyProperties(updatedTaskIn, currTask); //Nya skriver över det gamla
+        taskRepository.save(currTask); // Spara det uppdaterade gamla
+        return currTask;
     }
 
-    // TODO: Update method
-
-    public TaskEntity updateTaskById(int id, TaskEntity changedTaskEntity) {
-
-        TaskEntity task = taskRepository.findById(id).orElseThrow();
-
-        if(changedTaskEntity.getTitle() != null)
-            task.setTitle(changedTaskEntity.getTitle());
-
-        return taskRepository.save(task);
-
-        //BeanUtils.copyProperties(changedTaskEntity, existingBlogPost, "id");
-    }
-*/
 
 }
