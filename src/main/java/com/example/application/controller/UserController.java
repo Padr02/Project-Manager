@@ -1,18 +1,16 @@
 package com.example.application.controller;
 
-import com.example.application.data.RoleEnum;
 import com.example.application.data.entity.UserEntity;
-import com.example.application.data.repository.UserRepository;
+import com.example.application.data.service.TaskService;
 import com.example.application.data.service.UserService;
 import com.example.application.dto.DtoConverter;
+import com.example.application.dto.UserRequestDTO;
 import com.example.application.dto.UserResponseDTO;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -22,6 +20,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TaskService taskService;
 
     @Autowired
     DtoConverter dtoConverter;
@@ -34,26 +35,19 @@ public class UserController {
                        .toList();
     }
 
-    /*
-    @GetMapping("/{username}")
-    public UserEntity getUserByUsername(@PathVariable("username") String userName){
-        return userService.getUsers()
-                .stream()
-                .filter(user -> Objects.equals(user.getUsername(), userName))
-                .findFirst()
-                .orElseThrow();
-    }
-    */
     @PostMapping
-    public UserEntity addUser(@RequestBody UserForm userForm){
-        //måste skapa kontroll, så samma user inte kan sparas flera gånger eller om den redan finns
-        UserEntity user1 =new UserEntity(userForm.username, userForm.password,RoleEnum.USER);
-       return userService.saveUser(user1);
+    public UserResponseDTO addUser(@RequestBody UserRequestDTO userRequestDTO) {
+        UserEntity userIn = dtoConverter.RequestDtoToEntity(userRequestDTO);
+        userService.saveUser(userIn);
+        UserEntity userOut = userService.saveUser(userIn);
+        // TODO: If sats där vi returnerar en Notification om att användare redan finns. Under huven görs redan en kontroll för tabellen tillåter bara unika användare
+        return  dtoConverter.entityToResponseDTO(userOut);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") UUID id){
-        userService.delete(id);
+    public void deleteUser( @PathVariable("id") UUID id) {
+       userService.delete(id);
+
     }
 
     @Data
@@ -61,6 +55,5 @@ public class UserController {
         String username;
         String password;
     }
-
 }
 

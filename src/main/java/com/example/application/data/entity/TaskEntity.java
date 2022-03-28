@@ -4,7 +4,6 @@ import com.example.application.data.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -36,8 +35,4 @@ public class TaskEntity extends AbstractEntity {
     /*public TaskEntity(boolean completed, String title, LocalDate startDate, LocalDate deadLine, UserEntity owner) {
         this.completed = completed;
     }*/
-
-
-
-
 }

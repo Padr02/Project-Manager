@@ -1,7 +1,6 @@
 package com.example.application.dto;
 
-import com.example.application.data.entity.UserEntity;
-
 import java.time.LocalDate;
+import java.util.UUID;
 
-public record TaskResponseDTO(boolean completed, String title, LocalDate startDate, LocalDate deadline, String owner) { }
+public record TaskResponseDTO(UUID id, boolean completed, String title, LocalDate startDate, LocalDate deadline, String owner, UUID ownerId) { }

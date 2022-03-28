@@ -2,10 +2,10 @@ package com.example.application.controller;
 
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
-import com.example.application.data.repository.TaskRepository;
 import com.example.application.data.service.TaskService;
 import com.example.application.data.service.UserService;
 import com.example.application.dto.DtoConverter;
+import com.example.application.dto.TaskRequestDTO;
 import com.example.application.dto.TaskResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,6 @@ public class TaskController {
     @Autowired
     UserService userService;
 
-    
-
     @GetMapping
     public List<TaskResponseDTO>GetTasksFromRepo(@RequestParam(required = false)String title) {
         return taskService.getTasksByFilter(title)
@@ -47,19 +45,23 @@ public class TaskController {
     }
 
     @PostMapping
-    public void addNewTask(@RequestBody TaskEntity taskEntity) {
-        taskService.saveTask(taskEntity);
+    public TaskResponseDTO addNewTask(@RequestBody TaskRequestDTO taskRequestDTO) {
+        TaskEntity taskEntityIn = dtoConverter.RequestDtoToEntity(taskRequestDTO);
+        TaskEntity taskEntityOut = taskService.saveTask(taskEntityIn);
+        return dtoConverter.entityToResponseDTO(taskEntityOut);
     }
 
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable("id") UUID id) {
         taskService.deleteTask(id);
     }
-                /*
-                .stream()
-                .map(task -> dtoConverter.entityToResponseDTO(task))
-                .toList();
-            */
+
+
+            /*
+            .stream()
+            .map(task -> dtoConverter.entityToResponseDTO(task))
+            .toList();
+        */
 
 /*
     @GetMapping("{id}")
@@ -67,8 +69,6 @@ public class TaskController {
         TaskEntity taskEntity = taskService.findTaskById(id);
         return dtoConverter.entityToResponseDTO(taskEntity);
     }
-
-
 
     @PostMapping
     public TaskResponseDTO addNewTask(@RequestBody TaskRequestDTO taskRequestDTO) {

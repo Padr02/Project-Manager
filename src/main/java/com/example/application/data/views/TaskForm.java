@@ -1,7 +1,9 @@
 package com.example.application.data.views;
 
+import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -10,13 +12,21 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
+import com.vaadin.flow.data.binder.Binder;
+import org.springframework.beans.BeanUtils;
+
 import java.util.List;
 
 
 public class TaskForm extends FormLayout {
+
+
     TextField title = new TextField("Title");
     DatePicker deadline = new DatePicker("Deadline");
     ComboBox<UserEntity> owner = new ComboBox<>("Owner");
+    Binder<TaskEntity> binder = new BeanValidationBinder<>(TaskEntity.class);
+    TaskEntity task;
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -26,6 +36,13 @@ public class TaskForm extends FormLayout {
         owner.setItems(users);
         owner.setItemLabelGenerator(UserEntity::getUsername);
         add(title,deadline,owner, createBtnLayout());
+        binder.bindInstanceFields(this);
+    }
+
+    public void setTask(TaskEntity task){
+        this.task=task;
+        binder.readBean(task);
+
     }
 
     private Component createBtnLayout() {
@@ -36,4 +53,6 @@ public class TaskForm extends FormLayout {
         cancel.addClickShortcut(Key.ESCAPE);
         return new HorizontalLayout(save,delete,cancel);
     }
+
 }
+

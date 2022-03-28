@@ -39,11 +39,7 @@ public class Application extends SpringBootServletInitializer implements AppShel
     public CommandLineRunner run(UserRepository userRepository, TaskRepository taskRepository){
         return args -> {
 
-
-
-     //taskRepository.save(new TaskEntity(false,"Titel3", LocalDate.now(),LocalDate.now(),userRepository.save(new UserEntity("connie","hej", RoleEnum.ADMIN))));
-     //taskRepository.save(new TaskEntity(false, "Titel4", LocalDate.now(), LocalDate.now(), userRepository.save( new UserEntity("pavel","hejsan", RoleEnum.ADMIN))));
-     //taskRepository.save(new TaskEntity(false, "Titel6", LocalDate.now(), LocalDate.now(), userRepository.save( new UserEntity("sebbe","hejsan", RoleEnum.ADMIN))));
+            //userRepository.save(new UserEntity("sven","password",RoleEnum.USER));
 
         };
     }

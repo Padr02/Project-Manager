@@ -22,12 +22,13 @@ public class TaskService {
     }*/
 
     public List<TaskEntity> getTasks() {
-    return taskRepository.findAll();
+        return taskRepository.findAll();
     }
+
     public List<TaskEntity> getTasksByFilter(String filter) {
         if (filter == null || filter.isEmpty()){
             return taskRepository.findAll();
-        }else{
+        } else {
             return taskRepository.search(filter);
         }
     }
@@ -39,6 +40,7 @@ public class TaskService {
     public void deleteTask(UUID id) {
         taskRepository.deleteById(id);
     }
+
 /*
     //findByOwner_username(username);
     public TaskEntity findTaskById(int id) {
