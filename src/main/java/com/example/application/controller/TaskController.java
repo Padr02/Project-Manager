@@ -1,19 +1,20 @@
 package com.example.application.controller;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.service.TaskService;
 import com.example.application.data.service.UserService;
 import com.example.application.dto.DtoConverter;
-import com.example.application.dto.TaskRequestDTO;
-import com.example.application.dto.TaskResponseDTO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+/*import com.example.application.dto.TaskRequestDTO;
+import com.example.application.dto.TaskResponseDTO;*/
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
+@RestController // returnerar inte JSON
 @RequestMapping("/tasks")
 @RequiredArgsConstructor
 public class TaskController {
@@ -27,16 +28,16 @@ public class TaskController {
     @Autowired
     UserService userService;
 
-    @GetMapping
-    public List<TaskResponseDTO>GetTasksFromRepo(@RequestParam(required = false)String title) {
+    @GetMapping  //OK
+    public List<DtoConverter.TaskResponseDTO>GetTasksFromRepo(@RequestParam(required = false) String title) {
         return taskService.getTasksByFilter(title)
                 .stream()
                 .map(task -> dtoConverter.entityToResponseDTO(task))
                 .toList();
     }
 
-    @GetMapping("/{user}")
-    public List<TaskResponseDTO>GetTasksOfUsers(@RequestParam(required = false)String username) {
+    @GetMapping("/{user}") // OK
+    public List<DtoConverter.TaskResponseDTO>GetTasksOfUsers(@RequestParam(required = false) String username) {
             UserEntity user = userService.getUsername(username);
             return taskService.getTasks()
             .stream().filter(u -> u.getOwner().equals(user))
@@ -44,20 +45,20 @@ public class TaskController {
             .toList();
     }
 
-    @PostMapping
-    public TaskResponseDTO addNewTask(@RequestBody TaskRequestDTO taskRequestDTO) {
+    @PostMapping //OK
+    public DtoConverter.TaskResponseDTO addNewTask(@RequestBody DtoConverter.TaskRequestDTO taskRequestDTO ) {
         TaskEntity taskEntityIn = dtoConverter.RequestDtoToEntity(taskRequestDTO);
         TaskEntity taskEntityOut = taskService.saveTask(taskEntityIn);
         return dtoConverter.entityToResponseDTO(taskEntityOut);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") //OK
     public void deleteTask(@PathVariable("id") UUID id) {
         taskService.deleteTask(id);
     }
 
-    @PutMapping("/{id}")
-    public TaskResponseDTO updateTaskById(@PathVariable("id") UUID id, @RequestBody TaskRequestDTO updatedTaskDTO) {
+    @PutMapping("/{id}") //OK
+    public DtoConverter.TaskResponseDTO updateTaskById(@PathVariable("id") UUID id, @RequestBody DtoConverter.TaskRequestDTO updatedTaskDTO) {
         TaskEntity updatedTaskIn = dtoConverter.RequestDtoToEntity(updatedTaskDTO);
         System.out.println(updatedTaskIn);
         TaskEntity updatedTaskOut = taskService.updateTask(id, updatedTaskIn);

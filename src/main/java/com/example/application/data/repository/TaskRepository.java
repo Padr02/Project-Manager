@@ -12,7 +12,7 @@ import java.util.UUID;
 @Repository
 public interface TaskRepository extends JpaRepository<TaskEntity, UUID> {
 
-    @Query("select a from TaskEntity a where lower(a.owner.username) like lower(concat( '%', :searchTerm, '%'))")
+    @Query("select a from TaskEntity a where lower(a.owner.username) like lower(concat( '%',:searchTerm,'%'))")
     List<TaskEntity> search(@Param("searchTerm") String searchTerm);
    /* @Query("select t from TaskEntity t where lower(t.title) like lower(concat( '%', :searchTerm,'%'))")
     List<TaskEntity> search(@Param("searchTerm") String searchTerm);*/

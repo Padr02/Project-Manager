@@ -1,3 +1,4 @@
+
 package com.example.application.dto;
 
 import com.example.application.data.RoleEnum;
@@ -8,9 +9,15 @@ import com.example.application.data.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Service
 public class DtoConverter {
+
+    public record TaskRequestDTO(String title, LocalDate deadline, UUID ownerId) { }
+    public record TaskResponseDTO(UUID id, boolean completed, String title, LocalDate startDate, LocalDate deadline, String owner, UUID ownerId) { }
+    public record UserRequestDTO(String username, String password) { }
+    public record UserResponseDTO(String username, UUID id, RoleEnum role) { }
 
     @Autowired
     UserRepository userRepository;
@@ -53,3 +60,5 @@ public class DtoConverter {
         );
     }
 }
+
+

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -16,6 +17,7 @@ public class TaskService {
     public TaskService(@Autowired TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
+
 
 
     public List<TaskEntity> getTasks() {
@@ -54,7 +56,7 @@ public class TaskService {
      */
     public TaskEntity updateTask(UUID id, TaskEntity updatedTaskIn) {
         TaskEntity currTask = taskRepository.findById(id).orElseThrow(); // Hämta ut objektet som ska ändras
-        BeanUtils.copyProperties(updatedTaskIn, currTask); //Nya skriver över det gamla
+        BeanUtils.copyProperties(updatedTaskIn, currTask,"id"); //Nya skriver över det gamla
         taskRepository.save(currTask); // Spara det uppdaterade gamla
         return currTask;
     }

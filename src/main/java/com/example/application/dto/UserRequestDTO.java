@@ -1,5 +1,4 @@
-package com.example.application.dto;
-
-import java.util.UUID;
+/*package com.example.application.dto;
 
 public record UserRequestDTO(String username, String password) { }
+*/

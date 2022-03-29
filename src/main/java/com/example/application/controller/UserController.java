@@ -1,12 +1,12 @@
 package com.example.application.controller;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.service.TaskService;
 import com.example.application.data.service.UserService;
 import com.example.application.dto.*;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
@@ -25,16 +25,16 @@ public class UserController {
     @Autowired
     DtoConverter dtoConverter;
 
-    @GetMapping
-    public List<UserResponseDTO> getUsers(@RequestParam(required = false)String username) {
-               return userService.findAll(username)
+    @GetMapping()
+    public List<DtoConverter.UserResponseDTO> getUsers(@RequestParam(required = false) String username) {
+               return   userService.findAll(username)
                        .stream()
                        .map(user -> dtoConverter.entityToResponseDTO(user))
                        .toList();
     }
 
     @PostMapping
-    public UserResponseDTO addUser(@RequestBody UserRequestDTO userRequestDTO) {
+    public DtoConverter.UserResponseDTO addUser(@RequestBody DtoConverter.UserRequestDTO userRequestDTO) {
         UserEntity userIn = dtoConverter.RequestDtoToEntity(userRequestDTO);
         userService.saveUser(userIn);
         UserEntity userOut = userService.saveUser(userIn);
@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public UserResponseDTO  updateOwnerById(@PathVariable("id") UUID id,@RequestBody UserRequestDTO changeUserDTO){
+    public DtoConverter.UserResponseDTO updateOwnerById(@PathVariable("id") UUID id, @RequestBody DtoConverter.UserRequestDTO changeUserDTO){
         // TODO: Check if the user exists in the repository before allowing a change of password
         UserEntity changedUserIn = dtoConverter.RequestDtoToEntity(changeUserDTO);
         UserEntity changedUserOut = userService.updateOwner(id, changedUserIn);
