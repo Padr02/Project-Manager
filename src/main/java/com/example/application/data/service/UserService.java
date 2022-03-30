@@ -4,14 +4,12 @@ import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.repository.TaskRepository;
 import com.example.application.data.repository.UserRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -54,7 +52,7 @@ public class UserService {
     public UserEntity getUsername(String username){
         return userRepository.findAll()
                 .stream()
-                .filter(u->u.getUsername()
+                .filter(user ->user.getUsername()
                         .equals(username))
                 .findFirst()
                 .get();
@@ -65,12 +63,9 @@ public class UserService {
               .filter(user -> user.getUsername().equals(username)).toList();
     }
 
-
     // TODO delete method
-
     public UserEntity updateOwner(UUID id, UserEntity updatedOwnerIn) {
         UserEntity currOwner = userRepository.findById(id).orElseThrow(); // Retrieve the object
-
         BeanUtils.copyProperties(updatedOwnerIn, currOwner,  "id"); // Update the old with the new
         userRepository.save(currOwner); // Stores the new password
         return currOwner;

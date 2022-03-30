@@ -1,4 +1,5 @@
 package com.example.application.data.views;
+import com.example.application.data.FormEvent;
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.service.TaskService;
 import com.example.application.data.service.UserService;
@@ -35,7 +36,6 @@ public class TaskView extends VerticalLayout {
     TextField filter = new TextField();
     TaskForm taskForm;
 
-
     public TaskView(TaskService taskService, UserService userService)  {
         this.userService=userService;
         this.taskService=taskService;
@@ -53,9 +53,9 @@ public class TaskView extends VerticalLayout {
     }
 
     private Component getContent() {
-       HorizontalLayout content = new HorizontalLayout(grid,taskForm);
-       content.setFlexGrow(2,grid);
-       content.setFlexGrow(1,taskForm);
+       HorizontalLayout content = new HorizontalLayout(grid, taskForm);
+       content.setFlexGrow(2, grid);
+       content.setFlexGrow(1, taskForm);
        content.setSizeFull();
        return content;
     }
@@ -63,6 +63,21 @@ public class TaskView extends VerticalLayout {
     private void configureForm() {
         taskForm = new TaskForm(userService.getUsers());
         taskForm.setWidth("25em");
+        taskForm.addListener(FormEvent.SaveEvent.class, this::saveTask);
+        taskForm.addListener(FormEvent.DeleteEvent.class, this::deleteTask);
+        taskForm.addListener(FormEvent.CloseEvent.class, e -> closeEditor());
+    }
+
+    private void saveTask(FormEvent.SaveEvent event){
+        taskService.saveTask(event.getTask());
+        updateFromFilter();
+        closeEditor();
+    }
+
+    private void deleteTask(FormEvent.DeleteEvent event) {
+        taskService.deleteTask(event.getTask().getId());
+        updateFromFilter();
+        closeEditor();
     }
 
     private void updateFromFilter() {
@@ -70,19 +85,19 @@ public class TaskView extends VerticalLayout {
     }
 
     private Component getToolBar() {
-        filter.setPlaceholder("Search by title");
+        filter.setPlaceholder("Search by owner");
         filter.setClearButtonVisible(true);
         filter.setValueChangeMode(ValueChangeMode.LAZY);
         filter.addValueChangeListener(e -> updateFromFilter());
         Button addTaskBtn = new Button("Add task");
-        HorizontalLayout horizontalLayout = new HorizontalLayout(filter,addTaskBtn);
+        HorizontalLayout horizontalLayout = new HorizontalLayout(filter, addTaskBtn);
         horizontalLayout.setAlignItems(Alignment.CENTER);
         return horizontalLayout;
     }
 
     private void configureGrid() {
         grid.setSizeFull();
-        grid.setColumns("title","startDate","deadline");
+        grid.setColumns("title", "startDate", "deadline");
         grid.addComponentColumn((item)->{
            Icon icon;
            if (item.isCompleted()) {

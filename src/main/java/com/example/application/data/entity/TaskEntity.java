@@ -32,7 +32,7 @@ public class TaskEntity extends AbstractEntity {
     @JoinColumn(name = "user_id")
     private UserEntity owner;
 
-    /*public TaskEntity(boolean completed, String title, LocalDate startDate, LocalDate deadLine, UserEntity owner) {
+    /* public TaskEntity(boolean completed, String title, LocalDate startDate, LocalDate deadLine, UserEntity owner) {
         this.completed = completed;
-    }*/
+    } */
 }

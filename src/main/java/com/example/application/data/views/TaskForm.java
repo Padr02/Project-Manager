@@ -3,8 +3,7 @@ package com.example.application.data.views;
 import com.example.application.data.FormEvent;
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -16,8 +15,9 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.component.checkbox.Checkbox;
-import java.util.List;
+import com.vaadin.flow.shared.Registration;
 
+import java.util.List;
 
 public class TaskForm extends FormLayout {
 
@@ -27,8 +27,8 @@ public class TaskForm extends FormLayout {
     ComboBox<UserEntity> owner = new ComboBox<>("Owner");
     Binder<TaskEntity> binder = new BeanValidationBinder<>(TaskEntity.class);
     Checkbox status = new Checkbox("Status");
-
     TaskEntity task;
+    private ComponentEventBus eventBus = null;
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -41,7 +41,7 @@ public class TaskForm extends FormLayout {
         binder.bindInstanceFields(this);
     }
 
-
+    // TODO: Kontroll att man inte får lägga in en task deadline som är före startdatum
     public void setTask(TaskEntity task) {
         this.task = task;
         binder.readBean(task);
@@ -53,21 +53,37 @@ public class TaskForm extends FormLayout {
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         save.addClickShortcut(Key.ENTER);
         cancel.addClickShortcut(Key.ESCAPE);
-        status.setValue(true);
-        status.addValueChangeListener( e -> save.setEnabled(binder.isValid()));
+        status.setValue(false);
+        status.addValueChangeListener(e -> save.setEnabled(binder.isValid()));
         save.addClickListener(event -> validateAndSave());
         delete.addClickListener(event -> fireEvent(new FormEvent.DeleteEvent(this,task)));
         cancel.addClickListener(event -> fireEvent(new FormEvent.CloseEvent(this)));
         return new HorizontalLayout(save, delete, cancel);
     }
 
-    private void validateAndSave(){
+    private void validateAndSave() {
         try {
             binder.writeBean(task);
             fireEvent(new FormEvent.SaveEvent(this, task));
-        } catch (ValidationException e){
+        } catch (ValidationException e) {
             e.printStackTrace();
         }
     }
+
+    protected ComponentEventBus getEventBus() {
+        if (this.eventBus == null) {
+            this.eventBus = new ComponentEventBus(this);
+        }
+        return this.eventBus;
+    }
+
+    protected <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType, ComponentEventListener<T> listener) {
+        return this.getEventBus().addListener(eventType, listener);
+    }
+
+    protected boolean hasListener(Class<? extends ComponentEvent> eventType) {
+        return this.eventBus != null && this.eventBus.hasListener(eventType);
+    }
+
 }
 

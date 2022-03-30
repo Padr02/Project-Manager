@@ -9,7 +9,7 @@ public abstract class FormEvent extends ComponentEvent<TaskForm> {
     private TaskEntity task;
 
     public FormEvent(TaskForm source, TaskEntity task) {
-        super(source, true);
+        super(source, false);
         this.task = task;
     }
 
@@ -20,6 +20,7 @@ public abstract class FormEvent extends ComponentEvent<TaskForm> {
     public static class SaveEvent extends FormEvent {
         public SaveEvent(TaskForm source, TaskEntity task) {
             super(source, task);
+
         }
     }
 
@@ -34,5 +35,6 @@ public abstract class FormEvent extends ComponentEvent<TaskForm> {
             super(source, null);
         }
     }
+
 }
 
