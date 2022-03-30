@@ -90,9 +90,14 @@ public class TaskView extends VerticalLayout {
         filter.setValueChangeMode(ValueChangeMode.LAZY);
         filter.addValueChangeListener(e -> updateFromFilter());
         Button addTaskBtn = new Button("Add task");
+        addTaskBtn.addClickListener(click -> addTask());
         HorizontalLayout horizontalLayout = new HorizontalLayout(filter, addTaskBtn);
         horizontalLayout.setAlignItems(Alignment.CENTER);
         return horizontalLayout;
+    }
+    void addTask() {
+        grid.asSingleSelect().clear();
+        editTask(new TaskEntity());
     }
 
     private void configureGrid() {
@@ -106,7 +111,6 @@ public class TaskView extends VerticalLayout {
            } else {
                icon=VaadinIcon.CLOSE.create();
                icon.setColor("hsla(3, 75%, 62%, 0.5)");
-
            }
            return icon;
         }).setKey("completed").setComparator(Comparator.comparing(TaskEntity::isCompleted)).setHeader("Completed");

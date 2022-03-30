@@ -3,6 +3,7 @@ package com.example.application.data.views;
 import com.example.application.data.FormEvent;
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
+import com.example.application.data.service.TaskService;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -16,8 +17,10 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.shared.Registration;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Set;
 
 public class TaskForm extends FormLayout {
 
@@ -26,9 +29,12 @@ public class TaskForm extends FormLayout {
     DatePicker deadline = new DatePicker("Deadline");
     ComboBox<UserEntity> owner = new ComboBox<>("Owner");
     Binder<TaskEntity> binder = new BeanValidationBinder<>(TaskEntity.class);
-    Checkbox status = new Checkbox("Status");
+    Checkbox completed = new Checkbox("Status");
     TaskEntity task;
     private ComponentEventBus eventBus = null;
+
+    @Autowired
+    TaskService taskService;
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -37,7 +43,8 @@ public class TaskForm extends FormLayout {
     public TaskForm(List<UserEntity> users) {
         owner.setItems(users);
         owner.setItemLabelGenerator(UserEntity::getUsername);
-        add(title, startDate, deadline, owner, status, createBtnLayout());
+        //status.setValue(task.isCompleted());
+        add(title, startDate, deadline, owner, completed, createBtnLayout());
         binder.bindInstanceFields(this);
     }
 
@@ -53,8 +60,7 @@ public class TaskForm extends FormLayout {
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         save.addClickShortcut(Key.ENTER);
         cancel.addClickShortcut(Key.ESCAPE);
-        status.setValue(false);
-        status.addValueChangeListener(e -> save.setEnabled(binder.isValid()));
+        completed.addValueChangeListener(e -> save.setEnabled(binder.isValid()));
         save.addClickListener(event -> validateAndSave());
         delete.addClickListener(event -> fireEvent(new FormEvent.DeleteEvent(this,task)));
         cancel.addClickListener(event -> fireEvent(new FormEvent.CloseEvent(this)));
@@ -84,6 +90,5 @@ public class TaskForm extends FormLayout {
     protected boolean hasListener(Class<? extends ComponentEvent> eventType) {
         return this.eventBus != null && this.eventBus.hasListener(eventType);
     }
-
 }
 
