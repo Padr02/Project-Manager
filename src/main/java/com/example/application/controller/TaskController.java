@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RestController // returnerar inte JSON
-@RequestMapping("/tasks")
+
+
 @RequiredArgsConstructor
 public class TaskController {
 
@@ -64,31 +64,5 @@ public class TaskController {
         TaskEntity updatedTaskOut = taskService.updateTask(id, updatedTaskIn);
         return dtoConverter.entityToResponseDTO(updatedTaskOut);
     }
-
-    /*
-    .stream()
-    .map(task -> dtoConverter.entityToResponseDTO(task))
-    .toList();
-    */
-
-    /*
-    @GetMapping("{id}")
-    public TaskResponseDTO getTaskById(@PathVariable("id") Integer id) {
-        TaskEntity taskEntity = taskService.findTaskById(id);
-        return dtoConverter.entityToResponseDTO(taskEntity);
-    }
-
-    @PostMapping
-    public TaskResponseDTO addNewTask(@RequestBody TaskRequestDTO taskRequestDTO) {
-        TaskEntity newTask = dtoConverter.RequestDtoToEntity(taskRequestDTO);
-        TaskEntity taskOut = taskService.saveTask(newTask);
-        return dtoConverter.entityToResponseDTO(taskOut);
-    }
-
-   @PutMapping( "/{id}")
-    public TaskResponseDTO updateBlogPostById(@PathVariable("id") int id, @RequestBody TaskRequestDTO changedTaskDTO){
-        TaskEntity changedTask = dtoConverter.RequestDtoToEntity(changedTaskDTO);
-        TaskEntity taskOut = taskService.updateTaskById(id, changedTask);
-        return dtoConverter.entityToResponseDTO(taskOut);*/
 }
 

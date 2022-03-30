@@ -33,8 +33,6 @@ public class TaskForm extends FormLayout {
     TaskEntity task;
     private ComponentEventBus eventBus = null;
 
-    @Autowired
-    TaskService taskService;
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -43,6 +41,8 @@ public class TaskForm extends FormLayout {
     public TaskForm(List<UserEntity> users) {
         owner.setItems(users);
         owner.setItemLabelGenerator(UserEntity::getUsername);
+        owner.setEnabled(false);
+
         //status.setValue(task.isCompleted());
         add(title, startDate, deadline, owner, completed, createBtnLayout());
         binder.bindInstanceFields(this);
@@ -68,6 +68,7 @@ public class TaskForm extends FormLayout {
     }
 
     private void validateAndSave() {
+        System.out.println("här är jag");
         try {
             binder.writeBean(task);
             fireEvent(new FormEvent.SaveEvent(this, task));

@@ -21,7 +21,7 @@ public class UserEntity extends AbstractEntity {
     private String username;
 
     @Column (nullable = false)
-    @Enumerated(EnumType.STRING)
+   // @Enumerated(EnumType.STRING)
     private RoleEnum role; // måste kollas upp
 
     @Column(nullable = false)

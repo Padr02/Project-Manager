@@ -1,4 +1,6 @@
 package com.example.application.data.views;
 
-public class RegisterView {
+import com.vaadin.flow.component.applayout.AppLayout;
+
+public class RegisterView extends AppLayout {
 }

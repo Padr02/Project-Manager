@@ -17,13 +17,13 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.Collections;
+
+import javax.annotation.security.RolesAllowed;
 import java.util.Comparator;
 
 @PageTitle("Tasks")
-@Route("/tasks")
-//@RolesAllowed("ADMIN")
-
+@RolesAllowed("USER")
+@Route("tasks")
 public class TaskView extends VerticalLayout {
 
     @Autowired
@@ -103,7 +103,7 @@ public class TaskView extends VerticalLayout {
     private void configureGrid() {
         grid.setSizeFull();
         grid.setColumns("title", "startDate", "deadline");
-        grid.addComponentColumn((item)->{
+        grid.addComponentColumn((item) -> {
            Icon icon;
            if (item.isCompleted()) {
                icon=VaadinIcon.CHECK.create();
@@ -120,7 +120,7 @@ public class TaskView extends VerticalLayout {
         grid.asSingleSelect().addValueChangeListener(task -> editTask(task.getValue()));
     }
 
-    public void editTask (TaskEntity task){
+    public void editTask(TaskEntity task){
         if (task == null) {
             closeEditor();
         } else {

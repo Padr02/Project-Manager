@@ -21,15 +21,15 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public List<TaskEntity> getTasksByFilter(String filter) {
-        if (filter == null || filter.isEmpty()){
+    public List<TaskEntity> getTasksByFilter(String username) {
+        if (username == null || username.isEmpty()){
             return taskRepository.findAll();
         } else {
-            return taskRepository.search(filter);
+            return taskRepository.search(username);
         }
     }
-
-    public TaskEntity saveTask(TaskEntity task){
+    // TODO: Ifall någon vill så kan motarbeta dubbletter med en check
+    public TaskEntity saveTask(TaskEntity task) {
         return taskRepository.save(task);
     }
 

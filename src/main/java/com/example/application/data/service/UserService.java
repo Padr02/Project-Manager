@@ -63,7 +63,7 @@ public class UserService {
               .filter(user -> user.getUsername().equals(username)).toList();
     }
 
-    // TODO delete method
+
     public UserEntity updateOwner(UUID id, UserEntity updatedOwnerIn) {
         UserEntity currOwner = userRepository.findById(id).orElseThrow(); // Retrieve the object
         BeanUtils.copyProperties(updatedOwnerIn, currOwner,  "id"); // Update the old with the new

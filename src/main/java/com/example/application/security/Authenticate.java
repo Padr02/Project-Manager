@@ -2,11 +2,14 @@ package com.example.application.security;
 
 import com.example.application.data.RoleEnum;
 import com.example.application.data.entity.UserEntity;
+import com.example.application.data.repository.UserRepository;
 import com.example.application.data.service.UserService;
+import com.example.application.data.views.LoginView;
+import com.example.application.data.views.MainView;
 import com.example.application.data.views.TaskView;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.server.VaadinSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,45 +17,49 @@ import java.util.List;
 @Service
 public class Authenticate {
 
-    @Autowired
-    UserService userService;
 
-    public class AuthException extends Exception {
+    private static final String LOGIN = "/";
+    private static final String TASKS = "/tasks";
+    private static final String LOGOUT = "/logout";
+
+    public record AuthorizedRoutes(String route, String name, Class<? extends Component> view) {
     }
 
-    public Authenticate(UserService userService) {
+    private final UserService userService;
+    private final UserRepository userRepository;
+
+    public Authenticate(UserService userService, UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
-    public void authenticate (String username, String password) throws AuthException {
+    public void authenticate(String username, String password) throws Exception {
+        UserEntity user = userRepository.getByUsername(username);
+        if (user != null && user.checkPassword(password)) {
+            VaadinSession.getCurrent().setAttribute(UserEntity.class, user);
+            createRoutes(user.getRole());
 
-        UserEntity user = userService.getUsername(username);
-        System.out.println("Användare " + username + " Lösenord " + password);
-        if (user.getUsername() != null && user.checkPassword(password)){
-            System.out.println(user);
-            VaadinSession.getCurrent().setAttribute(UserEntity.class,user);
-            createRoute(user.getRole());
         } else {
-            System.out.println("Detta är else!");
-            throw new AuthException();
+            throw new Exception();
         }
     }
 
-    public void createRoute (RoleEnum role) {
+    private void createRoutes(RoleEnum role) {
         getAuthorizedRoutes(role)
-                .stream()
-                .forEach(x-> RouteConfiguration.forSessionScope()
-                        .setRoute(x.route,x.view));
+                .forEach(route -> RouteConfiguration.forSessionScope()
+                        .setRoute(route.route, route.view, MainView.class));
     }
 
-    public List<Route> getAuthorizedRoutes(RoleEnum role) {
-        var route = new ArrayList<Route>();
+    private List<AuthorizedRoutes> getAuthorizedRoutes(RoleEnum role) {
+        var routes = new ArrayList<AuthorizedRoutes>();
+        // Vi vet att
         if (role.equals(RoleEnum.USER)) {
-            route.add(new Route("tasks","Tasks",TaskView.class));
+            routes.add(new AuthorizedRoutes("/login", "Login", LoginView.class));
+            routes.add(new AuthorizedRoutes("/tasks", "Tasks", TaskView.class));
+        } else if (role.equals(RoleEnum.ADMIN)) {
+            routes.add(new AuthorizedRoutes("/login", "Login", LoginView.class));
+            routes.add(new AuthorizedRoutes("/tasks", "Tasks", TaskView.class));
         }
-        if (role.equals(RoleEnum.ADMIN)) {
-            route.add(new Route("tasks","Tasks", TaskView.class));
-        }
-        return route;
+        return routes;
     }
 }

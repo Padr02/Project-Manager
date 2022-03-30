@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
-@RequestMapping("/users")
+
+
 @RequiredArgsConstructor
 public class UserController {
 
@@ -38,7 +38,7 @@ public class UserController {
         UserEntity userIn = dtoConverter.RequestDtoToEntity(userRequestDTO);
         userService.saveUser(userIn);
         UserEntity userOut = userService.saveUser(userIn);
-        // TODO: If sats där vi returnerar en Notification om att användare redan finns. Under huven görs redan en kontroll för tabellen tillåter bara unika användare
+
         return  dtoConverter.entityToResponseDTO(userOut);
     }
 
@@ -49,7 +49,6 @@ public class UserController {
 
     @PutMapping("/{id}")
     public DtoConverter.UserResponseDTO updateOwnerById(@PathVariable("id") UUID id, @RequestBody DtoConverter.UserRequestDTO changeUserDTO){
-        // TODO: Check if the user exists in the repository before allowing a change of password
         UserEntity changedUserIn = dtoConverter.RequestDtoToEntity(changeUserDTO);
         UserEntity changedUserOut = userService.updateOwner(id, changedUserIn);
         return dtoConverter.entityToResponseDTO(changedUserOut);
