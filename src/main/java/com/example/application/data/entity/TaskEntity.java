@@ -1,7 +1,7 @@
 package com.example.application.data.entity;
 
 import com.example.application.data.AbstractEntity;
-import com.example.application.security.ViewAccessCheckerInitializer;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Entity
@@ -20,6 +21,7 @@ public class TaskEntity extends AbstractEntity {
     private boolean completed;
 
     @Column(nullable = false)
+    @NotBlank
     private String title;
 
     @Column(nullable = false)

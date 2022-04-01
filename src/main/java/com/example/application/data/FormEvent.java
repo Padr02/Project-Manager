@@ -4,6 +4,10 @@ import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.views.TaskForm;
 import com.vaadin.flow.component.ComponentEvent;
 
+/**
+ * Abstract class that manages the right-sided toggle-form to perform CRUD operations
+ *
+ */
 public abstract class FormEvent extends ComponentEvent<TaskForm> {
 
     private TaskEntity task;
@@ -20,7 +24,6 @@ public abstract class FormEvent extends ComponentEvent<TaskForm> {
     public static class SaveEvent extends FormEvent {
         public SaveEvent(TaskForm source, TaskEntity task) {
             super(source, task);
-
         }
     }
 

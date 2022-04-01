@@ -9,20 +9,21 @@ public class ViewAccessCheckerInitializer implements VaadinServiceInitListener {
 
     private final ViewAccessChecker viewAccessChecker;
 
+    /**
+     * ViewAccessChecker - an access control mechanism (default = enabled)
+     * Redirect unauthenticated user to login view
+     *
+     */
     public ViewAccessCheckerInitializer(){
        viewAccessChecker = new ViewAccessChecker();
-       viewAccessChecker.setLoginView(LoginView.class); //redirects unauthenticated users to login
-
+       viewAccessChecker.setLoginView(LoginView.class);
     }
 
     /**
-     *      above is just a redirection point,
-     * @param event setup interception for all the views
-     *
-     *
+     * Event listener that intercepts attempts to enter all views
+     * @param event from the client
      *
      */
-
     @Override
     public void serviceInit(ServiceInitEvent event) {
         event.getSource().addUIInitListener(e ->{

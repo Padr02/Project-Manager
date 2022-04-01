@@ -3,7 +3,6 @@ import com.example.application.data.FormEvent;
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.service.TaskService;
 import com.example.application.data.service.UserService;
-import com.example.application.security.SecurityUtils;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -44,13 +43,13 @@ public class TaskView extends VerticalLayout {
        H1 title = new H1 ("THIS SITE IS UNDER CONSTRUCTION");
        title.addClassName("title");
         HorizontalLayout header;
-        if (SecurityUtils.isAuthenticated()){
+       /* if (SecurityUtils.isAuthenticated()){
             Button logout = new Button("Logout", click -> SecurityUtils.logout());
             header = new HorizontalLayout(logout);
-        }else{
+        } else {
             header = new HorizontalLayout();
-        }
-        add (header);
+        }*/
+       // add (header);
 
         this.userService=userService;
         this.taskService=taskService;

@@ -8,7 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,39 +19,32 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class UserEntity extends AbstractEntity {
 
     @Column (nullable = false ,unique = true)
     private String username;
 
     @Column (nullable = false)
-   // @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private RoleEnum role; // måste kollas upp
 
     @Column(nullable = false)
     private String passwordSalt;
 
-    @Column(nullable = false)
-    private String passwordHash;
+    //@Column(nullable = false)
+    //private String passwordHash;
 
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<TaskEntity> tasks;
 
 
-
-   public UserEntity(String username, String password, RoleEnum role) {
+    public UserEntity(String username, RoleEnum role, String passwordSalt) {
         this.username = username;
         this.role = role;
-        this.passwordSalt = RandomStringUtils.random(32);
-        this.passwordHash = DigestUtils.sha1Hex(password + passwordSalt);
+        this.passwordSalt = passwordSalt;
     }
-
-    public boolean checkPassword(String password){
-        return DigestUtils.sha1Hex(password + passwordSalt).equals(passwordHash);
-    }
-
-
 }
 
 

@@ -49,8 +49,8 @@ public class DtoConverter {
     public UserEntity RequestDtoToEntity(UserRequestDTO userRequestDTO){
         System.out.println(userRequestDTO.password());
         return new UserEntity(userRequestDTO.username(),
-                userRequestDTO.password(),
-                RoleEnum.USER);
+                RoleEnum.USER,
+                userRequestDTO.password());
     }
 
     public UserResponseDTO entityToResponseDTO(UserEntity userEntity) {

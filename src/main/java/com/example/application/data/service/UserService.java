@@ -1,8 +1,6 @@
 package com.example.application.data.service;
 
-import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
-import com.example.application.data.repository.TaskRepository;
 import com.example.application.data.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +18,8 @@ public class UserService {
         this.userRepository= userRepository;
     }
 
-
     public List<UserEntity> getUsers(){
         return userRepository.findAll();
-    }
-    public UserEntity getUserByUsername(String username){
-        return userRepository.getUserByUsername(username);
     }
 
     public Optional<UserEntity> getUserById(UUID id){

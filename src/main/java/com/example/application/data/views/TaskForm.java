@@ -3,6 +3,7 @@ package com.example.application.data.views;
 import com.example.application.data.FormEvent;
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
+import com.example.application.security.SecurityUtils;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -37,6 +38,14 @@ public class TaskForm extends FormLayout {
         owner.setItems(users);
         owner.setItemLabelGenerator(UserEntity::getUsername);
         owner.setEnabled(false);
+        HorizontalLayout header;
+        if (SecurityUtils.isAuthenticated()){
+            Button logout = new Button("Logout", click -> SecurityUtils.logout());
+            header = new HorizontalLayout(logout);
+        }else{
+            header = new HorizontalLayout();
+        }
+        add (header);
 
         //status.setValue(task.isCompleted());
         add(title, startDate, deadline, owner, completed, createBtnLayout());
@@ -82,6 +91,12 @@ public class TaskForm extends FormLayout {
         return this.getEventBus().addListener(eventType, listener);
     }
 
+    /**
+     * Check if there is an event registered for the given event type
+     *
+     * @param eventType - the one that is fired from the client
+     * @return
+     */
     protected boolean hasListener(Class<? extends ComponentEvent> eventType) {
         return this.eventBus != null && this.eventBus.hasListener(eventType);
     }

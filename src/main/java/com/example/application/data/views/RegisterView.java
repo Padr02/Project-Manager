@@ -1,6 +1,6 @@
 package com.example.application.data.views;
-/*
-import com.example.application.security.Authenticate;
+
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
@@ -12,19 +12,20 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @PageTitle("Register")
 @Route(value = "/register", layout = MainView.class)
+@AnonymousAllowed
 public class RegisterView extends Composite {
 
-    private  Authenticate authenticate;
 
     @Override
     protected Component initContent() {
-                TextField username = new TextField("Username");
-                EmailField email = new EmailField("Enter your email address");
-                PasswordField password1 = new PasswordField("Create a password");
-                PasswordField password2 = new PasswordField("Confirm the password");
+        TextField username = new TextField("Username");
+        EmailField email = new EmailField("Enter your email address");
+        PasswordField password1 = new PasswordField("Create a password");
+        PasswordField password2 = new PasswordField("Confirm the password");
 
         return new VerticalLayout(
                 new H2("Register"),
@@ -40,10 +41,6 @@ public class RegisterView extends Composite {
             Notification.show("You have to enter a password");
         } else if (!password1.equals(password2)) {
             Notification.show("The passwords do not match");
-        } else {
-            authenticate.register(username, password1);
-            Notification.show("Successful registration!");
-        } // kan också använda Beanvalidation
+        }
     }
 }
-*/

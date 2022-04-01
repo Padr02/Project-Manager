@@ -5,6 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+/**
+ *  Abstract class that provides both new user and new task a UUID as unique ID
+ *
+ */
 @MappedSuperclass
 public abstract class AbstractEntity {
 

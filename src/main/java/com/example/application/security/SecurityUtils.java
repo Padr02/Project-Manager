@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 
 public class SecurityUtils {
 
-    private static final String LOGOUT_SUCCESS_URL = "/login";
+    public static String LOGOUT_SUCCESS_URL = "/login";
 
     /**
      * VaadinServlet contains the request that is sent to the server

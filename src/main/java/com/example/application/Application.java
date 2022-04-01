@@ -1,26 +1,25 @@
 package com.example.application;
 
-
+import com.example.application.data.RoleEnum;
+import com.example.application.data.entity.TaskEntity;
+import com.example.application.data.entity.UserEntity;
 import com.example.application.data.repository.TaskRepository;
 import com.example.application.data.repository.UserRepository;
 import com.example.application.data.views.LoginView;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.server.PWA;
-import com.vaadin.flow.spring.security.VaadinWebSecurityConfigurerAdapter;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-
+import java.time.LocalDate;
 
 
 /**
@@ -40,14 +39,15 @@ public class Application extends SpringBootServletInitializer implements AppShel
         SpringApplication.run(Application.class, args);
     }
 
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Bean
     public CommandLineRunner run(UserRepository userRepository, TaskRepository taskRepository){
         return args -> {
 
-            //taskRepository.save(new TaskEntity(false,"Testigen", LocalDate.now(),LocalDate.now(),userRepository.save(new UserEntity("connie","test",RoleEnum.ADMIN))));
-            //taskRepository.save(new TaskEntity(false,"Testigen2",LocalDate.now(),LocalDate.now(),userRepository.save( new UserEntity("sebbe","hejsan",RoleEnum.USER))));
+           //taskRepository.save(new TaskEntity(false,"Testigen", LocalDate.now(),LocalDate.now(),userRepository.save(new UserEntity("connie",RoleEnum.ADMIN,passwordEncoder.encode("hejsan")))));
+           // taskRepository.save(new TaskEntity(false,"Testigen2",LocalDate.now(),LocalDate.now(),userRepository.save( new UserEntity("sebbe",RoleEnum.USER, passwordEncoder.encode(("hejsan"))))));
             //taskRepository.save(new TaskEntity(false,"Testigen3", LocalDate.now(),LocalDate.now(),userRepository.save( new UserEntity("pavel","hejsan", RoleEnum.USER))));
 
         };
