@@ -17,10 +17,10 @@ import java.util.List;
 @Service
 public class Authenticate {
 
-
     private static final String LOGIN = "/";
     private static final String TASKS = "/tasks";
     private static final String LOGOUT = "/logout";
+
 
     public record AuthorizedRoutes(String route, String name, Class<? extends Component> view) {
     }
@@ -34,7 +34,7 @@ public class Authenticate {
     }
 
     public void authenticate(String username, String password) throws Exception {
-        UserEntity user = userRepository.getByUsername(username);
+        UserEntity user = userRepository.getUserByUsername(username);
         if (user != null && user.checkPassword(password)) {
             VaadinSession.getCurrent().setAttribute(UserEntity.class, user);
             createRoutes(user.getRole());
@@ -52,7 +52,6 @@ public class Authenticate {
 
     private List<AuthorizedRoutes> getAuthorizedRoutes(RoleEnum role) {
         var routes = new ArrayList<AuthorizedRoutes>();
-        // Vi vet att
         if (role.equals(RoleEnum.USER)) {
             routes.add(new AuthorizedRoutes("/login", "Login", LoginView.class));
             routes.add(new AuthorizedRoutes("/tasks", "Tasks", TaskView.class));
@@ -62,4 +61,10 @@ public class Authenticate {
         }
         return routes;
     }
+
+    public void register(String username, String password) {
+        userRepository.save(new UserEntity(username, password, RoleEnum.USER ));
+    }
+
 }
+

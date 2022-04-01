@@ -1,6 +1,7 @@
 package com.example.application.data.entity;
 
 import com.example.application.data.AbstractEntity;
+import com.example.application.security.ViewAccessCheckerInitializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskEntity extends AbstractEntity {
-
     @Column(nullable = false)
     private boolean completed;
 

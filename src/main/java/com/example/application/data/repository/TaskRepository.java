@@ -18,7 +18,5 @@ public interface TaskRepository extends JpaRepository<TaskEntity, UUID> {
     List<TaskEntity> search(@Param("searchTerm") String searchTerm);*/
 }
 
-    //List<TaskEntity> findByOwner_username(String title);
-    //List<TaskEntity> getTaskList();
 
 

@@ -3,11 +3,13 @@ import com.example.application.data.FormEvent;
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.service.TaskService;
 import com.example.application.data.service.UserService;
+import com.example.application.security.SecurityUtils;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -18,12 +20,13 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import java.util.Comparator;
 
 @PageTitle("Tasks")
-@RolesAllowed("USER")
-@Route("tasks")
+@PermitAll
+@Route(value = "/tasks", layout = MainView.class)
 public class TaskView extends VerticalLayout {
 
     @Autowired
@@ -36,7 +39,19 @@ public class TaskView extends VerticalLayout {
     TextField filter = new TextField();
     TaskForm taskForm;
 
+
     public TaskView(TaskService taskService, UserService userService)  {
+       H1 title = new H1 ("THIS SITE IS UNDER CONSTRUCTION");
+       title.addClassName("title");
+        HorizontalLayout header;
+        if (SecurityUtils.isAuthenticated()){
+            Button logout = new Button("Logout", click -> SecurityUtils.logout());
+            header = new HorizontalLayout(logout);
+        }else{
+            header = new HorizontalLayout();
+        }
+        add (header);
+
         this.userService=userService;
         this.taskService=taskService;
         setSizeFull();

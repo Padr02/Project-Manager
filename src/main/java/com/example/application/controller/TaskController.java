@@ -65,4 +65,3 @@ public class TaskController {
         return dtoConverter.entityToResponseDTO(updatedTaskOut);
     }
 }
-

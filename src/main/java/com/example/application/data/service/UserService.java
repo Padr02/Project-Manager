@@ -16,15 +16,16 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    TaskService taskService;
-    TaskRepository taskRepository;
-
     private UserService(@Autowired UserRepository userRepository){
         this.userRepository= userRepository;
     }
 
+
     public List<UserEntity> getUsers(){
         return userRepository.findAll();
+    }
+    public UserEntity getUserByUsername(String username){
+        return userRepository.getUserByUsername(username);
     }
 
     public Optional<UserEntity> getUserById(UUID id){

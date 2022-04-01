@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -34,7 +36,9 @@ public class UserEntity extends AbstractEntity {
     @JsonIgnore
     private Set<TaskEntity> tasks;
 
-    public UserEntity(String username, String password, RoleEnum role) {
+
+
+   public UserEntity(String username, String password, RoleEnum role) {
         this.username = username;
         this.role = role;
         this.passwordSalt = RandomStringUtils.random(32);
@@ -44,6 +48,8 @@ public class UserEntity extends AbstractEntity {
     public boolean checkPassword(String password){
         return DigestUtils.sha1Hex(password + passwordSalt).equals(passwordHash);
     }
+
+
 }
 
 

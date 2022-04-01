@@ -3,7 +3,6 @@ package com.example.application.data.views;
 import com.example.application.data.FormEvent;
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
-import com.example.application.data.service.TaskService;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -17,10 +16,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.shared.Registration;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
-import java.util.Set;
 
 public class TaskForm extends FormLayout {
 
@@ -32,7 +28,6 @@ public class TaskForm extends FormLayout {
     Checkbox completed = new Checkbox("Status");
     TaskEntity task;
     private ComponentEventBus eventBus = null;
-
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -68,7 +63,6 @@ public class TaskForm extends FormLayout {
     }
 
     private void validateAndSave() {
-        System.out.println("här är jag");
         try {
             binder.writeBean(task);
             fireEvent(new FormEvent.SaveEvent(this, task));
