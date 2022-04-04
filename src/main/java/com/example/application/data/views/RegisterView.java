@@ -56,8 +56,9 @@ public class RegisterView extends Composite {
 
     private void saveUser(String username, String email, String password1) {
         try {
-            userService.saveUser(new UserEntity(username, email, RoleEnum.USER,passwordEncoder.encode(password1)));
-            Notification.show("Successful registration");
+           UserEntity user = userService.saveUser(new UserEntity(username, email, RoleEnum.USER,passwordEncoder.encode(password1)));
+            Notification.show("Check the sent link to your email");
+            System.out.println("http://localhost:8080/activate?code=" + user.getActivationCode());
             UI.getCurrent().navigate("/login");
         } catch (Exception e) {
             Notification.show("Something went wrong with the login");
@@ -75,4 +76,5 @@ public class RegisterView extends Composite {
             Notification.show("The passwords do not match");
         }
     }
+
 }

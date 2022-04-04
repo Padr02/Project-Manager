@@ -7,10 +7,10 @@ import com.example.application.security.SecurityUtils;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
@@ -24,8 +24,8 @@ public class TaskForm extends FormLayout {
     TextField title = new TextField("Title");
     DatePicker startDate = new DatePicker("Start date");
     DatePicker deadline = new DatePicker("Deadline");
-    ComboBox<UserEntity> owner = new ComboBox<>("Owner");
-    Binder<TaskEntity> binder = new BeanValidationBinder<>(TaskEntity.class);
+    Select <UserEntity> owner = new Select<>();
+    Binder <TaskEntity> binder = new BeanValidationBinder<>(TaskEntity.class);
     Checkbox completed = new Checkbox("Status");
     TaskEntity task;
     private ComponentEventBus eventBus = null;
@@ -37,6 +37,7 @@ public class TaskForm extends FormLayout {
     public TaskForm(List<UserEntity> users) {
         owner.setItems(users);
         owner.setItemLabelGenerator(UserEntity::getUsername);
+        owner.setLabel("Owner");
         HorizontalLayout header;
         if (SecurityUtils.isAuthenticated()){
             Button logout = new Button("Logout", click -> SecurityUtils.logout());
@@ -62,6 +63,7 @@ public class TaskForm extends FormLayout {
         delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         save.addClickShortcut(Key.ENTER);
+        save.setId("cancelBtn");
         cancel.addClickShortcut(Key.ESCAPE);
         completed.addValueChangeListener(e -> save.setEnabled(binder.isValid()));
         save.addClickListener(event -> validateAndSave());

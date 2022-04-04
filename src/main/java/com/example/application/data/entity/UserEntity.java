@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 
 
 import javax.persistence.*;
@@ -33,6 +35,11 @@ public class UserEntity extends AbstractEntity {
     @Column(nullable = false)
     private String password;
 
+    @Transient
+    private String activationCode;
+    @Transient
+    private boolean active;
+
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<TaskEntity> tasks;
@@ -42,6 +49,7 @@ public class UserEntity extends AbstractEntity {
         this.username = username;
         this.role = role;
         this.password = password;
+       // this.activationCode = RandomStringUtils.randomAlphanumeric(32);
     }
 
 

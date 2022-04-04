@@ -5,12 +5,15 @@ import com.example.application.data.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class UserService {
+
 
     private final UserRepository userRepository;
 
@@ -65,6 +68,17 @@ public class UserService {
         userRepository.save(currOwner); // Stores the new password
         return currOwner;
     }
+
+   /* public void activate(String activationCode) throws AuthenticationException {
+       UserEntity user = userRepository.getByActivationCode(activationCode);
+        if(user != null) {
+            user.setActive(true);
+            userRepository.save(user);
+        }
+        else {
+            throw new AuthenticationException();
+        }
+    }*/
 }
 
 

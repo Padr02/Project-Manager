@@ -7,12 +7,15 @@ import com.example.application.data.service.TaskService;
 import com.example.application.data.service.UserService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -36,11 +39,9 @@ public class TaskView extends VerticalLayout {
     @Autowired
     UserService userService;
 
-
     Grid<TaskEntity> grid = new Grid<>(TaskEntity.class);
     TextField filter = new TextField();
     TaskForm taskForm;
-
 
     public TaskView(TaskService taskService, UserService userService)  {
        H1 title = new H1 ("THIS SITE IS UNDER CONSTRUCTION");
@@ -98,7 +99,6 @@ public class TaskView extends VerticalLayout {
     }
 
     private void updateFromFilter() {
-
         grid.setItems(taskService.getTasksByFilter(filter.getValue()));
     }
 
@@ -107,12 +107,18 @@ public class TaskView extends VerticalLayout {
         filter.setClearButtonVisible(true);
         filter.setValueChangeMode(ValueChangeMode.LAZY);
         filter.addValueChangeListener(e -> updateFromFilter());
-        Button addTaskBtn = new Button("Add task");
+        filter.setWidth("2000px");
+        Button addTaskBtn = new Button("Add task",new Icon(VaadinIcon.PLUS));
+        addTaskBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         addTaskBtn.addClickListener(click -> addTask());
+        addTaskBtn.setWidth("200px");
         HorizontalLayout horizontalLayout = new HorizontalLayout(filter, addTaskBtn);
         horizontalLayout.setAlignItems(Alignment.CENTER);
+        horizontalLayout.setJustifyContentMode(JustifyContentMode.END);
+        horizontalLayout.setWidth("-webkit-fill-available");
         return horizontalLayout;
     }
+
     void addTask() {
         grid.asSingleSelect().clear();
         editTask(new TaskEntity());
@@ -122,6 +128,7 @@ public class TaskView extends VerticalLayout {
         /*if(userService.getUsers() == null)*/
 
         grid.setSizeFull();
+
         grid.setColumns("title", "startDate", "deadline");
         grid.addComponentColumn((item) -> {
            Icon icon;
@@ -148,6 +155,10 @@ public class TaskView extends VerticalLayout {
             taskForm.setTask(task);
             taskForm.setVisible(true);
         }
+    }
+
+    public void headerConfig() {
+        Header header = new Header();
     }
 }
 

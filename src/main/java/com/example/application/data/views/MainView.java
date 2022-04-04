@@ -2,6 +2,7 @@ package com.example.application.data.views;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.cookieconsent.CookieConsent;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -19,6 +20,7 @@ import javax.annotation.security.PermitAll;
 public class MainView extends VerticalLayout {
     HorizontalLayout horizontalBtns = new HorizontalLayout();
     VerticalLayout verticalTitle = new VerticalLayout();
+
 
     public MainView() {
 

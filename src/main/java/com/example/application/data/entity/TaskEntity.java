@@ -17,6 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskEntity extends AbstractEntity {
+
     @Column(nullable = false)
     private boolean completed;
 
@@ -35,9 +36,7 @@ public class TaskEntity extends AbstractEntity {
     private UserEntity owner;
 
     public String getOwnerName(){
-
         return this.owner.getUsername();
     }
-
 
 }

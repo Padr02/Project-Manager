@@ -37,17 +37,5 @@ public class Application extends SpringBootServletInitializer implements AppShel
         SpringApplication.run(Application.class, args);
     }
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    @Bean
-    public CommandLineRunner run(UserRepository userRepository, TaskRepository taskRepository) {
-        return args -> {
-
-          // taskRepository.save(new TaskEntity(false,"Testigen", LocalDate.now(), LocalDate.now(),userRepository.save(new UserEntity("connie", RoleEnum.ADMIN,passwordEncoder.encode("hejsan")))));
-           //taskRepository.save(new TaskEntity(false,"Testigen2",LocalDate.now(),LocalDate.now(),userRepository.save( new UserEntity("sebbe",RoleEnum.USER, passwordEncoder.encode(("hejsan"))))));
-           //taskRepository.save(new TaskEntity(false,"Testigen3", LocalDate.now(),LocalDate.now(),userRepository.save( new UserEntity("pavel",RoleEnum.USER, passwordEncoder.encode("hejsan")))));
-
-        };
-    }
 }
