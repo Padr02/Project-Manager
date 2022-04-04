@@ -28,9 +28,11 @@ Once the JAR file is built, you can run it using
 - `MainLayout.java` in `src/main/java` contains the navigation setup (i.e., the
   side/top bar and the main menu). This setup uses
   [App Layout](https://vaadin.com/components/vaadin-app-layout).
-- `views` package in `src/main/java` contains the server-side Java views of your application.
-- `views` folder in `frontend/` contains the client-side JavaScript views of your application.
+- `views` package in `src/main/java` contains the server-side Java views of the application.
+- `views` folder in `frontend/` contains the client-side JavaScript views of the application.
 - `themes` folder in `frontend/` contains the custom CSS styles.
+- The security syntax is mainly based on the Vaadin documentation and their advice on best practices. They can be found through this link: 
+[Vaadin_security][https://vaadin.com/docs/latest/flow/security/best-practices]
 
 ## Useful links
 

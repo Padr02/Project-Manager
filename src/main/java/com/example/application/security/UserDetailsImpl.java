@@ -9,12 +9,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Class that implements the methods related to UserDetails that is connected to Spring Security
+ *
+ */
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-
     UserEntity user;
 
+    /**
+     * implements spring security userdetails and connects it to our own entity model
+     * @return the list  grantedAuthorities
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         final List<GrantedAuthority> grantedAuthorities = new ArrayList<>();

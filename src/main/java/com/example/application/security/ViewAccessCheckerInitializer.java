@@ -1,6 +1,7 @@
 package com.example.application.security;
 
 import com.example.application.data.views.LoginView;
+import com.example.application.data.views.MainView;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
 import com.vaadin.flow.server.auth.ViewAccessChecker;
@@ -26,7 +27,7 @@ public class ViewAccessCheckerInitializer implements VaadinServiceInitListener {
      */
     @Override
     public void serviceInit(ServiceInitEvent event) {
-        event.getSource().addUIInitListener(e ->{
+        event.getSource().addUIInitListener(e -> {
             e.getUI().addBeforeEnterListener(viewAccessChecker);
         });
     }

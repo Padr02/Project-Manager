@@ -25,7 +25,7 @@ import java.util.Comparator;
 
 @PageTitle("Tasks")
 @PermitAll
-@Route(value = "/tasks", layout = MainView.class)
+@Route(value = "/tasks")
 public class TaskView extends VerticalLayout {
 
     @Autowired

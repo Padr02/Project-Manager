@@ -1,26 +1,19 @@
 package com.example.application.data.views;
 
-import com.example.application.data.repository.UserRepository;
-
-
 import com.example.application.security.SecurityUtils;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.login.AbstractLogin;
 import com.vaadin.flow.component.login.LoginForm;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
-import javax.annotation.security.PermitAll;
-
-@PageTitle("Login")
+@PageTitle("PCS Login")
 @AnonymousAllowed
 @Route(value = "/login")
 public class LoginView extends Composite<VerticalLayout> implements BeforeEnterObserver,ComponentEventListener<AbstractLogin.LoginEvent> {
@@ -29,9 +22,6 @@ public class LoginView extends Composite<VerticalLayout> implements BeforeEnterO
 
     private LoginForm loginForm = new LoginForm();
 
-    /**
-     * Constructor for the Login  view
-     */
     public LoginView() {
         VerticalLayout vertical = getContent();
         vertical.add(new H1("Project Manager 1.0"));
@@ -44,7 +34,7 @@ public class LoginView extends Composite<VerticalLayout> implements BeforeEnterO
     }
 
     /**
-    * Checks if user is authenticated before using queries to access resources
+    * Check if user is authenticated by comparing keys before granting access to the requested resource
     * @param event
     */
     @Override
@@ -54,11 +44,12 @@ public class LoginView extends Composite<VerticalLayout> implements BeforeEnterO
                 .getParameters()
                 .containsKey("error")) {
             loginForm.setError(true);
+            // FRÅGETECKEN: Behöver vi sätta liknande för taskform i taskview för att begränsa behörigheten till resurser till rätt användare/ägare?
         }
     }
 
      /**
-     * Checks if the user is authenticated and redirects to a resource depending on the outcome
+     * Check if the user is authenticated and redirect to a resource depending on the outcome and provides a CSRF token after successful login
      *
      * @param event
      */
@@ -71,5 +62,4 @@ public class LoginView extends Composite<VerticalLayout> implements BeforeEnterO
              loginForm.setError(true);
          }
      }
-
 }

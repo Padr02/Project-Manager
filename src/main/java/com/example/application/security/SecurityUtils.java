@@ -5,13 +5,19 @@ import com.vaadin.flow.server.VaadinServletRequest;
 import com.vaadin.flow.server.VaadinSession;
 import javax.servlet.ServletException;
 
+/**
+ *  Manages the authentication and protects the resources by checking if user is logged in
+ *  Also manages the logout session to protect the resources
+ *
+ */
 public class SecurityUtils {
 
-    public static String LOGOUT_SUCCESS_URL = "/login";
+    public static String LOGOUT_SUCCESS_URL = "/";
 
     /**
      * VaadinServlet contains the request that is sent to the server
      * Principal contains the name of the user that makes the request
+     * Vaadin constantly checks if the user is authenticated before allowing access to a requested resource and returns false if the user no longer is authenticated
      *
      * @return null if the object is null
      */
@@ -22,12 +28,12 @@ public class SecurityUtils {
 
     /**
      * VaadinServlet first authenticates and then binds the request to an authenticated user
-     *
+     * Authenticate the user with the given credentials. The authenticate() method fails if it is called from a background thread; call must come from the foreground.
      * @param username
      * @param password
      * @return false if the user is not authorized to login
      */
-    public static boolean authenticate(String username, String password){
+    public static boolean authenticate(String username, String password) {
         VaadinServletRequest request = VaadinServletRequest.getCurrent();
         if (request == null) {
             return false;
@@ -40,7 +46,7 @@ public class SecurityUtils {
     }
 
     /**
-     * Invalidate the session when user logs out and redirect user to the login page
+     * Invalidate the session when user logs out and redirect user to the main page
      *
      */
     public static void logout() {

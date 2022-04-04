@@ -15,7 +15,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @PageTitle("Register")
-@Route(value = "/register", layout = MainView.class)
+@Route(value = "/register")
 @AnonymousAllowed
 public class RegisterView extends Composite {
 

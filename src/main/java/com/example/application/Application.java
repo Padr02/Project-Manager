@@ -43,7 +43,7 @@ public class Application extends SpringBootServletInitializer implements AppShel
     private PasswordEncoder passwordEncoder;
 
     @Bean
-    public CommandLineRunner run(UserRepository userRepository, TaskRepository taskRepository){
+    public CommandLineRunner run(UserRepository userRepository, TaskRepository taskRepository) {
         return args -> {
 
            //taskRepository.save(new TaskEntity(false,"Testigen", LocalDate.now(),LocalDate.now(),userRepository.save(new UserEntity("connie",RoleEnum.ADMIN,passwordEncoder.encode("hejsan")))));
