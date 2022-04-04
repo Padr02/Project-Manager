@@ -1,7 +1,6 @@
 package com.example.application.security;
 
 import com.example.application.data.views.LoginView;
-import com.example.application.data.views.MainView;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
 import com.vaadin.flow.server.auth.ViewAccessChecker;

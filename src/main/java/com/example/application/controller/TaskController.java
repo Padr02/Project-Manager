@@ -2,19 +2,14 @@ package com.example.application.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.service.TaskService;
 import com.example.application.data.service.UserService;
 import com.example.application.dto.DtoConverter;
-/*import com.example.application.dto.TaskRequestDTO;
-import com.example.application.dto.TaskResponseDTO;*/
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
-
-
 
 @RequiredArgsConstructor
 public class TaskController {

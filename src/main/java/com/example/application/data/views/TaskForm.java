@@ -37,7 +37,6 @@ public class TaskForm extends FormLayout {
     public TaskForm(List<UserEntity> users) {
         owner.setItems(users);
         owner.setItemLabelGenerator(UserEntity::getUsername);
-        owner.setEnabled(false);
         HorizontalLayout header;
         if (SecurityUtils.isAuthenticated()){
             Button logout = new Button("Logout", click -> SecurityUtils.logout());

@@ -5,7 +5,6 @@ import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.repository.TaskRepository;
 import com.example.application.data.repository.UserRepository;
-import com.example.application.data.views.LoginView;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.server.PWA;
@@ -20,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
-
 
 /**
  * The entry point of the Spring Boot application.
@@ -46,9 +44,9 @@ public class Application extends SpringBootServletInitializer implements AppShel
     public CommandLineRunner run(UserRepository userRepository, TaskRepository taskRepository) {
         return args -> {
 
-           //taskRepository.save(new TaskEntity(false,"Testigen", LocalDate.now(),LocalDate.now(),userRepository.save(new UserEntity("connie",RoleEnum.ADMIN,passwordEncoder.encode("hejsan")))));
-           // taskRepository.save(new TaskEntity(false,"Testigen2",LocalDate.now(),LocalDate.now(),userRepository.save( new UserEntity("sebbe",RoleEnum.USER, passwordEncoder.encode(("hejsan"))))));
-            //taskRepository.save(new TaskEntity(false,"Testigen3", LocalDate.now(),LocalDate.now(),userRepository.save( new UserEntity("pavel","hejsan", RoleEnum.USER))));
+          // taskRepository.save(new TaskEntity(false,"Testigen", LocalDate.now(), LocalDate.now(),userRepository.save(new UserEntity("connie", RoleEnum.ADMIN,passwordEncoder.encode("hejsan")))));
+           //taskRepository.save(new TaskEntity(false,"Testigen2",LocalDate.now(),LocalDate.now(),userRepository.save( new UserEntity("sebbe",RoleEnum.USER, passwordEncoder.encode(("hejsan"))))));
+           //taskRepository.save(new TaskEntity(false,"Testigen3", LocalDate.now(),LocalDate.now(),userRepository.save( new UserEntity("pavel",RoleEnum.USER, passwordEncoder.encode("hejsan")))));
 
         };
     }

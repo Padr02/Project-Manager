@@ -16,7 +16,7 @@ public class DtoConverter {
 
     public record TaskRequestDTO(String title, LocalDate deadline, UUID ownerId) { }
     public record TaskResponseDTO(UUID id, boolean completed, String title, LocalDate startDate, LocalDate deadline, String owner, UUID ownerId) { }
-    public record UserRequestDTO(String username, String password) { }
+    public record UserRequestDTO(String username, String email, String password) { }
     public record UserResponseDTO(String username, UUID id, RoleEnum role) { }
 
     @Autowired
@@ -49,6 +49,7 @@ public class DtoConverter {
     public UserEntity RequestDtoToEntity(UserRequestDTO userRequestDTO){
         System.out.println(userRequestDTO.password());
         return new UserEntity(userRequestDTO.username(),
+                userRequestDTO.email,
                 RoleEnum.USER,
                 userRequestDTO.password());
     }

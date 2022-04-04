@@ -6,13 +6,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.Set;
 
 @Data
@@ -25,25 +22,26 @@ public class UserEntity extends AbstractEntity {
     @Column (nullable = false ,unique = true)
     private String username;
 
+    @Email
+    @Column(nullable = false)
+    private String email;
+
     @Column (nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleEnum role; // måste kollas upp
 
     @Column(nullable = false)
-    private String passwordSalt;
-
-    //@Column(nullable = false)
-    //private String passwordHash;
+    private String password;
 
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<TaskEntity> tasks;
 
-
-    public UserEntity(String username, RoleEnum role, String passwordSalt) {
+    public UserEntity(String username,String email, RoleEnum role, String password) {
+        this.email=email;
         this.username = username;
         this.role = role;
-        this.passwordSalt = passwordSalt;
+        this.password = password;
     }
 }
 

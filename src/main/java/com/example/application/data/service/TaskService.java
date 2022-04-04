@@ -28,6 +28,7 @@ public class TaskService {
             return taskRepository.search(username);
         }
     }
+
     // TODO: Ifall någon vill så kan motarbeta dubbletter med en check
     public TaskEntity saveTask(TaskEntity task) {
         return taskRepository.save(task);

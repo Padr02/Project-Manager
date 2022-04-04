@@ -4,7 +4,6 @@ import com.example.application.data.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +19,7 @@ public class UserDetailsImpl implements UserDetails {
 
     /**
      * implements spring security userdetails and connects it to our own entity model
-     * @return the list  grantedAuthorities
+     * @return the list of grantedAuthorities
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -30,7 +29,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPasswordSalt();
+        return user.getPassword();
     }
 
     @Override

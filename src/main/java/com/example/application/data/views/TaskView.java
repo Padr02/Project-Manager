@@ -1,6 +1,8 @@
 package com.example.application.data.views;
 import com.example.application.data.FormEvent;
 import com.example.application.data.entity.TaskEntity;
+import com.example.application.data.entity.UserEntity;
+import com.example.application.data.repository.TaskRepository;
 import com.example.application.data.service.TaskService;
 import com.example.application.data.service.UserService;
 import com.vaadin.flow.component.Component;
@@ -33,6 +35,10 @@ public class TaskView extends VerticalLayout {
 
     @Autowired
     UserService userService;
+
+
+    @Autowired
+    TaskEntity taskEntity;
 
     Grid<TaskEntity> grid = new Grid<>(TaskEntity.class);
     TextField filter = new TextField();
@@ -95,6 +101,7 @@ public class TaskView extends VerticalLayout {
     }
 
     private void updateFromFilter() {
+
         grid.setItems(taskService.getTasksByFilter(filter.getValue()));
     }
 
@@ -115,6 +122,8 @@ public class TaskView extends VerticalLayout {
     }
 
     private void configureGrid() {
+        /*if(userService.getUsers() == null)*/
+
         grid.setSizeFull();
         grid.setColumns("title", "startDate", "deadline");
         grid.addComponentColumn((item) -> {
@@ -129,9 +138,19 @@ public class TaskView extends VerticalLayout {
            return icon;
         }).setKey("completed").setComparator(Comparator.comparing(TaskEntity::isCompleted)).setHeader("Completed");
         grid.getColumnByKey("completed").setTextAlign(ColumnTextAlign.CENTER);
-        grid.addColumn(user -> user.getOwner().getUsername()).setHeader("Owner");
+        grid.addColumn(getOwnerCustom());
         grid.getColumns().forEach(column -> column.setAutoWidth(true));
         grid.asSingleSelect().addValueChangeListener(task -> editTask(task.getValue()));
+    }
+
+    private String getOwnerCustom() {
+
+        if (taskEntity.getOwner().getUsername()==null){
+                return "";
+        }
+        else {
+            return taskEntity.getOwner().getUsername();
+        }
     }
 
     public void editTask(TaskEntity task){

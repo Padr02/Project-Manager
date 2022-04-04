@@ -9,17 +9,16 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import javax.annotation.security.PermitAll;
 
 @PageTitle("Main page")
 @Route("/")
-@PermitAll
+@AnonymousAllowed
 public class MainView extends VerticalLayout {
     HorizontalLayout horizontalBtns = new HorizontalLayout();
     VerticalLayout verticalTitle = new VerticalLayout();
-
-
 
     public MainView() {
 
@@ -32,17 +31,13 @@ public class MainView extends VerticalLayout {
     }
 
     private void verticalLayoutConfig() {
-
         H1 title = new H1("PCS Project Manager 1.0");
         Image image = new Image("/images/pcs.png","PCS-logo");
         verticalTitle.setSizeFull();
         verticalTitle.setAlignItems(Alignment.CENTER);
         verticalTitle.setJustifyContentMode(JustifyContentMode.CENTER);
         verticalTitle.add(title,image);
-
     }
-
-
 
     private void horizontalLayoutConfig() {
         Button loginButton = new Button("Login", event -> UI.getCurrent().navigate("login"));
@@ -51,8 +46,5 @@ public class MainView extends VerticalLayout {
         horizontalBtns.setJustifyContentMode(JustifyContentMode.END);
         horizontalBtns.setAlignItems(FlexComponent.Alignment.CENTER);
         horizontalBtns.setWidthFull();
-
-
-
     }
 }
