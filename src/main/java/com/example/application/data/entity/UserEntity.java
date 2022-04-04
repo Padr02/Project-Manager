@@ -43,6 +43,8 @@ public class UserEntity extends AbstractEntity {
         this.role = role;
         this.password = password;
     }
+
+
 }
 
 

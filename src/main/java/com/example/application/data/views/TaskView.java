@@ -37,9 +37,6 @@ public class TaskView extends VerticalLayout {
     UserService userService;
 
 
-    @Autowired
-    TaskEntity taskEntity;
-
     Grid<TaskEntity> grid = new Grid<>(TaskEntity.class);
     TextField filter = new TextField();
     TaskForm taskForm;
@@ -138,20 +135,11 @@ public class TaskView extends VerticalLayout {
            return icon;
         }).setKey("completed").setComparator(Comparator.comparing(TaskEntity::isCompleted)).setHeader("Completed");
         grid.getColumnByKey("completed").setTextAlign(ColumnTextAlign.CENTER);
-        grid.addColumn(getOwnerCustom());
+        grid.addColumn(TaskEntity::getOwnerName).setHeader("Owner");
         grid.getColumns().forEach(column -> column.setAutoWidth(true));
         grid.asSingleSelect().addValueChangeListener(task -> editTask(task.getValue()));
     }
 
-    private String getOwnerCustom() {
-
-        if (taskEntity.getOwner().getUsername()==null){
-                return "";
-        }
-        else {
-            return taskEntity.getOwner().getUsername();
-        }
-    }
 
     public void editTask(TaskEntity task){
         if (task == null) {
