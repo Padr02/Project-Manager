@@ -35,24 +35,21 @@ public class UserEntity extends AbstractEntity {
     @Column(nullable = false)
     private String password;
 
-    @Transient
-    private String activationCode;
-    @Transient
-    private boolean active;
-
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<TaskEntity> tasks;
+
+    @Transient
+    @Column(name = "enabled")
+    private boolean enabled;
 
     public UserEntity(String username,String email, RoleEnum role, String password) {
         this.email=email;
         this.username = username;
         this.role = role;
         this.password = password;
-       // this.activationCode = RandomStringUtils.randomAlphanumeric(32);
+        this.enabled = false;
     }
-
-
 }
 
 

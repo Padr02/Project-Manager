@@ -44,7 +44,7 @@ public class MainView extends VerticalLayout {
     private void horizontalLayoutConfig() {
         Button loginButton = new Button("Login", event -> UI.getCurrent().navigate("login"));
         Button signupButton = new Button("Signup", event -> UI.getCurrent().navigate("register"));
-        horizontalBtns.add(loginButton,signupButton);
+        horizontalBtns.add(loginButton, signupButton);
         horizontalBtns.setJustifyContentMode(JustifyContentMode.END);
         horizontalBtns.setAlignItems(FlexComponent.Alignment.CENTER);
         horizontalBtns.setWidthFull();

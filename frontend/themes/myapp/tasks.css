@@ -25,8 +25,13 @@ vaadin-button {
     font-family: 'Ubuntu', sans-serif;
     background-color: #14FFEC;
     letter-spacing: .15rem;
+    font-size: 1rem;
 }
 
 vaadin-button:hover {
     background-color: #ff7f00;
+}
+
+#saveBtn, #deleteBtn, #saveBtn {
+    color: #2b908f;
 }

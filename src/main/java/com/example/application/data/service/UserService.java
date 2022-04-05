@@ -5,8 +5,6 @@ import com.example.application.data.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,10 +12,9 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-
     private final UserRepository userRepository;
 
-    private UserService(@Autowired UserRepository userRepository){
+    private UserService(@Autowired UserRepository userRepository) {
         this.userRepository= userRepository;
     }
 
@@ -28,6 +25,7 @@ public class UserService {
     public Optional<UserEntity> getUserById(UUID id){
         return userRepository.findById(id);
     }
+
 
     public UserEntity saveUser(UserEntity user){
         return userRepository.save(user);
@@ -61,7 +59,6 @@ public class UserService {
               .filter(user -> user.getUsername().equals(username)).toList();
     }
 
-
     public UserEntity updateOwner(UUID id, UserEntity updatedOwnerIn) {
         UserEntity currOwner = userRepository.findById(id).orElseThrow(); // Retrieve the object
         BeanUtils.copyProperties(updatedOwnerIn, currOwner,  "id"); // Update the old with the new
@@ -69,16 +66,6 @@ public class UserService {
         return currOwner;
     }
 
-   /* public void activate(String activationCode) throws AuthenticationException {
-       UserEntity user = userRepository.getByActivationCode(activationCode);
-        if(user != null) {
-            user.setActive(true);
-            userRepository.save(user);
-        }
-        else {
-            throw new AuthenticationException();
-        }
-    }*/
 }
 
 

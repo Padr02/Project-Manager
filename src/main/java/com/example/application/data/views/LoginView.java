@@ -34,7 +34,7 @@ public class LoginView extends Composite<VerticalLayout> implements BeforeEnterO
     }
 
     /**
-    * Check if user is authenticated by comparing keys before granting access to the requested resource
+    * Check if user is authenticated by checking whether the URL contains "error" as parameter before granting access to the requested resource
     * @param event
     */
     @Override

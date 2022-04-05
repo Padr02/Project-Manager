@@ -35,6 +35,8 @@ public class TaskEntity extends AbstractEntity {
     @JoinColumn(name = "user_id")
     private UserEntity owner;
 
+
+
     public String getOwnerName(){
         return this.owner.getUsername();
     }
