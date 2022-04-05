@@ -17,7 +17,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @PageTitle("Register")
@@ -74,5 +73,4 @@ public class RegisterView extends Composite {
             Notification.show("The passwords do not match");
         }
     }
-
 }

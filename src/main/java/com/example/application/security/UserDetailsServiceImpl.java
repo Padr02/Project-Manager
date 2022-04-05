@@ -12,7 +12,6 @@ import javax.transaction.Transactional;
 
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-    
 
    @Autowired
    private UserRepository userRepository;
@@ -25,11 +24,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      *
      * @throws UsernameNotFoundException if the user cannot be found in the repository
      */
-       @Transactional
-       @Override
-        public UserDetails loadUserByUsername(String userName)
-               throws UsernameNotFoundException {
-           UserEntity user = userRepository.findByUsername(userName);
-          return new UserDetailsImpl(user);
-       }
+    @Transactional
+    @Override
+    public UserDetails loadUserByUsername(String userName)
+           throws UsernameNotFoundException {
+       UserEntity user = userRepository.findByUsername(userName);
+      return new UserDetailsImpl(user);
+    }
 }

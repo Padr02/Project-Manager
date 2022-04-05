@@ -37,8 +37,8 @@ public abstract class AbstractEntity {
         if (!(obj instanceof AbstractEntity)) {
             return false; // null or other class
         }
-        AbstractEntity other = (AbstractEntity) obj;
 
+        AbstractEntity other = (AbstractEntity) obj;
         if (id != null) {
             return id.equals(other.id);
         }

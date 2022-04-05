@@ -1,6 +1,6 @@
 package com.example.application.data.views;
+
 import com.example.application.data.FormEvent;
-import com.example.application.data.RoleEnum;
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.service.TaskService;
 import com.example.application.data.service.UserService;
@@ -10,8 +10,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -23,41 +21,35 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import java.util.Comparator;
 
 @PageTitle("Tasks")
 @PermitAll
-@Route(value = "/tasks")
+
+@Route(value = "/tasks", layout = Navbar.class)
 public class TaskView extends VerticalLayout {
 
     @Autowired
     TaskService taskService;
     @Autowired
     UserService userService;
-
+    SecurityUtils securityUtils;
 
     Grid<TaskEntity> grid = new Grid<>(TaskEntity.class);
     TextField filter = new TextField();
     TaskForm taskForm;
-    public TaskView(TaskService taskService, UserService userService)  {
+
+    public TaskView(TaskService taskService, UserService userService, SecurityUtils securityUtils) {
         this.userService = userService;
         this.taskService = taskService;
+        this.securityUtils = securityUtils;
         if (SecurityUtils.isAuthenticated()) {
-            Notification.show("Hello " + SecurityUtils.getName());
+            Notification.show("Welcome to PCS " + SecurityUtils.getName());
         }
-       H1 title = new H1 ("THIS SITE IS UNDER CONSTRUCTION");
-       title.addClassName("title");
-       HorizontalLayout header;
-       /* if (SecurityUtils.isAuthenticated()){
-            Button logout = new Button("Logout", click -> SecurityUtils.logout());
-            header = new HorizontalLayout(logout);
-        } else {
-            header = new HorizontalLayout();
-        }*/
-       // add (header);
+        //H1 title = new H1("THIS SITE IS UNDER CONSTRUCTION");
+        //title.addClassName("title");
+        //HorizontalLayout header;
         setSizeFull();
         configureGrid();
         configureForm();
@@ -72,11 +64,11 @@ public class TaskView extends VerticalLayout {
     }
 
     private Component getContent() {
-       HorizontalLayout content = new HorizontalLayout(grid, taskForm);
-       content.setFlexGrow(2, grid);
-       content.setFlexGrow(1, taskForm);
-       content.setSizeFull();
-       return content;
+        HorizontalLayout content = new HorizontalLayout(grid, taskForm);
+        content.setFlexGrow(2, grid);
+        content.setFlexGrow(1, taskForm);
+        content.setSizeFull();
+        return content;
     }
 
     private void configureForm() {
@@ -87,8 +79,9 @@ public class TaskView extends VerticalLayout {
         taskForm.addListener(FormEvent.CloseEvent.class, e -> closeEditor());
     }
 
-    private void saveTask(FormEvent.SaveEvent event){
-        if (checkRoleLoggedIn()) {
+    private void saveTask(FormEvent.SaveEvent event) {
+        if (SecurityUtils.getRole().contains(new SimpleGrantedAuthority("ADMIN"))
+                || SecurityUtils.getName().equals(taskForm.task.getOwnerName())) {
             taskService.saveTask(event.getTask());
             updateFromFilter();
             closeEditor();
@@ -98,7 +91,8 @@ public class TaskView extends VerticalLayout {
     }
 
     private void deleteTask(FormEvent.DeleteEvent event) {
-        if (checkRoleLoggedIn()) {
+        if (SecurityUtils.getRole().contains(new SimpleGrantedAuthority("ADMIN"))
+                || SecurityUtils.getName().equals(taskForm.task.getOwnerName())) {
             taskService.deleteTask(event.getTask().getId());
             updateFromFilter();
             closeEditor();
@@ -117,11 +111,12 @@ public class TaskView extends VerticalLayout {
         filter.setValueChangeMode(ValueChangeMode.LAZY);
         filter.addValueChangeListener(e -> updateFromFilter());
         filter.setWidth("2000px");
-        Button addTaskBtn = new Button("Add task", new Icon(VaadinIcon.PLUS));
 
+        Button addTaskBtn = new Button("Add task", new Icon(VaadinIcon.PLUS));
         addTaskBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         addTaskBtn.addClickListener(click -> addTask());
         addTaskBtn.setWidth("200px");
+
         HorizontalLayout horizontalLayout = new HorizontalLayout(filter, addTaskBtn);
         horizontalLayout.setAlignItems(Alignment.CENTER);
         horizontalLayout.setJustifyContentMode(JustifyContentMode.END);
@@ -131,45 +126,37 @@ public class TaskView extends VerticalLayout {
 
     void addTask() {
         grid.asSingleSelect().clear();
-        editTask(new TaskEntity());
+        grid.getColumnByKey("owner");
+        editTask(new TaskEntity(securityUtils.getAppUserFromPrincipal()));
     }
 
     private void configureGrid() {
         grid.setSizeFull();
         grid.setColumns("title", "startDate", "deadline");
         grid.addComponentColumn((item) -> {
-           Icon icon;
-           if (item.isCompleted()) {
-               icon=VaadinIcon.CHECK.create();
-               icon.setColor("hsla(145, 92%, 51%, 0.5)");
-           } else {
-               icon=VaadinIcon.CLOSE.create();
-               icon.setColor("hsla(3, 75%, 62%, 0.5)");
-           }
-           return icon;
+            Icon icon;
+            if (item.isCompleted()) {
+                icon = VaadinIcon.CHECK.create();
+                icon.setColor("hsla(145, 92%, 51%, 0.5)");
+            } else {
+                icon = VaadinIcon.CLOSE.create();
+                icon.setColor("hsla(3, 75%, 62%, 0.5)");
+            }
+            return icon;
         }).setKey("completed").setComparator(Comparator.comparing(TaskEntity::isCompleted)).setHeader("Completed");
         grid.getColumnByKey("completed").setTextAlign(ColumnTextAlign.CENTER);
-        grid.addColumn(TaskEntity::getOwnerName).setHeader("Owner");
+        grid.addColumn(TaskEntity::getOwnerName).setHeader("Owner").setKey("owner");
         grid.getColumns().forEach(column -> column.setAutoWidth(true));
         grid.asSingleSelect().addValueChangeListener(task -> editTask(task.getValue()));
     }
 
-    public void editTask(TaskEntity task){
+    public void editTask(TaskEntity task) {
         if (task == null) {
             closeEditor();
         } else {
             taskForm.setTask(task);
             taskForm.setVisible(true);
         }
-    }
-
-    public void headerConfig() {
-        Header header = new Header();
-    }
-
-    private boolean checkRoleLoggedIn() {
-        return SecurityUtils.getRole().contains(new SimpleGrantedAuthority("ADMIN"))
-                || SecurityUtils.getName().equals(taskForm.task.getOwnerName());
     }
 }
 

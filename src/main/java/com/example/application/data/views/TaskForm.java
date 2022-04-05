@@ -1,18 +1,14 @@
 package com.example.application.data.views;
 
 import com.example.application.data.FormEvent;
-import com.example.application.data.RoleEnum;
 import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.security.SecurityUtils;
-import com.example.application.security.UserDetailsImpl;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
@@ -21,9 +17,6 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.shared.Registration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 import java.util.List;
 
 public class TaskForm extends FormLayout {
@@ -42,9 +35,14 @@ public class TaskForm extends FormLayout {
     Button cancel = new Button("Cancel");
 
     public TaskForm(List<UserEntity> users) {
-            owner.setItems(users);
             owner.setItemLabelGenerator(UserEntity::getUsername);
             owner.setLabel("Owner");
+            if (!SecurityUtils.isAuthorized()){
+                owner.setEnabled(false);
+            }
+            owner.setItems(users);
+
+            //owner.setValue(users.get(0));
             HorizontalLayout header;
             if (SecurityUtils.isAuthenticated()) {
                 Button logout = new Button("Logout", click -> SecurityUtils.logout());
@@ -56,7 +54,6 @@ public class TaskForm extends FormLayout {
             //status.setValue(task.isCompleted());
             add(title, startDate, deadline, owner, completed, createBtnLayout());
             binder.bindInstanceFields(this);
-
     }
 
     // TODO: Kontroll att man inte får lägga in en task deadline som är före startdatum
@@ -67,8 +64,8 @@ public class TaskForm extends FormLayout {
 
     private Component createBtnLayout() {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        delete.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        cancel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         save.addClickShortcut(Key.ENTER);
         cancel.addClickShortcut(Key.ESCAPE);
         completed.addValueChangeListener(e -> save.setEnabled(binder.isValid()));

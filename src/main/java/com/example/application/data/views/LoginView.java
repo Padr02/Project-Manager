@@ -44,7 +44,6 @@ public class LoginView extends Composite<VerticalLayout> implements BeforeEnterO
                 .getParameters()
                 .containsKey("error")) {
             loginForm.setError(true);
-            // FRÅGETECKEN: Behöver vi sätta liknande för taskform i taskview för att begränsa behörigheten till resurser till rätt användare/ägare?
         }
     }
 

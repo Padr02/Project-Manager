@@ -32,6 +32,12 @@ vaadin-button:hover {
     background-color: #ff7f00;
 }
 
-#saveBtn, #deleteBtn, #saveBtn {
-    color: #2b908f;
+
+vaadin-grid {
+    padding: 0;
+    box-shadow: inset 2px 2px 8px #2a2a2a,
+    inset -2px -2px 24px #3a3a3a;
 }
+
+
+

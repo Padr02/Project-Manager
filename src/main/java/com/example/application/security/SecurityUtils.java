@@ -7,9 +7,9 @@ import com.vaadin.flow.server.VaadinServletRequest;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.ServletException;
 import java.util.Collection;
 
@@ -21,7 +21,14 @@ import java.util.Collection;
 @Service
 public class SecurityUtils {
 
+    @Autowired
+    UserRepository userRepository;
+
     public static String LOGOUT_SUCCESS_URL = "/";
+
+    public UserEntity getAppUserFromPrincipal() {
+        return userRepository.findUserEntityByUsername(getName()).orElseThrow();
+    }
 
     public static String getName() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
@@ -29,6 +36,10 @@ public class SecurityUtils {
 
     public static Collection<? extends GrantedAuthority> getRole() {
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+    }
+
+    public static boolean isAuthorized() {
+        return getRole().contains(new SimpleGrantedAuthority("ADMIN"));
     }
 
     /**
@@ -56,6 +67,7 @@ public class SecurityUtils {
         VaadinServletRequest request = VaadinServletRequest.getCurrent();
         return request != null && request.getUserPrincipal() != null;
     }
+
 
     /**
      * VaadinServlet first authenticates and then binds the request to an authenticated user

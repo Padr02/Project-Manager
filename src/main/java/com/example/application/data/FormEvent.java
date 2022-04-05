@@ -38,6 +38,5 @@ public abstract class FormEvent extends ComponentEvent<TaskForm> {
             super(source, null);
         }
     }
-
 }
 

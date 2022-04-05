@@ -2,7 +2,6 @@ package com.example.application.data.views;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.cookieconsent.CookieConsent;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -12,8 +11,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
-import javax.annotation.security.PermitAll;
-
 @PageTitle("Main page")
 @Route("/")
 @AnonymousAllowed
@@ -21,15 +18,12 @@ public class MainView extends VerticalLayout {
     HorizontalLayout horizontalBtns = new HorizontalLayout();
     VerticalLayout verticalTitle = new VerticalLayout();
 
-
     public MainView() {
-
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
         horizontalLayoutConfig();
         verticalLayoutConfig();
         add(horizontalBtns,verticalTitle);
-
     }
 
     private void verticalLayoutConfig() {
