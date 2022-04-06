@@ -2,9 +2,9 @@ package com.example.application.data.views;
 
 import com.example.application.security.SecurityUtils;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
@@ -15,8 +15,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.tabs.Tabs;
-
-import java.util.Objects;
 
 public class Navbar extends AppLayout {
     Span tasks = new Span("All tasks");
@@ -53,10 +51,13 @@ public class Navbar extends AppLayout {
         Tabs tabs = new Tabs(LIST_SELECT, SIGN_OUT);
         LIST_SELECT.setClassName("tasks");
         SIGN_OUT.setClassName("signout");
-        // TODO: Funkar men endast för att vi bara har två tabs
-      tabs.addSelectedChangeListener(event -> {
+
+        tabs.addSelectedChangeListener(event -> {
           if (tabs.getSelectedTab().hasClassName("signout")) {
               dialog.open();
+          }
+          else if (tabs.getSelectedTab().hasClassName("tasks")){
+              UI.getCurrent().navigate("/tasks");
           }
         });
         tabs.getStyle().set("margin", ".5rem");
@@ -80,8 +81,12 @@ public class Navbar extends AppLayout {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(paragraph, horizontalLayout);
         dialog.add(verticalLayout);
+
         logoutBtn.addClickListener(event -> SecurityUtils.logout());
-        cancelBtn.addClickListener(event -> dialog.close());
+        cancelBtn.addClickListener(event -> {
+            dialog.close();
+            UI.getCurrent().getPage().reload();
+        });
     }
 }
 
