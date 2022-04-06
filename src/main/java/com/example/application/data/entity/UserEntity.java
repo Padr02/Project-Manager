@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.atmosphere.config.service.Message;
 
 
 import javax.persistence.*;
@@ -24,7 +25,7 @@ public class UserEntity extends AbstractEntity {
     @Column (nullable = false ,unique = true)
     private String username;
 
-    @Email
+    @Email(message = "Email should be valid")
     @Column(nullable = false)
     private String email;
 

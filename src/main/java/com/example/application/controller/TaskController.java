@@ -33,7 +33,7 @@ public class TaskController {
 
     @GetMapping("/{user}") // OK
     public List<DtoConverter.TaskResponseDTO>GetTasksOfUsers(@RequestParam(required = false) String username) {
-            UserEntity user = userService.getUsername(username);
+            UserEntity user = userService.findUser(username);
             return taskService.getTasks()
             .stream().filter(u -> u.getOwner().equals(user))
             .map(task -> dtoConverter.entityToResponseDTO(task))

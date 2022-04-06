@@ -22,14 +22,21 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<UserEntity> getUserById(UUID id){
+    public Optional<UserEntity> getUserById(UUID id) {
         return userRepository.findById(id);
     }
 
-
-    public UserEntity saveUser(UserEntity user){
+    public UserEntity saveUser(UserEntity user) {
         return userRepository.save(user);
     }
+    public boolean getOnlyUsername(String username) {
+       UserEntity currUser = userRepository.findByUsername(username);
+       if (currUser == null) {
+           return false;
+       }
+       return true;
+    }
+
 
     // TODO: Felhantering. Måste meddela användare att de inte kan ta bort task ifall de har icke-avslutade tasks. Något att lösa eller skippa?
     // Databasen kommer att sätta stopp för att det finns constraint,men användaren vet ju inte det.
@@ -45,10 +52,10 @@ public class UserService {
         }
     }
 
-    public UserEntity getUsername(String username){
+    public UserEntity findUser(String username) {
         return userRepository.findAll()
                 .stream()
-                .filter(user ->user.getUsername()
+                .filter(user -> user.getUsername()
                         .equals(username))
                 .findFirst()
                 .get();

@@ -1,24 +1,13 @@
 package com.example.application;
 
-import com.example.application.data.RoleEnum;
-import com.example.application.data.entity.TaskEntity;
-import com.example.application.data.entity.UserEntity;
-import com.example.application.data.repository.TaskRepository;
-import com.example.application.data.repository.UserRepository;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.time.LocalDate;
 
 /**
  * The entry point of the Spring Boot application.

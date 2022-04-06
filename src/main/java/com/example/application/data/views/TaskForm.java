@@ -37,21 +37,10 @@ public class TaskForm extends FormLayout {
     public TaskForm(List<UserEntity> users) {
             owner.setItemLabelGenerator(UserEntity::getUsername);
             owner.setLabel("Owner");
-            if (!SecurityUtils.isAuthorized()){
+            if (!SecurityUtils.isAuthorized()) {
                 owner.setEnabled(false);
             }
             owner.setItems(users);
-
-            //owner.setValue(users.get(0));
-            HorizontalLayout header;
-            if (SecurityUtils.isAuthenticated()) {
-                Button logout = new Button("Logout", click -> SecurityUtils.logout());
-                header = new HorizontalLayout(logout);
-            } else {
-                header = new HorizontalLayout();
-            }
-            add(header);
-            //status.setValue(task.isCompleted());
             add(title, startDate, deadline, owner, completed, createBtnLayout());
             binder.bindInstanceFields(this);
     }
