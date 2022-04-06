@@ -5,11 +5,15 @@ import com.example.application.data.entity.TaskEntity;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.security.SecurityUtils;
 import com.vaadin.flow.component.*;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
@@ -17,6 +21,8 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.shared.Registration;
+
+import java.awt.*;
 import java.util.List;
 
 public class TaskForm extends FormLayout {
@@ -26,9 +32,10 @@ public class TaskForm extends FormLayout {
     DatePicker deadline = new DatePicker("Deadline");
     Select <UserEntity> owner = new Select<>();
     Binder <TaskEntity> binder = new BeanValidationBinder<>(TaskEntity.class);
-    Checkbox completed = new Checkbox("Status");
+    Checkbox completed = new Checkbox("Completed");
     TaskEntity task;
     private ComponentEventBus eventBus = null;
+    Dialog dialog = new Dialog();
 
     Button save = new Button("Save");
     Button delete = new Button("Delete");
@@ -43,6 +50,7 @@ public class TaskForm extends FormLayout {
             owner.setItems(users);
             add(title, startDate, deadline, owner, completed, createBtnLayout());
             binder.bindInstanceFields(this);
+            configDialog();
     }
 
     // TODO: Kontroll att man inte får lägga in en task deadline som är före startdatum
@@ -59,7 +67,11 @@ public class TaskForm extends FormLayout {
         cancel.addClickShortcut(Key.ESCAPE);
         completed.addValueChangeListener(e -> save.setEnabled(binder.isValid()));
         save.addClickListener(event -> validateAndSave());
-        delete.addClickListener(event -> fireEvent(new FormEvent.DeleteEvent(this,task)));
+        delete.addClickListener(event -> {
+           if (!title.isEmpty()&& !deadline.isEmpty()&& !startDate.isEmpty()) {
+            dialog.open();
+           }
+        });
         cancel.addClickListener(event -> fireEvent(new FormEvent.CloseEvent(this)));
         return new HorizontalLayout(save, delete, cancel);
     }
@@ -92,6 +104,26 @@ public class TaskForm extends FormLayout {
      */
     protected boolean hasListener(Class<? extends ComponentEvent> eventType) {
         return this.eventBus != null && this.eventBus.hasListener(eventType);
+    }
+
+    private void configDialog() {
+        Button cancelBtn = new Button("Cancel");
+        Button deleteBtn = new Button("Delete");
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        horizontalLayout.add(cancelBtn, deleteBtn);
+        Paragraph paragraph = new Paragraph("Are you sure you want to delete this task?");
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.add(paragraph, horizontalLayout);
+        dialog.add(verticalLayout);
+        //dialog.setModal(false);
+
+        deleteBtn.addClickListener(event -> {
+            fireEvent(new FormEvent.DeleteEvent(this, task));
+            dialog.close();
+        });
+        cancelBtn.addClickListener(event -> {
+            dialog.close();
+        });
     }
 }
 

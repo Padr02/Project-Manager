@@ -60,6 +60,11 @@ public class Navbar extends AppLayout {
               UI.getCurrent().navigate("/tasks");
           }
         });
+        if(dialog.isOpened()) {
+            if (dialog.isCloseOnOutsideClick()) {
+                UI.getCurrent().getPage().reload();
+            }
+        }
         tabs.getStyle().set("margin", ".5rem");
         tabs.getStyle().set("font-size", "1rem");
         tabs.getStyle().set("box-shadow", "none");
@@ -81,6 +86,7 @@ public class Navbar extends AppLayout {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(paragraph, horizontalLayout);
         dialog.add(verticalLayout);
+        dialog.setModal(false);
 
         logoutBtn.addClickListener(event -> SecurityUtils.logout());
         cancelBtn.addClickListener(event -> {
