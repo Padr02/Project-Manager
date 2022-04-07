@@ -6,6 +6,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -40,10 +41,13 @@ public class Navbar extends AppLayout {
     private Component horizontalConfig() {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         Tabs tabs = tabContainer();
-        horizontalLayout.add(tabs);
+        Image image = new Image("/images/pcs.png","PCS-logo"); //NYTT
+        image.addClassName("corner-logo");//NYTT
+        horizontalLayout.add(image,tabs);
         horizontalLayout.setSizeFull();
-        horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-        horizontalLayout.getStyle().set("background-color", "#323232");
+        horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN); //NYTT
+        horizontalLayout.setAlignItems(FlexComponent.Alignment.CENTER); // NYTT!
+        horizontalLayout.setClassName("navbar"); //NYTT!
         return horizontalLayout;
     }
 

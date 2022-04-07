@@ -1,17 +1,33 @@
-#element.style {
-    font-weight: bold;
+.filter {
     padding: 0;
     margin: 0;
-    background-color: #5e2532;
-    height: 1000px;
-    width: 500px;
+    box-shadow:  25px 25px 50px #202020,
+    -25px -25px 50px #444444;
 }
 
-[part="input-field"], [part="input-field"]:focus {
+[part="input-field"], [part="input-field"]:focus  {
     padding: 0;
     margin: 0;
-    box-shadow: inset 2px 2px 8px #2a2a2a,
-    inset -2px -2px 24px #3a3a3a;
+    border-radius: 11px;
+    background: #323232;
+    box-shadow: inset 12px 12px 24px #2a2a2a,
+    inset -12px -12px 24px #3a3a3a;
+}
+
+input {
+    margin: .2rem;
+    color: #14FFEC;
+    font-family: 'Ubuntu', sans-serif;
+    letter-spacing: .15rem;
+}
+
+input-field:active {
+    border-color: pink;
+}
+
+vaadin-input-container {
+    box-shadow:  25px 25px 50px #202020,
+    -25px -25px 50px #444444;
 }
 
 #label-vaadin-text-field-6 {
@@ -25,19 +41,86 @@ vaadin-button {
     font-family: 'Ubuntu', sans-serif;
     background-color: #14FFEC;
     letter-spacing: .15rem;
-    font-size: 1rem;
+    font-size: .8rem;
 }
 
 vaadin-button:hover {
     background-color: #ff7f00;
 }
 
+vaadin-icon {
+    color: #14FFEC;
+}
+
+vaadin-tab {
+    color: #14FFEC;
+    margin: 1rem;
+
+}
+
+.navbar {
+    background-color:#363636;
+    box-shadow:  25px 25px 50px #202020,
+    -25px -25px 50px #444444;
+
+}
 
 vaadin-grid {
+    border: none;
+    border-radius: .5rem;
+    background: linear-gradient(145deg, #363636, #2d2d2d);
+    box-shadow:  25px 25px 50px #202020,
+    -25px -25px 50px #444444;
+    color: #14FFEC;
+    font-family: 'Ubuntu', sans-serif;
+    letter-spacing: .15rem;
+}
+
+vaadin-grid.neumorphic{
+    border-radius: 0.5rem;
+    color: #14FFEC;
+    text-align: center;
+    overflow: hidden;
+    background: #323232;
+    box-shadow: inset 12px 12px 24px #2a2a2a,
+    inset -12px -12px 24px #3a3a3a;
+}
+
+vaadin-vertical-layout {
+    padding: 3em 4em;
+}
+
+vaadin-form-layout {
+    border-radius: .5rem;
+    color: #14FFEC;
+    text-align: center;
+    overflow: hidden;
+    background: #323232;
+    /*    box-shadow: inset 12px 12px 24px #2a2a2a,
+        inset -12px -12px 24px #3a3a3a;*/
+    margin: 1rem;
     padding: 0;
-    box-shadow: inset 2px 2px 8px #2a2a2a,
-    inset -2px -2px 24px #3a3a3a;
 }
 
 
+vaadin-text-field {
+    background: #323232;
+}
 
+label {
+    color: #14FFEC;
+    font-family: 'Ubuntu', sans-serif;
+    letter-spacing: .15rem;
+    margin: .2rem;
+}
+
+label-vaadin-checkbox-5 {
+    color: #14FFEC;
+    font-family: 'Ubuntu', sans-serif;
+    letter-spacing: .15rem;
+    margin: .3rem;
+}
+
+vaadin-horizontal-layout > vaadin-button {
+    margin: .3rem;
+}

@@ -30,11 +30,15 @@ public class UserService {
         return userRepository.save(user);
     }
     public boolean getOnlyUsername(String username) {
-       UserEntity currUser = userRepository.findByUsername(username);
+       UserEntity currUser = userRepository.findByUsername(username).orElseThrow();
        if (currUser == null) {
            return false;
        }
        return true;
+    }
+
+    public boolean getUsername(String username) {
+        return userRepository.findByUsername(username).isPresent();
     }
 
 

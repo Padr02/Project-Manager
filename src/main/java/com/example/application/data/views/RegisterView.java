@@ -10,6 +10,8 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -39,27 +41,50 @@ public class RegisterView extends Composite {
 
     public RegisterView() {
       initContent();
+
     }
 
     @Override
     protected Component initContent() {
         username.isRequired();
         username.setLabel("Username");
+        username.setSizeFull();
+        username.setAutofocus(true);
+        username.setTitle("HALLÅÅÅÅÅÅ BÖRJE!!!");
         email.setLabel("Email");
         email.setPattern("^(.+)@(.+)$");
+        email.setSizeFull();
+        email.setAutofocus(true);
         password1.setLabel("Password");
         password1.isRequired();
         password1.setHelperText("A password must be at least 8 characters. It has to have at least one letter and one digit.");
         password1.setPattern("^(?=.*[0-9])(?=.*[a-zA-Z]).{8}.*$");
+        password1.setSizeFull();
         password2.setLabel("Password");
+        password2.setSizeFull();
 
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        verticalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        verticalLayout.setWidth("25rem");
+        verticalLayout.setClassName("registerform");
         H2 registerText = new H2("Register");
         Button registerBtn = new Button("Confirm");
+        registerBtn.setSizeFull();
+        registerBtn.setHeight("2.5rem");
         registerBtn.addClickListener(event -> {
             register(username.getValue(),email.getValue() , password1.getValue(), password2.getValue());
             saveUser(username.getValue(), email.getValue(), password1.getValue(), password2.getValue());
         });
-        return  new VerticalLayout(registerText, username, email, password1, password2, registerBtn);
+        verticalLayout.add(registerText, username, email, password1, password2, registerBtn);
+
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        horizontalLayout.setSizeFull();
+        horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        horizontalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        horizontalLayout.add(verticalLayout);
+
+        return horizontalLayout;
     }
 
     private void saveUser(String username, String email, String password1, String password2) {
@@ -75,10 +100,13 @@ public class RegisterView extends Composite {
     }
 
     private void register(String username1, String email, String password1, String password2) {
+        /*if(username1 == null) {
+            Notification.show("Username can't be null");
+        }*/
+
         if (username1.trim().isEmpty()) {
             Notification.show("You have to enter a username");
-        }
-        else if (userService.getOnlyUsername(username1)) {
+        } else if (userService.getUsername(username1) ){
             Notification.show("The username is not unique");
         } else if (password1.length() < 10) {
             Notification.show("The password must be at least 10 characters long");

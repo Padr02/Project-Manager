@@ -13,6 +13,7 @@ import org.atmosphere.config.service.Message;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Data
@@ -23,10 +24,12 @@ import java.util.Set;
 public class UserEntity extends AbstractEntity {
 
     @Column (nullable = false ,unique = true)
+    @NotBlank
     private String username;
 
     @Email(message = "Email should be valid")
     @Column(nullable = false)
+    @NotBlank
     private String email;
 
     @Column (nullable = false)
@@ -34,6 +37,7 @@ public class UserEntity extends AbstractEntity {
     private RoleEnum role; // måste kollas upp
 
     @Column(nullable = false)
+    @NotBlank
     private String password;
 
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)

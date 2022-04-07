@@ -47,9 +47,6 @@ public class TaskView extends VerticalLayout {
         if (SecurityUtils.isAuthenticated()) {
             Notification.show("Welcome to PCS " + SecurityUtils.getName());
         }
-        //H1 title = new H1("THIS SITE IS UNDER CONSTRUCTION");
-        //title.addClassName("title");
-        //HorizontalLayout header;
         setSizeFull();
         configureGrid();
         configureForm();
@@ -73,7 +70,7 @@ public class TaskView extends VerticalLayout {
 
     private void configureForm() {
         taskForm = new TaskForm(userService.getUsers());
-        taskForm.setWidth("25em");
+        taskForm.setWidth("30rem");
         taskForm.addListener(FormEvent.SaveEvent.class, this::saveTask);
         taskForm.addListener(FormEvent.DeleteEvent.class, this::deleteTask);
         taskForm.addListener(FormEvent.CloseEvent.class, e -> closeEditor());

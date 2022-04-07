@@ -21,8 +21,6 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.shared.Registration;
-
-import java.awt.*;
 import java.util.List;
 
 public class TaskForm extends FormLayout {
@@ -68,7 +66,7 @@ public class TaskForm extends FormLayout {
         completed.addValueChangeListener(e -> save.setEnabled(binder.isValid()));
         save.addClickListener(event -> validateAndSave());
         delete.addClickListener(event -> {
-           if (!title.isEmpty()&& !deadline.isEmpty()&& !startDate.isEmpty()) {
+           if (!title.isEmpty() && !deadline.isEmpty()&& !startDate.isEmpty()) {
             dialog.open();
            }
         });
