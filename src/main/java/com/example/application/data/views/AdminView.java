@@ -3,34 +3,38 @@ package com.example.application.data.views;
 import com.example.application.data.RoleEnum;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.service.UserService;
-import com.vaadin.flow.component.AbstractField;
+import com.example.application.security.SecurityUtils;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @PageTitle("Admin View")
-@PermitAll
+@RolesAllowed("ADMIN")
 @Route(value = "/admin", layout = Navbar.class)
 public class AdminView extends HorizontalLayout {
 
     @Autowired
     UserService userService;
 
-
     BeanValidationBinder<UserEntity> binder = new BeanValidationBinder<>(UserEntity.class);
+    RadioButtonGroup<RoleEnum> radioGroup = new RadioButtonGroup<>();
+    Select<UserEntity> owner = new Select<>();
 
     public AdminView(UserService userService) {
 
@@ -40,7 +44,7 @@ public class AdminView extends HorizontalLayout {
     }
 
     private Component displayUsers(List<UserEntity> users) {
-        Select<UserEntity> owner = new Select<>();
+        owner.addValueChangeListener(event -> radioGroup.setValue(event.getValue().getRole()));
         owner.setLabel("Name of user/admin:");
         owner.setItemLabelGenerator(UserEntity::getUsername);
         owner.setItems(users);
@@ -48,30 +52,12 @@ public class AdminView extends HorizontalLayout {
     }
 
     private Component radioConfig() {
-        RadioButtonGroup<RoleEnum> radioGroup = new RadioButtonGroup<>();
         radioGroup.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
         radioGroup.setItems(RoleEnum.USER,RoleEnum.ADMIN);
         radioGroup.setId("usersId");
-        radioGroup.addValueChangeListener(e ->{
-
-    });
-
-        binder.bind(radioGroup,UserEntity::getRole,UserEntity::setRole);
-
+        binder.bind(radioGroup, UserEntity::getRole, UserEntity::setRole);
         return radioGroup;
     }
-
-    private Component radioConfige() {
-        RadioButtonGroup<RoleEnum> radioGroup = new RadioButtonGroup<>();
-        radioGroup.addThemeVariants(RadioGroupVariant.LUMO_VERTICAL);
-        radioGroup.setLabel("Role");
-        radioGroup.setItems(RoleEnum.ADMIN, RoleEnum.USER);
-        radioGroup.setValue(userService.findUser(null).getRole());
-        return radioGroup;
-
-        final UserEntity user = new UserEntity();
-        Binder<UserEntity> user
-
 
     private Component verticalConfig() {
         H2 header = new H2("Admin");
@@ -86,10 +72,13 @@ public class AdminView extends HorizontalLayout {
 
     private Component saveButton() {
         Button button = new Button("Save");
+        button.addClickListener(event -> {
+            owner.getValue().setRole(radioGroup.getValue());
+            userService.saveUser(owner.getValue());
+            Notification.show("The access level is now changed for " + owner.getValue().getUsername());
+            VaadinSession.getCurrent().getSession().invalidate();
+        });
         return button;
     }
-
-
-
 }
 
