@@ -75,9 +75,11 @@ public class TaskForm extends FormLayout {
     }
 
     private void validateAndSave() {
+
         try {
-            binder.writeBean(task);
-            fireEvent(new FormEvent.SaveEvent(this, task));
+                binder.writeBean(task);
+                fireEvent(new FormEvent.SaveEvent(this, task));
+
         } catch (ValidationException e) {
             e.printStackTrace();
         }
