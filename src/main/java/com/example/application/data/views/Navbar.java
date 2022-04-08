@@ -10,6 +10,7 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -45,7 +46,7 @@ public class Navbar extends AppLayout {
         Tabs tabs = tabContainer();
         Image image = new Image("/images/pcs.png","PCS-logo");
         image.addClassName("corner-logo");//NYTT
-        horizontalLayout.add(image,tabs);
+        horizontalLayout.add(image, tabs);
         horizontalLayout.setSizeFull();
         horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
         horizontalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
@@ -56,13 +57,27 @@ public class Navbar extends AppLayout {
     private Tabs tabContainer() {
         Tabs tabs = new Tabs(LIST_SELECT, ADMIN, SIGN_OUT);
         LIST_SELECT.setClassName("tasks");
-        SIGN_OUT.setClassName("signout");
         ADMIN.setClassName("admin");
-
+        SIGN_OUT.setClassName("signout");
 
         tabs.addSelectedChangeListener(event -> {
-            if(tabs.getSelectedTab().hasClassName("admin")) {
+           if (tabs.getSelectedTab().hasClassName("admin")) {
                 UI.getCurrent().navigate("/admin");
+            } else {
+               Notification.show("Only accessed by administrators");
+           }
+        });
+
+        tabs.addSelectedChangeListener(event -> {
+            if (tabs.getSelectedTab().hasClassName("admin")) {
+                if (SecurityUtils.userLoggedInRole().contains("ADMIN")) {
+                    System.out.println(SecurityUtils.userLoggedInRole());
+                    UI.getCurrent().navigate(AdminView.class);
+                } else {
+                    System.out.println(SecurityUtils.userLoggedInRole());
+                    UI.getCurrent().navigate(TaskView.class);
+                    Notification.show("You are not allowed access as a plain user");
+                }
             }
         });
 
@@ -74,7 +89,7 @@ public class Navbar extends AppLayout {
               UI.getCurrent().navigate("/tasks");
           }
         });
-        if(dialog.isOpened()) {
+        if (dialog.isOpened()) {
             if (dialog.isCloseOnOutsideClick()) {
                 UI.getCurrent().getPage().reload();
             }
@@ -82,6 +97,10 @@ public class Navbar extends AppLayout {
         tabs.getStyle().set("margin", ".5rem");
         tabs.getStyle().set("font-size", "1rem");
         tabs.getStyle().set("box-shadow", "none");
+
+        if (SecurityUtils.userLoggedInRole().contains("USER")) {
+             ADMIN.setVisible(false);
+        }
         return tabs;
     }
 
@@ -110,3 +129,13 @@ public class Navbar extends AppLayout {
     }
 }
 
+/*
+   String answer = SecurityUtils.userLoggedInRole();
+                if (answer.contains("ADMIN")) {
+                    RouterLink link = new RouterLink();
+                    link.setRoute(AdminView.class);
+                } else {
+                    UI.getCurrent().navigate(TaskView.class);
+                    Notification.show("You are not allowed access as a plain user");
+                }
+ */

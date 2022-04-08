@@ -26,7 +26,6 @@ import java.util.Comparator;
 
 @PageTitle("Tasks")
 @PermitAll
-
 @Route(value = "/tasks", layout = Navbar.class)
 public class TaskView extends VerticalLayout {
 
@@ -34,6 +33,7 @@ public class TaskView extends VerticalLayout {
     TaskService taskService;
     @Autowired
     UserService userService;
+    @Autowired
     SecurityUtils securityUtils;
 
     Grid<TaskEntity> grid = new Grid<>(TaskEntity.class);

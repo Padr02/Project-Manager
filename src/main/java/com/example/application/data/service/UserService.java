@@ -29,6 +29,7 @@ public class UserService {
     public UserEntity saveUser(UserEntity user) {
         return userRepository.save(user);
     }
+
     public boolean getOnlyUsername(String username) {
        UserEntity currUser = userRepository.findByUsername(username).orElseThrow();
        if (currUser == null) {
@@ -41,9 +42,6 @@ public class UserService {
         return userRepository.findByUsername(username).isPresent();
     }
 
-
-    // TODO: Felhantering. Måste meddela användare att de inte kan ta bort task ifall de har icke-avslutade tasks. Något att lösa eller skippa?
-    // Databasen kommer att sätta stopp för att det finns constraint,men användaren vet ju inte det.
     public void delete(UUID id) {
         userRepository.deleteById(id);
     }
@@ -76,7 +74,6 @@ public class UserService {
         userRepository.save(currOwner); // Stores the new password
         return currOwner;
     }
-
 }
 
 

@@ -3,9 +3,14 @@ package com.example.application.security;
 import com.example.application.data.RoleEnum;
 import com.example.application.data.entity.UserEntity;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -62,5 +67,11 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(){
+
+        return  new InMemoryUserDetailsManager();
     }
 }

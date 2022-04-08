@@ -3,9 +3,7 @@ package com.example.application.data.views;
 import com.example.application.data.RoleEnum;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.service.UserService;
-import com.example.application.security.SecurityUtils;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
@@ -20,13 +18,10 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @PageTitle("Admin View")
-@RolesAllowed("ADMIN")
-@Route(value = "/admin", layout = Navbar.class)
+@Route(value ="/admin" ,layout = Navbar.class)
 public class AdminView extends HorizontalLayout {
 
     @Autowired
@@ -37,7 +32,6 @@ public class AdminView extends HorizontalLayout {
     Select<UserEntity> owner = new Select<>();
 
     public AdminView(UserService userService) {
-
         this.userService = userService;
         setSizeFull();
         add(verticalConfig());
@@ -75,8 +69,8 @@ public class AdminView extends HorizontalLayout {
         button.addClickListener(event -> {
             owner.getValue().setRole(radioGroup.getValue());
             userService.saveUser(owner.getValue());
-            Notification.show("The access level is now changed for " + owner.getValue().getUsername());
             VaadinSession.getCurrent().getSession().invalidate();
+            Notification.show("The access level is now changed for " + owner.getValue().getUsername() + " to level: " + owner.getValue().getRole() + ". Please log in again");
         });
         return button;
     }

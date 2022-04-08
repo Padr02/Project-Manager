@@ -50,7 +50,8 @@ public class SecurityUtils {
      */
     public static String userLoggedInRole() {
         VaadinServletRequest request = VaadinServletRequest.getCurrent();
-        if (request.isUserInRole("ADMIN")){
+
+        if (isAuthorized()) {
             return "ADMIN";
         }
         return "USER";

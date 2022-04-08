@@ -1,16 +1,13 @@
 package com.example.application.data.views;
 
 import com.example.application.security.SecurityUtils;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.IFrame;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.login.AbstractLogin;
 import com.vaadin.flow.component.login.LoginForm;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
@@ -19,7 +16,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 @PageTitle("PCS Login")
 @AnonymousAllowed
 @Route(value = "/login")
-public class LoginView extends Composite<VerticalLayout> implements BeforeEnterObserver,ComponentEventListener<AbstractLogin.LoginEvent> {
+public class LoginView extends Composite<VerticalLayout> implements BeforeEnterObserver, ComponentEventListener<AbstractLogin.LoginEvent> {
 
     private static final String LOGIN_SUCCESSFUL_URL = "/tasks";
 
@@ -45,6 +42,7 @@ public class LoginView extends Composite<VerticalLayout> implements BeforeEnterO
     */
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
+        System.out.println(event.getLocation().getQueryParameters().getParameters());
         if (event.getLocation()
                 .getQueryParameters()
                 .getParameters()
