@@ -25,8 +25,10 @@ public class TaskEntity extends AbstractEntity {
     @NotBlank
     private String title;
 
+
     @Column(nullable = false)
     private LocalDate startDate;
+
 
     @Column(nullable = false)
     private LocalDate deadline;

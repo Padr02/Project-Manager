@@ -20,7 +20,9 @@ import com.vaadin.flow.component.tabs.Tabs;
 public class Navbar extends AppLayout {
     Span tasks = new Span("All tasks");
     Span logout = new Span("Logout");
+    Span admin = new Span("Admin view");
     Tab LIST_SELECT = new Tab(VaadinIcon.LIST_SELECT.create(), tasks);
+    Tab ADMIN = new Tab(VaadinIcon.USER.create(), admin);
     Tab SIGN_OUT = new Tab(VaadinIcon.SIGN_OUT.create(), logout);
     Dialog dialog = new Dialog();
 
@@ -33,28 +35,36 @@ public class Navbar extends AppLayout {
 
     private void configureSpan() {
         tasks.getStyle().set("font-family", "Ubuntu, sans-serif");
-        tasks.getStyle().set("color", "#14FFEC");
+        tasks.getStyle().set("color", "#40E0D0");
         logout.getStyle().set("font-family", "Ubuntu, sans-serif");
-        logout.getStyle().set("color", "#14FFEC");
+        logout.getStyle().set("color", "#40E0D0");
     }
 
     private Component horizontalConfig() {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         Tabs tabs = tabContainer();
-        Image image = new Image("/images/pcs.png","PCS-logo"); //NYTT
+        Image image = new Image("/images/pcs.png","PCS-logo");
         image.addClassName("corner-logo");//NYTT
         horizontalLayout.add(image,tabs);
         horizontalLayout.setSizeFull();
-        horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN); //NYTT
-        horizontalLayout.setAlignItems(FlexComponent.Alignment.CENTER); // NYTT!
-        horizontalLayout.setClassName("navbar"); //NYTT!
+        horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+        horizontalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        horizontalLayout.setClassName("navbar");
         return horizontalLayout;
     }
 
     private Tabs tabContainer() {
-        Tabs tabs = new Tabs(LIST_SELECT, SIGN_OUT);
+        Tabs tabs = new Tabs(LIST_SELECT, ADMIN, SIGN_OUT);
         LIST_SELECT.setClassName("tasks");
         SIGN_OUT.setClassName("signout");
+        ADMIN.setClassName("admin");
+
+
+        tabs.addSelectedChangeListener(event -> {
+            if(tabs.getSelectedTab().hasClassName("admin")) {
+                UI.getCurrent().navigate("/admin");
+            }
+        });
 
         tabs.addSelectedChangeListener(event -> {
           if (tabs.getSelectedTab().hasClassName("signout")) {
@@ -76,7 +86,7 @@ public class Navbar extends AppLayout {
     }
 
     private void configTabs() {
-        for (Tab tab : new Tab[] { LIST_SELECT, SIGN_OUT }) {
+        for (Tab tab : new Tab[] { LIST_SELECT, SIGN_OUT, ADMIN }) {
             tab.addThemeVariants(TabVariant.LUMO_ICON_ON_TOP);
         }
     }

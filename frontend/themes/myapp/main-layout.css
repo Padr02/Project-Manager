@@ -7,21 +7,13 @@
 }
 
 :root {
-  --lumo-header-text-color: #14FFEC;
+  --lumo-header-text-color: #40E0D0;
 }
 
 html, body, [part='form'] {
-/*  background-color: #323232;*/
-  /*color: #14FFEC;*/
   font-family: 'Ubuntu', sans-serif;
   letter-spacing: .1rem;
 }
-
-/*
-body, [part='form-title'] {
-  color: #14FFEC;
-}
-*/
 
 p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
@@ -49,19 +41,15 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .registerform {
   border-radius: 11px;
-  /*background: #323232;*/
-  box-shadow: inset 12px 12px 24px #2a2a2a,
-  inset -12px -12px 24px #3a3a3a;
+  box-shadow: inset 4px 4px 22px #2a2a2a,
+  inset -4px -4px 24px #2a2a2a ;
   font-family: 'Ubuntu', sans-serif;
 }
 
 vaadin-grid-cell-content {
-  /*background: #323232;*/
-  box-shadow: inset 12px 12px 24px #2a2a2a,
-  inset -12px -12px 24px #3a3a3a;
+  color: #40E0D0;
 }
 
 label {
   font-weight: 200;
 }
-

@@ -12,6 +12,7 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
@@ -75,11 +76,14 @@ public class TaskForm extends FormLayout {
     }
 
     private void validateAndSave() {
-
         try {
-                binder.writeBean(task);
+            binder.writeBean(task);
+            if(task.getStartDate().isAfter(task.getDeadline())) {
+                Notification.show("Startdate can't be before deadline date");
+            }
+            else {
                 fireEvent(new FormEvent.SaveEvent(this, task));
-
+            }
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -115,7 +119,6 @@ public class TaskForm extends FormLayout {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(paragraph, horizontalLayout);
         dialog.add(verticalLayout);
-        //dialog.setModal(false);
 
         deleteBtn.addClickListener(event -> {
             fireEvent(new FormEvent.DeleteEvent(this, task));

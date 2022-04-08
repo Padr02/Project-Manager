@@ -32,7 +32,7 @@ public class LoginView extends Composite<VerticalLayout> implements BeforeEnterO
         loginForm.addLoginListener(this);
         RouterLink link = new RouterLink("Not registered? Click here", RegisterView.class);
         link.setClassName("login-link");
-        vertical.add(loginForm, link, video());
+        vertical.add(loginForm, link);
         vertical.setSizeFull();
         vertical.setAlignItems(FlexComponent.Alignment.CENTER);
         vertical.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
@@ -52,17 +52,7 @@ public class LoginView extends Composite<VerticalLayout> implements BeforeEnterO
             loginForm.setError(true);
         }
     }
-    public Component video() {
-        IFrame iFrame = new IFrame();
-        iFrame.setSrc("https://www.youtube.com/embed/OWFBqiUgspg?start=1&autoplay=1");
-        iFrame.setHeight("1px");
-        iFrame.setWidth("1px");
-        iFrame.setAllow("accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; ");
-        iFrame.getElement().setAttribute("allowfullscreen", true);
-        iFrame.getElement().setAttribute("frameborder", "0");
 
-        return iFrame;
-    }
      /**
      * Check if the user is authenticated and redirect to a resource depending on the outcome and provides a CSRF token after successful login
      *
