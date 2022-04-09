@@ -41,9 +41,9 @@ public class TaskView extends VerticalLayout {
     TaskForm taskForm;
 
     public TaskView(TaskService taskService, UserService userService, SecurityUtils securityUtils) {
-        this.userService = userService;
-        this.taskService = taskService;
-        this.securityUtils = securityUtils;
+       this.userService = userService;
+       this.taskService = taskService;
+       this.securityUtils = securityUtils;
         if (SecurityUtils.isAuthenticated()) {
             Notification.show("Welcome to PCS " + SecurityUtils.getName());
         }

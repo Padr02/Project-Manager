@@ -3,10 +3,15 @@ package com.example.application.data.views;
 import com.example.application.data.RoleEnum;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.service.UserService;
+import com.example.application.security.SecurityUtils;
+import com.example.application.security.UserDetailsImpl;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.login.AbstractLogin;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -14,25 +19,37 @@ import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.vote.AbstractAccessDecisionManager;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.RestController;
+
+
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
+
+
 @PageTitle("Admin View")
-@Route(value ="/admin" ,layout = Navbar.class)
+@Route(value = "/admin", layout = Navbar.class)
+@RolesAllowed("ROLE_ADMIN")
 public class AdminView extends HorizontalLayout {
 
-    @Autowired
+   @Autowired
     UserService userService;
+
 
     BeanValidationBinder<UserEntity> binder = new BeanValidationBinder<>(UserEntity.class);
     RadioButtonGroup<RoleEnum> radioGroup = new RadioButtonGroup<>();
     Select<UserEntity> owner = new Select<>();
 
     public AdminView(UserService userService) {
-        this.userService = userService;
+       this.userService = userService;
         setSizeFull();
         add(verticalConfig());
     }
@@ -74,5 +91,6 @@ public class AdminView extends HorizontalLayout {
         });
         return button;
     }
+
 }
 

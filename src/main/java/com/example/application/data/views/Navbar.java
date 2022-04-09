@@ -17,6 +17,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.tabs.Tabs;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class Navbar extends AppLayout {
     Span tasks = new Span("All tasks");
@@ -60,17 +61,10 @@ public class Navbar extends AppLayout {
         ADMIN.setClassName("admin");
         SIGN_OUT.setClassName("signout");
 
-        tabs.addSelectedChangeListener(event -> {
-           if (tabs.getSelectedTab().hasClassName("admin")) {
-                UI.getCurrent().navigate("/admin");
-            } else {
-               Notification.show("Only accessed by administrators");
-           }
-        });
-
+        //ADMIN.getElement().setAttribute("route-ignore",true);
         tabs.addSelectedChangeListener(event -> {
             if (tabs.getSelectedTab().hasClassName("admin")) {
-                if (SecurityUtils.userLoggedInRole().contains("ADMIN")) {
+                if (SecurityUtils.userLoggedInRole().contains("ROLE_ADMIN")) {
                     System.out.println(SecurityUtils.userLoggedInRole());
                     UI.getCurrent().navigate(AdminView.class);
                 } else {
@@ -98,7 +92,7 @@ public class Navbar extends AppLayout {
         tabs.getStyle().set("font-size", "1rem");
         tabs.getStyle().set("box-shadow", "none");
 
-        if (SecurityUtils.userLoggedInRole().contains("USER")) {
+        if (SecurityUtils.userLoggedInRole().contains("ROLE_USER")) {
              ADMIN.setVisible(false);
         }
         return tabs;

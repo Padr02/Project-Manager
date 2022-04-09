@@ -3,8 +3,11 @@ package com.example.application.security;
 import com.example.application.data.entity.UserEntity;
 import com.example.application.data.repository.UserRepository;
 
+import com.example.application.data.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,10 +33,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
        UserEntity user = userRepository.findByUsername(userName).orElseThrow();
+
       return new UserDetailsImpl(user);
     }
-
-
 
 
 }

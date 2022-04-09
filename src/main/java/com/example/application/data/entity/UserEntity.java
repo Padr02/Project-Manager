@@ -55,6 +55,7 @@ public class UserEntity extends AbstractEntity {
         this.password = password;
         this.enabled = false;
     }
+
 }
 
 

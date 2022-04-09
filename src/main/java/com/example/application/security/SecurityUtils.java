@@ -6,8 +6,12 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinServletRequest;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
+import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import javax.servlet.ServletException;
@@ -27,19 +31,22 @@ public class SecurityUtils {
     public static String LOGOUT_SUCCESS_URL = "/";
 
     public UserEntity getAppUserFromPrincipal() {
-        return userRepository.findUserEntityByUsername(getName()).orElseThrow();
+        return userRepository.findByUsername(getName()).orElseThrow();
     }
+
+
 
     public static String getName() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     public static Collection<? extends GrantedAuthority> getRole() {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities()+"TEST!!!");
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities();
     }
 
     public static boolean isAuthorized() {
-        return getRole().contains(new SimpleGrantedAuthority("ADMIN"));
+        return getRole().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
     /**
@@ -52,9 +59,9 @@ public class SecurityUtils {
         VaadinServletRequest request = VaadinServletRequest.getCurrent();
 
         if (isAuthorized()) {
-            return "ADMIN";
+            return "ROLE_ADMIN";
         }
-        return "USER";
+        return "ROLE_USER";
     }
 
     /**
