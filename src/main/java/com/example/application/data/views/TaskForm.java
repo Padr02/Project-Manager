@@ -27,10 +27,10 @@ import java.util.List;
 public class TaskForm extends FormLayout {
 
     TextField title = new TextField("Title");
-    DatePicker startDate = new DatePicker("Start date");
-    DatePicker deadline = new DatePicker("Deadline");
-    Select <UserEntity> owner = new Select<>();
-    Binder <TaskEntity> binder = new BeanValidationBinder<>(TaskEntity.class);
+     DatePicker startDate = new DatePicker("Start date");
+     DatePicker deadline = new DatePicker("Deadline");
+     Select <UserEntity> owner = new Select<>();
+     Binder <TaskEntity> binder = new BeanValidationBinder<>(TaskEntity.class);
     Checkbox completed = new Checkbox("Completed");
     TaskEntity task;
     private ComponentEventBus eventBus = null;
@@ -124,9 +124,7 @@ public class TaskForm extends FormLayout {
             fireEvent(new FormEvent.DeleteEvent(this, task));
             dialog.close();
         });
-        cancelBtn.addClickListener(event -> {
-            dialog.close();
-        });
+        cancelBtn.addClickListener(event -> dialog.close());
     }
 }
 

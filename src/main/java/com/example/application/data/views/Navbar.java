@@ -61,7 +61,7 @@ public class Navbar extends AppLayout {
         ADMIN.setClassName("admin");
         SIGN_OUT.setClassName("signout");
 
-        //ADMIN.getElement().setAttribute("route-ignore",true);
+
         tabs.addSelectedChangeListener(event -> {
             if (tabs.getSelectedTab().hasClassName("admin")) {
                 if (SecurityUtils.userLoggedInRole().contains("ROLE_ADMIN")) {

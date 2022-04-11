@@ -77,7 +77,7 @@ public class TaskView extends VerticalLayout {
     }
 
     private void saveTask(FormEvent.SaveEvent event) {
-        if (SecurityUtils.getRole().contains(new SimpleGrantedAuthority("ADMIN"))
+        if (SecurityUtils.getRole().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
                 || SecurityUtils.getName().equals(taskForm.task.getOwnerName())) {
             taskService.saveTask(event.getTask());
             updateFromFilter();
@@ -88,7 +88,7 @@ public class TaskView extends VerticalLayout {
     }
 
     private void deleteTask(FormEvent.DeleteEvent event) {
-        if (SecurityUtils.getRole().contains(new SimpleGrantedAuthority("ADMIN"))
+        if (SecurityUtils.getRole().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
                 || SecurityUtils.getName().equals(taskForm.task.getOwnerName())) {
             taskService.deleteTask(event.getTask().getId());
             updateFromFilter();

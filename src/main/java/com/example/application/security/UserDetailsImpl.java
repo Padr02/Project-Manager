@@ -36,8 +36,6 @@ public class UserDetailsImpl implements UserDetails {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (RoleEnum role : roles) {
             authorities.add(new SimpleGrantedAuthority("ROLE_"+role.toString()));
-            System.out.println("Authorities -> " +
-                    SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         }
         return authorities;
     }

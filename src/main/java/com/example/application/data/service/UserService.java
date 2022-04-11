@@ -60,7 +60,7 @@ public class UserService {
                 .filter(user -> user.getUsername()
                         .equals(username))
                 .findFirst()
-                .get();
+                .orElseThrow();
     }
 
     public List<UserEntity> getByUsername(String username){

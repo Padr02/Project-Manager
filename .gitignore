@@ -4,7 +4,7 @@
 .project
 .classpath
 .SecurityConfig
-
+env.properties
 *.iml
 .DS_Store
 

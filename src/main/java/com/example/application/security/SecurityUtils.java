@@ -41,7 +41,6 @@ public class SecurityUtils {
     }
 
     public static Collection<? extends GrantedAuthority> getRole() {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities()+"TEST!!!");
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities();
     }
 
@@ -56,8 +55,6 @@ public class SecurityUtils {
      *
      */
     public static String userLoggedInRole() {
-        VaadinServletRequest request = VaadinServletRequest.getCurrent();
-
         if (isAuthorized()) {
             return "ROLE_ADMIN";
         }
