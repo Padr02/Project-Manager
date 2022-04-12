@@ -45,7 +45,7 @@ public class Navbar extends AppLayout {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         Tabs tabs = tabContainer();
         Image image = new Image("/images/pcs.png","PCS-logo");
-        image.addClassName("corner-logo");//NYTT
+        image.addClassName("corner-logo");
         horizontalLayout.add(image, tabs);
         horizontalLayout.setSizeFull();
         horizontalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
@@ -60,14 +60,13 @@ public class Navbar extends AppLayout {
         ADMIN.setClassName("admin");
         SIGN_OUT.setClassName("signout");
 
-
         tabs.addSelectedChangeListener(event -> {
             if (tabs.getSelectedTab().hasClassName("admin")) {
                 if (SecurityUtils.isAdmin()) {
                     UI.getCurrent().navigate(AdminView.class);
                 } else {
                     UI.getCurrent().navigate(TaskView.class);
-                    Notification.show("You are not allowed access as a plain user");
+                    Notification.show("You are not allowed access as a regular user");
                 }
             }
         });
@@ -76,7 +75,7 @@ public class Navbar extends AppLayout {
           if (tabs.getSelectedTab().hasClassName("signout")) {
               dialog.open();
           }
-          else if (tabs.getSelectedTab().hasClassName("tasks")){
+          else if (tabs.getSelectedTab().hasClassName("tasks")) {
               UI.getCurrent().navigate("/tasks");
           }
         });
@@ -119,14 +118,3 @@ public class Navbar extends AppLayout {
         });
     }
 }
-
-/*
-   String answer = SecurityUtils.userLoggedInRole();
-                if (answer.contains("ADMIN")) {
-                    RouterLink link = new RouterLink();
-                    link.setRoute(AdminView.class);
-                } else {
-                    UI.getCurrent().navigate(TaskView.class);
-                    Notification.show("You are not allowed access as a plain user");
-                }
- */

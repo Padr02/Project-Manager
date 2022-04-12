@@ -53,7 +53,6 @@ public class TaskForm extends FormLayout {
     }
 
     public void setTask(TaskEntity task) {
-        System.out.println("setTask triggered");
         this.task = task;
         binder.readBean(task);
     }
@@ -82,7 +81,6 @@ public class TaskForm extends FormLayout {
                 Notification.show("Cannot set a start date that is before deadline date");
             }
             else {
-                System.out.println("validate and save triggered");
                 fireEvent(new FormEvent.SaveEvent(this, task));
             }
         } catch (ValidationException e) {
@@ -92,10 +90,8 @@ public class TaskForm extends FormLayout {
 
     protected ComponentEventBus getEventBus() {
       if (this.eventBus == null) {
-          System.out.println("eventbus inside if");
           return this.eventBus = new ComponentEventBus(this);
       }
-        System.out.println("eventbus outside if");
       return this.eventBus;
     }
 
@@ -124,7 +120,6 @@ public class TaskForm extends FormLayout {
         dialog.add(verticalLayout);
 
         deleteBtn.addClickListener(event -> {
-            System.out.println("delete btn ?");
             fireEvent(new FormEvent.DeleteEvent(this, task));
             dialog.close();
         });

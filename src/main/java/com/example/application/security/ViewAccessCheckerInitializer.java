@@ -15,7 +15,6 @@ public class ViewAccessCheckerInitializer implements VaadinServiceInitListener {
      *
      */
     public ViewAccessCheckerInitializer() {
-        System.out.println("6 viewaccesscheckerinitializer");
        viewAccessChecker = new ViewAccessChecker();
        viewAccessChecker.setLoginView(LoginView.class);
     }

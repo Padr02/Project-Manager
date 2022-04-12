@@ -55,7 +55,6 @@ public class TaskController {
     @PutMapping("/{id}")
     public DtoConverter.TaskResponseDTO updateTaskById(@PathVariable("id") UUID id, @RequestBody DtoConverter.TaskRequestDTO updatedTaskDTO) {
         TaskEntity updatedTaskIn = dtoConverter.RequestDtoToEntity(updatedTaskDTO);
-        System.out.println(updatedTaskIn);
         TaskEntity updatedTaskOut = taskService.updateTask(id, updatedTaskIn);
         return dtoConverter.entityToResponseDTO(updatedTaskOut);
     }

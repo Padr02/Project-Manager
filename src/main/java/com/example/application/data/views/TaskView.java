@@ -74,7 +74,6 @@ public class TaskView extends VerticalLayout {
     }
 
     private void saveTask(FormEvent.SaveEvent event) {
-        System.out.println("save triggered");
         if (SecurityUtils.isAdmin()
                 || SecurityUtils.getName().equals(taskForm.task.getOwnerName())) {
             taskService.saveTask(event.getTask());
@@ -86,7 +85,6 @@ public class TaskView extends VerticalLayout {
     }
 
     private void deleteTask(FormEvent.DeleteEvent event) {
-        System.out.println("delete triggered");
         if (SecurityUtils.isAdmin()
                 || SecurityUtils.getName().equals(taskForm.task.getOwnerName())) {
             taskService.deleteTask(event.getTask().getId());
@@ -147,7 +145,6 @@ public class TaskView extends VerticalLayout {
     }
 
     public void editTask(TaskEntity task) {
-        System.out.println("edit task triggered");
         if (task == null) {
             closeEditor();
         } else {

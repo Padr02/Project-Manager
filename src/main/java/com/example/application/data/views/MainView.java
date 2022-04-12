@@ -22,7 +22,7 @@ public class MainView extends VerticalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
         horizontalLayoutConfig();
         verticalLayoutConfig();
-        add(horizontalBtns,verticalTitle);
+        add(horizontalBtns, verticalTitle);
     }
 
     private void verticalLayoutConfig() {

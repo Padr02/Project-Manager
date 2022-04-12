@@ -39,7 +39,6 @@ public class RegisterView extends Composite {
 
     public RegisterView() {
       initContent();
-
     }
 
     @Override
@@ -54,7 +53,7 @@ public class RegisterView extends Composite {
         email.setAutofocus(true);
         password1.setLabel("Password");
         password1.isRequired();
-        password1.setHelperText("A password must be at least 10 characters. It has to have at least one letter and one digit.");
+        password1.setHelperText("Your password must be at least 10 characters. It must consist of at least one letter and one digit.");
         password1.setPattern("^(?=.*[0-9])(?=.*[a-zA-Z]).{10}.*$");
         password1.setSizeFull();
         password2.setLabel("Password");
@@ -88,10 +87,13 @@ public class RegisterView extends Composite {
 
     private void saveUser(String username, String email, String password1, String password2) {
         try {
-          if (password1.equals(password2) && password1.matches("^(?=.[0-9])(?=.[a-zA-Z]).{10}.*$")) {
+          if (password1.equals(password2) && password1.matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{10}.*$")) {
               userService.saveUser(new UserEntity(username, email, RoleEnum.USER, passwordEncoder.encode(password1)));
               UI.getCurrent().navigate("/login");
               Notification.show("Successful registration! Welcome " + username);
+          }
+          else {
+              Notification.show("Incorrect format");
           }
         } catch (Exception e) {
             Notification.show("Registration failed");
@@ -112,7 +114,7 @@ public class RegisterView extends Composite {
         } else if (!password1.equals(password2)) {
             Notification.show("The passwords do not match");
         } else if (!email.matches("^(.+)@(.+)$")) {
-            Notification.show("The email format is incorrect, you need to include @");
+            Notification.show("The email format is incorrect - you need to include @");
         }
     }
 }

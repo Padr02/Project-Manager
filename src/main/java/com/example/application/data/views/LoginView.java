@@ -14,11 +14,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
-
 @PageTitle("PCS Login")
 @AnonymousAllowed
 @Route(value = "/login")
-public class LoginView extends Composite<VerticalLayout> implements ComponentEventListener<AbstractLogin.LoginEvent> {
+public class LoginView extends Composite<VerticalLayout> implements BeforeEnterObserver ,ComponentEventListener<AbstractLogin.LoginEvent> {
 
     private static final String LOGIN_SUCCESSFUL_URL = "/tasks";
 
@@ -42,17 +41,15 @@ public class LoginView extends Composite<VerticalLayout> implements ComponentEve
     * Check if user is authenticated by checking whether the URL contains "error" as parameter before granting access to the requested resource
     * @param event
     */
- /*  @Override
+   @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        System.out.println(" 1 beforeEnterevent");
-       System.out.println(event.getLocation().getQueryParameters().getParameters());
         if (event.getLocation()
                 .getQueryParameters()
                 .getParameters()
                 .containsKey("error")) {
             loginForm.setError(true);
         }
-    }*/
+    }
 
      /**
      * Check if the user is authenticated and redirect to a resource depending on the outcome and provides a CSRF token after successful login
