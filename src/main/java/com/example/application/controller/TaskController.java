@@ -23,7 +23,7 @@ public class TaskController {
     @Autowired
     UserService userService;
 
-    @GetMapping  //OK
+    @GetMapping
     public List<DtoConverter.TaskResponseDTO>GetTasksFromRepo(@RequestParam(required = false) String title) {
         return taskService.getTasksByFilter(title)
                 .stream()
@@ -31,7 +31,7 @@ public class TaskController {
                 .toList();
     }
 
-    @GetMapping("/{user}") // OK
+    @GetMapping("/{user}")
     public List<DtoConverter.TaskResponseDTO>GetTasksOfUsers(@RequestParam(required = false) String username) {
             UserEntity user = userService.findUser(username);
             return taskService.getTasks()
@@ -40,19 +40,19 @@ public class TaskController {
             .toList();
     }
 
-    @PostMapping //OK
+    @PostMapping
     public DtoConverter.TaskResponseDTO addNewTask(@RequestBody DtoConverter.TaskRequestDTO taskRequestDTO ) {
         TaskEntity taskEntityIn = dtoConverter.RequestDtoToEntity(taskRequestDTO);
         TaskEntity taskEntityOut = taskService.saveTask(taskEntityIn);
         return dtoConverter.entityToResponseDTO(taskEntityOut);
     }
 
-    @DeleteMapping("/{id}") //OK
+    @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable("id") UUID id) {
         taskService.deleteTask(id);
     }
 
-    @PutMapping("/{id}") //OK
+    @PutMapping("/{id}")
     public DtoConverter.TaskResponseDTO updateTaskById(@PathVariable("id") UUID id, @RequestBody DtoConverter.TaskRequestDTO updatedTaskDTO) {
         TaskEntity updatedTaskIn = dtoConverter.RequestDtoToEntity(updatedTaskDTO);
         System.out.println(updatedTaskIn);

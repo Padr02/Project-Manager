@@ -29,7 +29,6 @@ public class SecurityConfig extends VaadinWebSecurityConfigurerAdapter {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-
     /**
      * Set up security rules for a Vaadin application and restrict all URLs except
      * for public resources and internal Vaadin URLs to authenticated user
@@ -40,9 +39,7 @@ public class SecurityConfig extends VaadinWebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         setLoginView(http, LoginView.class);
-
     }
-
 
     /**
      * Set up security rules for a Vaadin application and restrict all URLs except
@@ -64,6 +61,4 @@ public class SecurityConfig extends VaadinWebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         return userDetailsService;
     }
-
-
 }

@@ -20,7 +20,6 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import javax.annotation.security.PermitAll;
 import java.util.Comparator;
 
@@ -44,15 +43,13 @@ public class TaskView extends VerticalLayout {
        this.userService = userService;
        this.taskService = taskService;
        this.securityUtils = securityUtils;
-        if (SecurityUtils.isAuthenticated()) {
-            Notification.show("Welcome to PCS " + SecurityUtils.getName());
-        }
-        setSizeFull();
-        configureGrid();
-        configureForm();
-        add(getToolBar(), getContent());
-        updateFromFilter();
-        closeEditor();
+
+       setSizeFull();
+       configureGrid();
+       configureForm();
+       add(getToolBar(), getContent());
+       updateFromFilter();
+       closeEditor();
     }
 
     private void closeEditor() {
@@ -77,7 +74,8 @@ public class TaskView extends VerticalLayout {
     }
 
     private void saveTask(FormEvent.SaveEvent event) {
-        if (SecurityUtils.getRole().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+        System.out.println("save triggered");
+        if (SecurityUtils.isAdmin()
                 || SecurityUtils.getName().equals(taskForm.task.getOwnerName())) {
             taskService.saveTask(event.getTask());
             updateFromFilter();
@@ -88,7 +86,8 @@ public class TaskView extends VerticalLayout {
     }
 
     private void deleteTask(FormEvent.DeleteEvent event) {
-        if (SecurityUtils.getRole().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+        System.out.println("delete triggered");
+        if (SecurityUtils.isAdmin()
                 || SecurityUtils.getName().equals(taskForm.task.getOwnerName())) {
             taskService.deleteTask(event.getTask().getId());
             updateFromFilter();
@@ -148,6 +147,7 @@ public class TaskView extends VerticalLayout {
     }
 
     public void editTask(TaskEntity task) {
+        System.out.println("edit task triggered");
         if (task == null) {
             closeEditor();
         } else {

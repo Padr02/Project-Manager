@@ -3,10 +3,8 @@ package com.example.application.security;
 import com.example.application.data.RoleEnum;
 import com.example.application.data.entity.UserEntity;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,17 +12,14 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Class that implements the methods related to UserDetails that is connected to Spring Security
+ * Class that implements the methods related to interface UserDetails that is connected to Spring Security
  *
  */
 
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-
     UserEntity user;
-
-
 
     /**
      * Implement Spring Security userDetails and connect it to our own entity model
@@ -35,15 +30,13 @@ public class UserDetailsImpl implements UserDetails {
         Set<RoleEnum> roles = Set.of(user.getRole());
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (RoleEnum role : roles) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_"+role.toString()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.toString()));
         }
         return authorities;
     }
 
     @Override
-    public String getPassword() {
-        return user.getPassword();
-    }
+    public String getPassword() { return user.getPassword(); }
 
     @Override
     public String getUsername() {
@@ -69,5 +62,4 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }

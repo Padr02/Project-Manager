@@ -17,7 +17,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.tabs.Tabs;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 public class Navbar extends AppLayout {
     Span tasks = new Span("All tasks");
@@ -64,11 +63,9 @@ public class Navbar extends AppLayout {
 
         tabs.addSelectedChangeListener(event -> {
             if (tabs.getSelectedTab().hasClassName("admin")) {
-                if (SecurityUtils.userLoggedInRole().contains("ROLE_ADMIN")) {
-                    System.out.println(SecurityUtils.userLoggedInRole());
+                if (SecurityUtils.isAdmin()) {
                     UI.getCurrent().navigate(AdminView.class);
                 } else {
-                    System.out.println(SecurityUtils.userLoggedInRole());
                     UI.getCurrent().navigate(TaskView.class);
                     Notification.show("You are not allowed access as a plain user");
                 }
@@ -92,7 +89,7 @@ public class Navbar extends AppLayout {
         tabs.getStyle().set("font-size", "1rem");
         tabs.getStyle().set("box-shadow", "none");
 
-        if (SecurityUtils.userLoggedInRole().contains("ROLE_USER")) {
+        if (!SecurityUtils.isAdmin()) {
              ADMIN.setVisible(false);
         }
         return tabs;

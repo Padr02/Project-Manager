@@ -26,13 +26,11 @@ public class MainView extends VerticalLayout {
     }
 
     private void verticalLayoutConfig() {
-        //H1 title = new H1("PCS Project Manager 1.0");
         Image image = new Image("/images/pcs.png","PCS-logo");
         verticalTitle.setSizeFull();
         verticalTitle.setAlignItems(Alignment.CENTER);
         verticalTitle.setJustifyContentMode(JustifyContentMode.CENTER);
         verticalTitle.add(image);
-        //verticalTitle.add(title,image);
     }
 
     private void horizontalLayoutConfig() {

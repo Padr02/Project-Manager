@@ -48,15 +48,14 @@ public class RegisterView extends Composite {
         username.setLabel("Username");
         username.setSizeFull();
         username.setAutofocus(true);
-        username.setTitle("HALLÅÅÅÅÅÅ BÖRJE!!!");
         email.setLabel("Email");
         email.setPattern("^(.+)@(.+)$");
         email.setSizeFull();
         email.setAutofocus(true);
         password1.setLabel("Password");
         password1.isRequired();
-        password1.setHelperText("A password must be at least 8 characters. It has to have at least one letter and one digit.");
-        password1.setPattern("^(?=.*[0-9])(?=.*[a-zA-Z]).{8}.*$");
+        password1.setHelperText("A password must be at least 10 characters. It has to have at least one letter and one digit.");
+        password1.setPattern("^(?=.*[0-9])(?=.*[a-zA-Z]).{10}.*$");
         password1.setSizeFull();
         password2.setLabel("Password");
         password2.setSizeFull();
@@ -66,7 +65,9 @@ public class RegisterView extends Composite {
         verticalLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
         verticalLayout.setWidth("25rem");
         verticalLayout.setClassName("registerform");
+
         H2 registerText = new H2("Register");
+
         Button registerBtn = new Button("Confirm");
         registerBtn.setSizeFull();
         registerBtn.setHeight("2.5rem");
@@ -87,7 +88,7 @@ public class RegisterView extends Composite {
 
     private void saveUser(String username, String email, String password1, String password2) {
         try {
-          if (password1.equals(password2)) {
+          if (password1.equals(password2) && password1.matches("^(?=.[0-9])(?=.[a-zA-Z]).{10}.*$")) {
               userService.saveUser(new UserEntity(username, email, RoleEnum.USER, passwordEncoder.encode(password1)));
               UI.getCurrent().navigate("/login");
               Notification.show("Successful registration! Welcome " + username);
@@ -98,24 +99,20 @@ public class RegisterView extends Composite {
     }
 
     private void register(String username1, String email, String password1, String password2) {
-        /*if(username1 == null) {
-            Notification.show("Username can't be null");
-        }*/
-
         if (username1.trim().isEmpty()) {
             Notification.show("You have to enter a username");
         } else if (userService.getUsername(username1) ){
             Notification.show("The username is not unique");
         } else if (password1.length() < 10) {
             Notification.show("The password must be at least 10 characters long");
-        } else if (!password1.matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{8}.*$")) {
-            Notification.show("The email format is incorrect");
+        } else if (!password1.matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{10}.*$")) {
+            Notification.show("The password format is wrong!");
         } else if (password1.isEmpty()) {
             Notification.show("You have to enter a password");
         } else if (!password1.equals(password2)) {
             Notification.show("The passwords do not match");
         } else if (!email.matches("^(.+)@(.+)$")) {
-            Notification.show("The email format is incorrect, are you stupid? /Pavel");
+            Notification.show("The email format is incorrect, you need to include @");
         }
     }
 }

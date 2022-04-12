@@ -29,7 +29,6 @@ public class TaskService {
         }
     }
 
-    // TODO: Ifall någon vill så kan motarbeta dubbletter med en check
     public TaskEntity saveTask(TaskEntity task) {
         return taskRepository.save(task);
     }
@@ -39,9 +38,9 @@ public class TaskService {
     }
 
     public TaskEntity updateTask(UUID id, TaskEntity updatedTaskIn) {
-        TaskEntity currTask = taskRepository.findById(id).orElseThrow(); // Hämta ut objektet som ska ändras
-        BeanUtils.copyProperties(updatedTaskIn, currTask,"id"); //Nya skriver över det gamla
-        taskRepository.save(currTask); // Spara det uppdaterade gamla
+        TaskEntity currTask = taskRepository.findById(id).orElseThrow();
+        BeanUtils.copyProperties(updatedTaskIn, currTask,"id");
+        taskRepository.save(currTask);
         return currTask;
     }
 }

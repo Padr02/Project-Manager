@@ -6,15 +6,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.atmosphere.config.service.Message;
-
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
@@ -35,26 +30,23 @@ public class UserEntity extends AbstractEntity {
 
     @Column (nullable = false)
     @Enumerated(EnumType.STRING)
-    private RoleEnum role; // måste kollas upp
+    private RoleEnum role;
 
     @Column(nullable = false)
     @NotBlank
+    @Size(min = 10)
     private String password;
 
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<TaskEntity> tasks;
 
-    @Transient
-    @Column(name = "enabled")
-    private boolean enabled;
-
-    public UserEntity(String username,String email, RoleEnum role, String password) {
-        this.email=email;
+    public UserEntity(String username, String email, RoleEnum role, String password) {
+        this.email = email;
         this.username = username;
         this.role = role;
         this.password = password;
-        this.enabled = false;
+
     }
 
 }

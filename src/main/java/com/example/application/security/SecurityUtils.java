@@ -6,16 +6,10 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinServletRequest;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
-import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import javax.servlet.ServletException;
-import java.util.Collection;
 
 /**
  *  Manages the authentication and protects the resources by checking if user is logged in
@@ -34,31 +28,15 @@ public class SecurityUtils {
         return userRepository.findByUsername(getName()).orElseThrow();
     }
 
-
-
     public static String getName() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    public static Collection<? extends GrantedAuthority> getRole() {
-        return SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-    }
-
-    public static boolean isAuthorized() {
-        return getRole().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
-    }
-
-    /**
-     * Identify the role of the logged-in user
-     *
-     * @return String - aither "ADMIN" or "USER"
-     *
-     */
-    public static String userLoggedInRole() {
-        if (isAuthorized()) {
-            return "ROLE_ADMIN";
-        }
-        return "ROLE_USER";
+    public static boolean isAdmin() {
+        return SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
     /**
@@ -72,7 +50,6 @@ public class SecurityUtils {
         VaadinServletRequest request = VaadinServletRequest.getCurrent();
         return request != null && request.getUserPrincipal() != null;
     }
-
 
     /**
      * VaadinServlet first authenticates and then binds the request to an authenticated user

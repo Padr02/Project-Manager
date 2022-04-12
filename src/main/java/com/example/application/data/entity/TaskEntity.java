@@ -1,7 +1,6 @@
 package com.example.application.data.entity;
 
 import com.example.application.data.AbstractEntity;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,10 +24,8 @@ public class TaskEntity extends AbstractEntity {
     @NotBlank
     private String title;
 
-
     @Column(nullable = false)
     private LocalDate startDate;
-
 
     @Column(nullable = false)
     private LocalDate deadline;
@@ -38,11 +35,10 @@ public class TaskEntity extends AbstractEntity {
     private UserEntity owner;
 
     public TaskEntity(UserEntity owner){
-        this.owner=owner;
+        this.owner = owner;
     }
 
     public String getOwnerName(){
         return this.owner.getUsername();
     }
-
 }

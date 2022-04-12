@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-
-
 @RequiredArgsConstructor
 public class UserController {
 
@@ -55,7 +53,7 @@ public class UserController {
     }
 
     @Data
-    public static class UserForm { //formulär för skapande av user eftersom attributerna har hash o salt
+    public static class UserForm {
         String username;
         String password;
     }

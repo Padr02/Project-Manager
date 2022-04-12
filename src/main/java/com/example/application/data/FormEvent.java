@@ -22,6 +22,7 @@ public abstract class FormEvent extends ComponentEvent<TaskForm> {
     }
 
     public static class SaveEvent extends FormEvent {
+
         public SaveEvent(TaskForm source, TaskEntity task) {
             super(source, task);
         }

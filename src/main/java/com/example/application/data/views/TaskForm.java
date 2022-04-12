@@ -27,10 +27,10 @@ import java.util.List;
 public class TaskForm extends FormLayout {
 
     TextField title = new TextField("Title");
-     DatePicker startDate = new DatePicker("Start date");
-     DatePicker deadline = new DatePicker("Deadline");
-     Select <UserEntity> owner = new Select<>();
-     Binder <TaskEntity> binder = new BeanValidationBinder<>(TaskEntity.class);
+    DatePicker startDate = new DatePicker("Start date");
+    DatePicker deadline = new DatePicker("Deadline");
+    Select <UserEntity> owner = new Select<>();
+    Binder <TaskEntity> binder = new BeanValidationBinder<>(TaskEntity.class);
     Checkbox completed = new Checkbox("Completed");
     TaskEntity task;
     private ComponentEventBus eventBus = null;
@@ -43,7 +43,7 @@ public class TaskForm extends FormLayout {
     public TaskForm(List<UserEntity> users) {
             owner.setItemLabelGenerator(UserEntity::getUsername);
             owner.setLabel("Owner");
-            if (!SecurityUtils.isAuthorized()) {
+            if (!SecurityUtils.isAdmin()) {
                 owner.setEnabled(false);
             }
             owner.setItems(users);
@@ -52,8 +52,8 @@ public class TaskForm extends FormLayout {
             configDialog();
     }
 
-    // TODO: Kontroll att man inte får lägga in en task deadline som är före startdatum
     public void setTask(TaskEntity task) {
+        System.out.println("setTask triggered");
         this.task = task;
         binder.readBean(task);
     }
@@ -78,10 +78,11 @@ public class TaskForm extends FormLayout {
     private void validateAndSave() {
         try {
             binder.writeBean(task);
-            if(task.getStartDate().isAfter(task.getDeadline())) {
-                Notification.show("Startdate can't be before deadline date");
+            if (task.getStartDate().isAfter(task.getDeadline())) {
+                Notification.show("Cannot set a start date that is before deadline date");
             }
             else {
+                System.out.println("validate and save triggered");
                 fireEvent(new FormEvent.SaveEvent(this, task));
             }
         } catch (ValidationException e) {
@@ -90,10 +91,12 @@ public class TaskForm extends FormLayout {
     }
 
     protected ComponentEventBus getEventBus() {
-        if (this.eventBus == null) {
-            this.eventBus = new ComponentEventBus(this);
-        }
-        return this.eventBus;
+      if (this.eventBus == null) {
+          System.out.println("eventbus inside if");
+          return this.eventBus = new ComponentEventBus(this);
+      }
+        System.out.println("eventbus outside if");
+      return this.eventBus;
     }
 
     protected <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType, ComponentEventListener<T> listener) {
@@ -121,6 +124,7 @@ public class TaskForm extends FormLayout {
         dialog.add(verticalLayout);
 
         deleteBtn.addClickListener(event -> {
+            System.out.println("delete btn ?");
             fireEvent(new FormEvent.DeleteEvent(this, task));
             dialog.close();
         });

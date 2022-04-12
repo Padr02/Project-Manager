@@ -1,20 +1,16 @@
-# My App
-
-This project can be used as a starting point to create your own Vaadin application with Spring Boot.
-It contains all the necessary configuration and some placeholder files to get you started.
+# PCS app
+This Spring and Vaadin-based web application was built as a student project in April 2022.
 
 ## Running the application
-
 The project is a standard Maven project. To run it from the command line,
 type `mvnw` (Windows), or `./mvnw` (Mac & Linux), then open
 http://localhost:8080 in your browser.
 
-You can also import the project to your IDE of choice as you would with any
+The project can also be imported to your IDE of choice as you would with any
 Maven project. Read more on [how to import Vaadin projects to different 
 IDEs](https://vaadin.com/docs/latest/flow/guide/step-by-step/importing) (Eclipse, IntelliJ IDEA, NetBeans, and VS Code).
 
 ## Deploying to Production
-
 To create a production build, call `mvnw clean package -Pproduction` (Windows),
 or `./mvnw clean package -Pproduction` (Mac & Linux).
 This will build a JAR file with all the dependencies and front-end resources,
@@ -23,27 +19,17 @@ ready to be deployed. The file can be found in the `target` folder after the bui
 Once the JAR file is built, you can run it using
 `java -jar target/myapp-1.0-SNAPSHOT.jar`
 
-## Project structure
+## Controllers and DTOs
+This Spring application makes neither use of separate controllers nor DTOs. However, these files remain in the catalogue structure for future reference.
 
-- `MainLayout.java` in `src/main/java` contains the navigation setup (i.e., the
-  side/top bar and the main menu). This setup uses
-  [App Layout](https://vaadin.com/components/vaadin-app-layout).
-- `views` package in `src/main/java` contains the server-side Java views of the application.
-- `views` folder in `frontend/` contains the client-side JavaScript views of the application.
-- `themes` folder in `frontend/` contains the custom CSS styles.
-- The security syntax is mainly based on the Vaadin documentation and their advice on best practices. They can be found through this link: 
-[Vaadin_security][https://vaadin.com/docs/latest/flow/security/best-practices]
+## Room for improvement
+As of now, a session is still valid when a user presses the back button. It is also still valid when a user closes the browser, opens a new browser and writes the URL with an endpoint.
+This means that the invalidation of session relies on the user to log out. This is widely practiced by companies. The exception would be banks, who do not want to allow too excessive access.
 
-## Useful links
+After a long discussion, our group opted to allow the session to persist and rely on the user to log out. This is, on the other hand, something that can be improved with logic that manages the use of the application's client-side.
 
-- Read the documentation at [vaadin.com/docs](https://vaadin.com/docs).
-- Follow the tutorials at [vaadin.com/tutorials](https://vaadin.com/tutorials).
-- Watch training videos and get certified at [vaadin.com/learn/training](https://vaadin.com/learn/training).
-- Create new projects at [start.vaadin.com](https://start.vaadin.com/).
-- Search UI components and their usage examples at [vaadin.com/components](https://vaadin.com/components).
-- View use case applications that demonstrate Vaadin capabilities at [vaadin.com/examples-and-demos](https://vaadin.com/examples-and-demos).
-- Discover Vaadin's set of CSS utility classes that enable building any UI without custom CSS in the [docs](https://vaadin.com/docs/latest/ds/foundation/utility-classes). 
-- Find a collection of solutions to common use cases in [Vaadin Cookbook](https://cookbook.vaadin.com/).
-- Find Add-ons at [vaadin.com/directory](https://vaadin.com/directory).
-- Ask questions on [Stack Overflow](https://stackoverflow.com/questions/tagged/vaadin) or join our [Discord channel](https://discord.gg/MYFq5RTbBn).
-- Report issues, create pull requests in [GitHub](https://github.com/vaadin/platform).
+## Authors
+Pavel Drepalov, github: padr02
+Sebastian Persson, github: Swesebbe91
+Connie Tran Hedberg, github: contranhed
+

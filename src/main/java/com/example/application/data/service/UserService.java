@@ -69,9 +69,9 @@ public class UserService {
     }
 
     public UserEntity updateOwner(UUID id, UserEntity updatedOwnerIn) {
-        UserEntity currOwner = userRepository.findById(id).orElseThrow(); // Retrieve the object
-        BeanUtils.copyProperties(updatedOwnerIn, currOwner,  "id"); // Update the old with the new
-        userRepository.save(currOwner); // Stores the new password
+        UserEntity currOwner = userRepository.findById(id).orElseThrow();
+        BeanUtils.copyProperties(updatedOwnerIn, currOwner,  "id");
+        userRepository.save(currOwner);
         return currOwner;
     }
 }
