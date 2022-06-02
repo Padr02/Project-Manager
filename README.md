@@ -1,5 +1,9 @@
+
 # PCS app
 This Spring and Vaadin-based web application was built as a student project in April 2022.
+
+##Screenshot
+![pcs](https://user-images.githubusercontent.com/82325129/171657849-911d11d4-c92e-4d3b-b9dd-3db2dc88d0b2.png)
 
 ## Running the application
 The project is a standard Maven project. To run it from the command line,
@@ -32,4 +36,5 @@ After a long discussion, our group opted to allow the session to persist and rel
 Pavel Drepalov, github: padr02
 Sebastian Persson, github: Swesebbe91
 Connie Tran Hedberg, github: contranhed
+
 
